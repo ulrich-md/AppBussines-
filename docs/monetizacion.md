@@ -26,6 +26,11 @@ TikTok (gratis) → Cuestionario de 11 preguntas → Lectura gratis con IA (muy 
 | **"En tu informe descubrirás"** escrito con sus datos | Oferta | Beneficios concretos, no una lista genérica. |
 | **3 planes** (9,99 / 14,99 / 19,99 USD) con el del medio recomendado y preseleccionado | Oferta | Subir de precio sube el ticket medio. El plan intermedio es la opción natural. |
 | **Garantía de 7 días, pago único y entrega al momento** | Oferta | Quita los miedos habituales. |
+| **Sus 12 meses con su número real** (mes clave destacado) y el significado bloqueado | Oferta | Ve algo concreto y suyo que el informe completa. Es la forma más honesta de generar curiosidad. |
+| **"Así es un informe por dentro"**: 3 páginas reales de un informe de ejemplo | Oferta | Ve la calidad antes de pagar. Quita el miedo a "¿será genérico?". |
+| **Botón "Descubrir qué hacer en [mes]"** dentro de la tarjeta del mes clave | Resultado | Lleva a los planes justo cuando la curiosidad está más alta. |
+| **Botón de compra en dos líneas** (acción + "precio · pago único") | Oferta | El precio y la ausencia de suscripción quedan claros en el mismo toque. |
+| **Aviso al volver del pago** (y un cupón real, si lo configuras) | Oferta | Recupera ventas de quien dudó en el último paso. |
 | **Preguntas frecuentes** (¿es igual para todas?, ¿es suscripción?, ¿qué datos guardan?) | Oferta | Responde las objeciones justo donde aparecen. |
 | **Barra de compra fija** en el móvil | Resultado | El botón está siempre a mano sin volver a subir. |
 | **Recuperación si cancela el pago** | Vuelta desde Stripe | Vuelve a su resultado, no a empezar de cero. |
@@ -49,7 +54,7 @@ TikTok (gratis) → Cuestionario de 11 preguntas → Lectura gratis con IA (muy 
 | Abandono por pregunta | `quiz_paso` (con el id de la pregunta) |
 | Terminan | `quiz_completado` (`ia: true/false`) |
 | La IA falló | `lectura_ia` (`estado: fallo`) |
-| Miran planes | `plan_elegido`, `barra_compra_clic` |
+| Miran planes | `plan_elegido`, `barra_compra_clic`, `mes_clave_clic`, `ejemplo_visto` |
 | Intentan pagar | `comprar_clic` (con `producto`) |
 | Cancelan en Stripe | `compra_cancelada` |
 | Compran | Ventas en el panel de Stripe (la fuente de verdad) |

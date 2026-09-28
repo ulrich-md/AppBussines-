@@ -19,6 +19,7 @@ Todo el código ya está listo. Lo que falta son **tus cuentas y tus claves**. N
 | `INFORME_SECRETO` | Recomendada | Cualquier texto largo y aleatorio. Protege las rutas de los informes guardados. |
 | `RESEND_API_KEY` y `EMAIL_FROM` | Opcional | Envía por email el enlace del informe (p. ej. `EMAIL_FROM="Tu Número Sagrado <hola@tudominio.com>"`). |
 | `GEMINI_MODEL` | Opcional | Modelos en orden de preferencia, separados por comas. Por defecto: `gemini-3.5-flash, gemini-3.8-flash, gemini-3.5-flash-lite`. |
+| `CUPON_RECUPERACION` y `CUPON_RECUPERACION_TEXTO` | Opcional | Descuento real para quien cancela el pago y vuelve. Crea un cupón en Stripe (Products → Coupons, p. ej. 15% de descuento) y pon su **id** en `CUPON_RECUPERACION` y el texto que se muestra en `CUPON_RECUPERACION_TEXTO` (p. ej. `15%`). Sin estas variables, no se promete ningún descuento. |
 | `BLOB_ACCESS` | Opcional | `private` por defecto. Solo cámbialo a `public` si tu almacén de Blob no admite acceso privado. |
 
 **Vercel Blob:** en Vercel → Storage → Create → **Blob**, conéctalo al proyecto (se crea `BLOB_READ_WRITE_TOKEN`) y elige acceso **privado**.

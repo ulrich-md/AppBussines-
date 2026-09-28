@@ -63,7 +63,7 @@ export function decodificarMetadata(meta, quiz) {
   };
 }
 
-export function crearSesion({ producto, catalogo, metadata, origen, clave, fetchImpl }) {
+export function crearSesion({ producto, catalogo, metadata, origen, clave, fetchImpl, cupon }) {
   return llamarStripe('/checkout/sessions', {
     metodo: 'POST',
     clave,
@@ -81,7 +81,8 @@ export function crearSesion({ producto, catalogo, metadata, origen, clave, fetch
       }],
       metadata,
       payment_intent_data: { description: producto.nombre, metadata },
-      allow_promotion_codes: 'true',
+      // Stripe no permite combinar un cupón aplicado con el campo de códigos promocionales.
+      ...(cupon ? { discounts: [{ coupon: cupon }] } : { allow_promotion_codes: 'true' }),
       success_url: `${origen}/informe.html?s={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origen}/?q=${metadata.q}&compra=cancelada`,
     },

@@ -171,3 +171,24 @@ test('mejora: no se puede bajar de plan ni mejorar una compra sin pagar', async 
   assert.equal((await checkout(peticionCheckout({ producto: 'premium', mejora_de: 'cs_test_compraOriginal00001' }))).status, 409);
   assert.equal((await checkout(peticionCheckout({ producto: 'premium', mejora_de: 'no-es-un-id' }))).status, 400);
 });
+
+test('cupón de recuperación: solo si está configurado y solo para quien vuelve tras cancelar', async () => {
+  const { GET: infoCheckout } = await import('../web/api/checkout.js');
+  delete process.env.CUPON_RECUPERACION;
+  assert.equal((await (await infoCheckout()).json()).recuperacion, null);
+  process.env.CUPON_RECUPERACION = 'VUELVE15';
+  process.env.CUPON_RECUPERACION_TEXTO = '15%';
+  assert.equal((await (await infoCheckout()).json()).recuperacion, '15%');
+
+  await checkout(peticionCheckout({ ...cuerpoCompra(), recuperacion: true }));
+  let enviado = llamadas.stripe.at(-1).cuerpo;
+  assert.equal(enviado.get('discounts[0][coupon]'), 'VUELVE15');
+  assert.equal(enviado.has('allow_promotion_codes'), false);
+
+  await checkout(peticionCheckout(cuerpoCompra()));
+  enviado = llamadas.stripe.at(-1).cuerpo;
+  assert.equal(enviado.has('discounts[0][coupon]'), false);
+  assert.equal(enviado.get('allow_promotion_codes'), 'true');
+  delete process.env.CUPON_RECUPERACION;
+  delete process.env.CUPON_RECUPERACION_TEXTO;
+});

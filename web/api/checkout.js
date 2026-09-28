@@ -4,6 +4,12 @@ import { cargarConfiguracion, responder, origenDe, ipDe } from './_config.js';
 import { validarPeticion, permitido } from './_lectura.js';
 import { codificarMetadata, crearSesion, esIdSesion, obtenerSesion } from './_stripe.js';
 
+// GET /api/checkout → qué incentivos están activos (para mostrarlos solo si existen de verdad).
+export function GET() {
+  const activo = Boolean(process.env.STRIPE_SECRET_KEY && process.env.CUPON_RECUPERACION && process.env.CUPON_RECUPERACION_TEXTO);
+  return responder(200, { pagos: Boolean(process.env.STRIPE_SECRET_KEY), recuperacion: activo ? process.env.CUPON_RECUPERACION_TEXTO.slice(0, 40) : null });
+}
+
 export async function POST(request) {
   const clave = process.env.STRIPE_SECRET_KEY;
   if (!clave) return responder(503, { error: 'Pagos no configurados' });
@@ -30,7 +36,9 @@ export async function POST(request) {
       producto: producto.id, quiz, carta: datos.carta, mesClave: datos.mesClave,
       respuestas: datos.respuestas, nombre: cuerpo.nombre, edad: datos.edad,
     });
-    const sesion = await crearSesion({ producto, catalogo, metadata, origen: origenDe(request), clave });
+    // Cupón opcional para quien vuelve tras cancelar el pago (CUPON_RECUPERACION = id de un cupón de Stripe).
+    const cupon = cuerpo.recuperacion === true ? process.env.CUPON_RECUPERACION : undefined;
+    const sesion = await crearSesion({ producto, catalogo, metadata, origen: origenDe(request), clave, cupon });
     return responder(200, { url: sesion.url });
   } catch (e) {
     console.error('Error creando el pago:', e.message);

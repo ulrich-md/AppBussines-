@@ -51,6 +51,8 @@ npm run test:e2e                  # cuestionario, oferta, pago, informe y págin
 npm run build                     # valida y regenera páginas e imágenes para compartir
 npm run pdf -- numero-de-vida 1   # genera informes/pdf/numero-de-vida-1.pdf y su portada
 npm run dev                       # sirve web/ en http://localhost:3000
+npm run capturas                  # capturas de todas las pantallas en iPhone SE, iPhone 13 y Android 360px (claro y oscuro)
+npm run ejemplos                  # regenera las páginas de ejemplo del informe que se muestran en la oferta
 ```
 
 ## Cómo añadir un cuestionario nuevo

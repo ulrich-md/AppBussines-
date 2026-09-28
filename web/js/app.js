@@ -2,7 +2,7 @@
 // Toda la lógica de cálculo vive en engine.js; los textos, en quizzes/<id>.json y site.json.
 import {
   arquetipoCombinado, calcularResultado, cartaNumerologica, componerResultado, esFechaValida, interpolar, limpiarNombre, mesClave,
-  NOMBRES_MES, opcionTexto, ponerNombre, primerNombre, rangoEdad,
+  NOMBRES_MES, opcionTexto, ponerNombre, primerNombre, proximosMeses, rangoEdad,
 } from './engine.js';
 import { iniciarAnalitica, registrar } from './analytics.js';
 import { almacen, el, formatearPrecio, icono } from './ui.js';
@@ -16,6 +16,8 @@ let sitio;
 let quiz;
 let catalogo;
 let ultimaLectura = null;
+let volvioDelPago = false;
+let descuentoRecuperacion = null;
 let paso = 0;
 const respuestas = {};
 
@@ -392,6 +394,13 @@ function tarjetaMesClave(lectura) {
     el('p', { class: 'mes-clave-fecha' }, `${NOMBRES_MES[mes.mes - 1]} de ${mes.anio}`),
     el('p', {}, texto),
     el('p', { class: 'mes-clave-puente' }, 'En tu informe completo: qué hacer ese mes y tus 12 meses, uno a uno.'),
+    el('button', {
+      class: 'boton boton-secundario mes-clave-boton', type: 'button',
+      onclick: () => {
+        registrar('mes_clave_clic', { quiz: quiz.id });
+        (document.querySelector('.planes') ?? document.getElementById('oferta'))?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      },
+    }, `Descubrir qué hacer en ${NOMBRES_MES[mes.mes - 1]}`, icono('arrow-right')),
   );
 }
 
@@ -416,7 +425,9 @@ function bloquesDeLectura(lectura) {
 function portadaViva(id, resultado) {
   const { carta } = datosCarta();
   const nombre = nombreSaludo();
-  return el('div', { class: 'portada-viva', style: { '--imagen': `url(${resultado.imagen}-640.webp)` }, 'aria-hidden': 'true' },
+  // URL absoluta: una url() relativa dentro de una variable CSS se resolvería desde la carpeta css/.
+  const imagen = new URL(`${resultado.imagen}-640.webp`, location.href).href;
+  return el('div', { class: 'portada-viva', style: { '--imagen': `url("${imagen}")` }, 'aria-hidden': 'true' },
     el('p', { class: 'portada-marca' }, sitio.marca),
     el('div', { class: 'portada-numero' }, id),
     el('p', { class: 'portada-titulo' }, nombre ? `El informe de ${nombre}` : 'Tu informe personal'),
@@ -442,15 +453,16 @@ function ofertaPlanes(id, resultado) {
   let elegido = productos.find((p) => p.recomendado)?.id ?? productos[0]?.id;
   const precioDe = (pid) => formatearPrecio(productos.find((p) => p.id === pid)?.precio ?? 0, catalogo?.simbolo);
   const error = el('p', { class: 'error', role: 'alert' });
-  const boton = el('button', { class: 'boton boton-compra', type: 'button', onclick: () => comprar(elegido, id, resultado, boton, error) },
-    `Quiero mi informe · ${precioDe(elegido)}`);
+  const boton = el('button', { class: 'boton boton-compra', type: 'button', onclick: () => comprar(elegido, id, resultado, boton, error) });
+  const textoBoton = (pid) => boton.replaceChildren(el('span', {}, 'Quiero mi informe'), el('span', { class: 'boton-sub' }, `${precioDe(pid)} · pago único`));
+  textoBoton(elegido);
 
   const planes = el('fieldset', { class: 'planes' },
     el('legend', {}, 'Elige tu informe'),
     productos.map((p) => el('label', { class: `plan${p.recomendado ? ' plan-recomendado' : ''}` },
       el('input', {
         type: 'radio', name: 'plan', value: p.id, checked: p.id === elegido,
-        onchange: () => { elegido = p.id; boton.textContent = `Quiero mi informe · ${precioDe(p.id)}`; registrar('plan_elegido', { plan: p.id }); },
+        onchange: () => { elegido = p.id; textoBoton(p.id); registrar('plan_elegido', { plan: p.id }); },
       }),
       el('span', { class: 'plan-cabecera' },
         el('span', { class: 'plan-nombre' }, p.nombre),
@@ -464,6 +476,10 @@ function ofertaPlanes(id, resultado) {
 
   const garantia = catalogo?.garantia_dias ?? 7;
   return el('section', { class: 'oferta', id: 'oferta', 'aria-labelledby': 'titulo-oferta' },
+    volvioDelPago && el('p', { class: 'aviso-vuelta', role: 'status' },
+      descuentoRecuperacion
+        ? `Tu lectura sigue aquí. Si quieres tu informe, en este pago tienes un ${descuentoRecuperacion} de descuento, aplicado automáticamente.`
+        : 'Tu lectura sigue aquí. Si tuviste alguna duda con el pago, revisa las preguntas frecuentes de abajo.'),
     el('h2', { id: 'titulo-oferta' }, 'Tu informe completo, escrito solo para ti'),
     el('p', { class: 'oferta-intro' }, 'Lo que acabas de leer es el comienzo. Tu informe desarrolla toda tu carta numerológica, con tus respuestas.'),
     el('div', { class: 'oferta-vista' },
@@ -473,6 +489,8 @@ function ofertaPlanes(id, resultado) {
         el('ul', { class: 'descubrimientos' }, descubrimientos(resultado).map((t) => el('li', {}, icono('sparkle'), el('span', {}, t)))),
       ),
     ),
+    lineaDeMeses(),
+    ejemplosInforme(),
     planes,
     boton,
     error,
@@ -482,6 +500,41 @@ function ofertaPlanes(id, resultado) {
       el('li', {}, icono('download-simple'), el('span', {}, 'Lo recibes al momento, por email y para descargar en PDF')),
     ),
     preguntasFrecuentes(garantia),
+  );
+}
+
+// Sus próximos 12 meses con su número personal (cálculo real y gratuito). El significado de cada mes,
+// y qué hacer en cada uno, es parte del informe.
+function lineaDeMeses() {
+  const meses = proximosMeses(respuestas.fecha);
+  const clave = mesClave(respuestas.fecha, respuestas.deseo);
+  const esClave = (m) => clave && m.mes === clave.mes && m.anio === clave.anio;
+  return el('div', { class: 'linea-meses' },
+    el('p', { class: 'oferta-etiqueta' }, 'Tus próximos 12 meses'),
+    el('ol', { class: 'meses-mini' }, meses.map((m) => el('li', { class: esClave(m) ? 'es-clave' : '' },
+      el('span', { class: 'mes-nombre' }, NOMBRES_MES[m.mes - 1].slice(0, 3)),
+      el('span', { class: 'mes-num' }, m.numero),
+      esClave(m) && el('span', { class: 'visualmente-oculto' }, ' (tu mes clave)'),
+    ))),
+    el('p', { class: 'meses-candado' }, icono('lock-simple'), el('span', {}, 'Qué significa cada mes para ti y qué hacer en cada uno está en tu informe (plan Informe + 12 meses).')),
+  );
+}
+
+// Páginas reales de un informe de ejemplo (de otra persona): para ver lo que se compra antes de pagar.
+function ejemplosInforme() {
+  const ejemplos = [
+    ['img/ejemplo/perfil.webp', 'Ejemplo: tus dones y tus sombras'],
+    ['img/ejemplo/meses.webp', 'Ejemplo: tus 12 meses, uno a uno'],
+    ['img/ejemplo/ritual.webp', 'Ejemplo: tu ritual personal'],
+  ];
+  return el('div', { class: 'ejemplos' },
+    el('p', { class: 'oferta-etiqueta' }, 'Así es un informe por dentro'),
+    el('div', { class: 'ejemplos-carrusel', tabindex: 0, 'aria-label': 'Páginas de ejemplo de un informe' },
+      ejemplos.map(([src, texto]) => el('figure', {},
+        el('a', { href: src, target: '_blank', rel: 'noopener', onclick: () => registrar('ejemplo_visto', { ejemplo: src }) },
+          el('img', { src, alt: `${texto}. Página de un informe de ejemplo (ábrela en grande).`, width: 600, height: 900, loading: 'lazy', decoding: 'async' })),
+        el('figcaption', {}, texto)))),
+    el('p', { class: 'nota-ia' }, 'Páginas reales del informe de otra persona. El tuyo se escribe con tu carta y tus respuestas.'),
   );
 }
 
@@ -504,7 +557,7 @@ function preguntasFrecuentes(garantia) {
 async function comprar(producto, id, resultado, boton, error) {
   registrar('comprar_clic', { quiz: quiz.id, resultado: id, producto, origen });
   error.textContent = '';
-  const textoOriginal = boton.textContent;
+  const contenidoOriginal = [...boton.childNodes];
   boton.setAttribute('aria-disabled', 'true');
   boton.textContent = 'Preparando tu pago seguro…';
   guardarSesion();
@@ -515,6 +568,7 @@ async function comprar(producto, id, resultado, boton, error) {
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
         producto, carta, mes_clave: mes, edad: rangoEdad(respuestas.fecha), nombre: nombreSaludo(),
+        recuperacion: Boolean(descuentoRecuperacion),
         respuestas: Object.fromEntries(quiz.preguntas.filter((p) => p.tipo === 'opciones').map((p) => [p.id, respuestas[p.id]])),
       }),
     });
@@ -532,7 +586,7 @@ async function comprar(producto, id, resultado, boton, error) {
   } catch (e) {
     error.textContent = e.message.startsWith('Failed') ? 'Sin conexión. Revisa tu internet e inténtalo de nuevo.' : e.message;
     boton.removeAttribute('aria-disabled');
-    boton.textContent = textoOriginal;
+    boton.replaceChildren(...contenidoOriginal);
   }
 }
 
@@ -587,7 +641,7 @@ function barraCompra() {
     el('p', {}, el('strong', {}, 'Tu informe completo'), el('span', {}, `desde ${formatearPrecio(minimo, catalogo?.simbolo)}`)),
     el('button', {
       class: 'boton', type: 'button',
-      onclick: () => { registrar('barra_compra_clic'); oferta.scrollIntoView({ behavior: 'smooth', block: 'start' }); },
+      onclick: () => { registrar('barra_compra_clic'); (document.querySelector('.planes') ?? oferta).scrollIntoView({ behavior: 'smooth', block: 'start' }); },
     }, 'Ver opciones'),
   );
   document.body.append(barra);
@@ -595,8 +649,9 @@ function barraCompra() {
   let ofertaVisible = false;
   const actualizar = () => { barra.hidden = !lecturaVista || ofertaVisible; };
   new IntersectionObserver(([e]) => { ofertaVisible = e.isIntersecting || e.boundingClientRect.top < 0; actualizar(); }).observe(oferta);
-  const titular = document.querySelector('.lectura-bloque');
-  if (titular) new IntersectionObserver(([e]) => { if (e.isIntersecting) { lecturaVista = true; actualizar(); } }).observe(titular);
+  // Aparece en cuanto la cabecera del resultado sale de la pantalla (aunque se haga scroll rápido).
+  const cabecera = document.querySelector('.resultado-cabecera');
+  if (cabecera) new IntersectionObserver(([e]) => { lecturaVista = !e.isIntersecting && e.boundingClientRect.top < 0; actualizar(); }).observe(cabecera);
 }
 
 // Si vuelve del pago sin completarlo, recupera su resultado en lugar de empezar de cero.
@@ -664,6 +719,8 @@ async function iniciar() {
     iniciarAnalitica(sitio.analitica);
     if (params.get('compra') === 'cancelada' && recuperarSesion()) {
       registrar('compra_cancelada', { quiz: quiz.id });
+      volvioDelPago = true;
+      descuentoRecuperacion = await fetch('api/checkout').then((r) => (r.ok ? r.json() : null)).then((d) => d?.recuperacion ?? null).catch(() => null);
       pantallaResultado();
       return;
     }

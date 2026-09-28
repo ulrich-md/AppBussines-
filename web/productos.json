@@ -5,7 +5,7 @@
   "productos": [
     {
       "id": "esencial",
-      "nombre": "Tu Informe Personal",
+      "nombre": "Informe Personal",
       "precio": 999,
       "resumen": "Tu carta numerológica completa, escrita solo para ti.",
       "incluye": [
@@ -23,7 +23,7 @@
     },
     {
       "id": "completo",
-      "nombre": "Informe + Tus 12 meses",
+      "nombre": "Informe + 12 meses",
       "precio": 1499,
       "recomendado": true,
       "resumen": "Todo tu informe más lo que viene: tus ciclos mes a mes.",
@@ -46,7 +46,7 @@
       "precio": 1999,
       "resumen": "Todo, más tu compatibilidad de pareja y un plan de 4 semanas.",
       "incluye": [
-        "Todo lo del Informe + Tus 12 meses",
+        "Todo lo del Informe + 12 meses",
         "Compatibilidad con tu pareja (o con quien tú quieras)",
         "Tu plan personal de 4 semanas"
       ],
@@ -65,7 +65,7 @@
       "desde": "esencial",
       "hacia": "completo",
       "precio": 599,
-      "nombre": "Mejora a Informe + Tus 12 meses",
+      "nombre": "Mejora a Informe + 12 meses",
       "texto": "Añade tus dos Años Personales, tus próximos 12 meses uno a uno y qué hacer en tu mes clave."
     },
     {

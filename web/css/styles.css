@@ -539,3 +539,84 @@ input[type="email"] {
   border-radius: var(--radio-contenedor); margin: 4px 0 14px; background: #141A2E;
 }
 @media print { .bloque-imagen { max-height: 7cm; } }
+
+/* ---------- Ajustes móviles (auditoría en iPhone SE 375×667, iPhone 13 y Android 360px) ---------- */
+
+/* Portada: el botón siempre visible sin hacer scroll, también en pantallas bajas. */
+@media (max-width: 899px) {
+  .inicio { gap: 18px; }
+  .inicio-imagen { max-height: 36dvh; }
+  .inicio-texto .subtitulo { margin-bottom: 20px; }
+}
+@media (max-width: 899px) and (max-height: 700px) {
+  .inicio-imagen { max-height: 28dvh; }
+  .inicio-texto h1 { font-size: 2rem; }
+  .inicio-texto .subtitulo { font-size: 1.05rem; }
+}
+
+/* Fecha: que "Día", "Mes" y "Año" nunca se corten. */
+.campos-fecha { grid-template-columns: 1.1fr 1.6fr 1.3fr; gap: 8px; }
+select { padding-left: 12px; padding-right: 26px; background-position: calc(100% - 16px) 52%, calc(100% - 10px) 52%; }
+
+/* Cabecera del resultado y del informe: en el móvil, el número sobre la imagen y el título a todo el ancho. */
+.resultado-cabecera h1 { overflow-wrap: break-word; hyphens: manual; }
+@media (max-width: 599px) {
+  .resultado-cabecera { grid-template-columns: 1fr; gap: 6px; }
+  .resultado-imagen + .resultado-cabecera { padding-left: 0; }
+  .resultado-imagen + .resultado-cabecera .numero { margin: -54px 0 4px 14px; width: 92px; height: 92px; font-size: 2.5rem; }
+  .resultado-imagen + .resultado-cabecera > div { padding-top: 0; }
+  .resultado-cabecera h1 { font-size: clamp(1.85rem, 8.4vw, 2.3rem); }
+  .carta { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* Oferta: aprovecha todo el ancho del móvil. */
+@media (max-width: 599px) {
+  .oferta { margin-inline: -12px; padding: 22px 16px; }
+  .plan { padding: 14px 14px 12px 46px; }
+  .plan input { left: 14px; top: 16px; }
+}
+
+/* Botón de compra en dos líneas: acción + precio. Nunca se sale del ancho. */
+.boton-compra { flex-direction: column; gap: 2px; white-space: normal; min-height: 64px; }
+.boton-compra .boton-sub { font-size: 0.85rem; font-weight: 600; opacity: 0.9; }
+
+/* Con la barra fija visible, el final de la página no queda tapado. */
+body:has(.barra-compra:not([hidden])) { padding-bottom: 76px; }
+
+/* Línea de sus 12 meses (números reales, significado bloqueado). */
+.linea-meses { margin: 0 0 22px; }
+.meses-mini { list-style: none; padding: 0; margin: 0 0 10px; display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; }
+.meses-mini li {
+  display: grid; justify-items: center; gap: 2px; padding: 8px 2px;
+  border-radius: 10px; background: var(--fondo); border: 1px solid var(--borde);
+}
+.meses-mini .mes-nombre { font-size: 0.78rem; font-weight: 700; color: var(--texto-suave); text-transform: capitalize; }
+.meses-mini .mes-num { font-family: var(--fuente-titulos); font-size: 1.3rem; font-weight: 700; line-height: 1.1; }
+.meses-mini li.es-clave { background: var(--acento); border-color: var(--acento); }
+.meses-mini li.es-clave span { color: var(--acento-texto); }
+.meses-candado { display: flex; gap: 8px; align-items: flex-start; font-size: 0.92rem; color: var(--texto-suave); margin: 0; }
+.meses-candado .icono { color: var(--acento); margin-top: 0.2em; }
+
+/* Ejemplos reales del informe: carrusel horizontal con scroll-snap. */
+.ejemplos { margin: 0 0 22px; }
+.ejemplos-carrusel {
+  display: grid; grid-auto-flow: column; grid-auto-columns: 62%; gap: 12px;
+  overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 8px; margin: 0 -4px; padding-inline: 4px;
+  overscroll-behavior-x: contain;
+}
+@media (min-width: 600px) { .ejemplos-carrusel { grid-auto-columns: calc((100% - 24px) / 3); } }
+.ejemplos figure { margin: 0; scroll-snap-align: start; }
+.ejemplos img { display: block; width: 100%; height: auto; aspect-ratio: 2 / 3; object-fit: cover; object-position: top; border-radius: 12px; border: 1px solid var(--borde); box-shadow: var(--sombra); background: var(--superficie); }
+.ejemplos figcaption { font-size: 0.88rem; font-weight: 600; color: var(--texto-suave); margin-top: 6px; }
+.aviso-vuelta { margin: 0 0 16px; padding: 12px 14px; border-radius: var(--radio-control); background: var(--acento-suave); font-weight: 600; }
+.plan-nombre { font-size: 1rem; line-height: 1.3; }
+.plan-precio { font-size: 1.15rem; }
+.plan-cabecera { align-items: center; }
+.mes-clave-boton { margin-top: 14px; width: auto; background: var(--superficie); }
+
+/* Ningún botón se sale de su contenedor en el móvil: si no cabe, pasa a dos líneas. */
+.boton { max-width: 100%; }
+@media (max-width: 599px) { .boton { white-space: normal; } }
+.barra-compra p { flex: 1 1 auto; min-width: 0; }
+.barra-compra .boton { flex: 0 0 auto; white-space: nowrap; padding: 10px 16px; }
+.mes-clave-boton { text-align: left; justify-content: space-between; }

@@ -9,7 +9,7 @@ import { chromium, devices } from 'playwright';
 
 const WEB = new URL('../web/', import.meta.url).pathname;
 const CAPTURAS = new URL('./capturas/', import.meta.url).pathname;
-const TIPOS = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.png': 'image/png', '.svg': 'image/svg+xml', '.woff2': 'font/woff2' };
+const TIPOS = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.png': 'image/png', '.jpg': 'image/jpeg', '.webp': 'image/webp', '.svg': 'image/svg+xml', '.woff2': 'font/woff2' };
 
 let servidor;
 let base;
@@ -386,5 +386,67 @@ test('informe básico: ofrece mejorar pagando la diferencia', async () => {
   await pagina.getByRole('button', { name: 'Añadir por US$5.99' }).click();
   await pagina.waitForURL('https://tienda.ejemplo/mejora');
   assert.deepEqual(pedidas[0], { producto: 'completo', mejora_de: 'cs_test_informeBasico000001' });
+  await pagina.close();
+});
+
+test('incentivos de compra en el móvil (iPhone SE)', async () => {
+  const pagina = await navegador.newPage({ ...devices['iPhone SE'] });
+  await simularIA(pagina);
+  await pagina.goto(base);
+  // Portada: el botón principal se ve sin hacer scroll incluso en una pantalla pequeña.
+  const botonInicio = pagina.getByRole('button', { name: 'Descubrir mi número' });
+  await pagina.waitForTimeout(500);
+  const caja = await botonInicio.boundingBox();
+  assert.ok(caja.y + caja.height <= 667, `el botón de la portada queda bajo el pliegue (${caja.y + caja.height}px)`);
+
+  await recorrer(pagina, { dia: 14, mes: 3, anio: 1985, nombre: 'María José Núñez Peña' });
+  await pagina.locator('.oferta').waitFor();
+  // Sus 12 meses reales, con el mes clave marcado.
+  assert.equal(await pagina.locator('.meses-mini li').count(), 12);
+  assert.equal(await pagina.locator('.meses-mini li.es-clave').count(), 1);
+  // Ejemplos reales del informe (imágenes que cargan).
+  for (const img of await pagina.locator('.ejemplos img').all()) {
+    const ancho = await img.evaluate((i) => {
+      i.loading = 'eager';
+      return i.complete && i.naturalWidth ? i.naturalWidth : new Promise((ok) => { i.onload = () => ok(i.naturalWidth); i.onerror = () => ok(0); });
+    });
+    assert.ok(ancho > 0, 'la imagen de ejemplo no carga');
+  }
+  // La portada personalizada usa la imagen del arquetipo (URL absoluta, no relativa a css/).
+  const fondo = await pagina.locator('.portada-viva').evaluate((n) => getComputedStyle(n).backgroundImage);
+  assert.match(fondo, /url\("http:\/\/127\.0\.0\.1:\d+\/img\/arquetipos\/4-640\.webp"\)/);
+  // Barra fija: aparece al bajar por la lectura y se esconde al llegar a la oferta.
+  await pagina.evaluate(() => window.scrollTo(0, 0));
+  await pagina.locator('.lectura-bloque').nth(2).scrollIntoViewIfNeeded();
+  await pagina.locator('.barra-compra:not([hidden])').waitFor();
+  await pagina.locator('.planes').scrollIntoViewIfNeeded();
+  await pagina.locator('.barra-compra[hidden]').waitFor({ state: 'attached' });
+  // El botón del mes clave lleva a los planes.
+  await pagina.locator('.mes-clave-boton').scrollIntoViewIfNeeded();
+  await pagina.locator('.mes-clave-boton').click();
+  await pagina.waitForTimeout(900);
+  const planes = await pagina.locator('.planes').boundingBox();
+  assert.ok(planes.y < 200, 'los planes quedan arriba de la pantalla');
+  // El botón de compra cabe en el ancho.
+  const compra = await pagina.locator('.boton-compra').evaluate((b) => b.scrollWidth <= b.clientWidth);
+  assert.ok(compra);
+  const desborde = await pagina.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+  assert.ok(desborde <= 0, `desborde horizontal de ${desborde}px`);
+  await pagina.close();
+});
+
+test('ningún botón ni texto se sale de la pantalla (iPhone SE)', async () => {
+  const pagina = await navegador.newPage({ ...devices['iPhone SE'] });
+  await simularIA(pagina);
+  await pagina.goto(base);
+  await recorrer(pagina, { dia: 14, mes: 3, anio: 1985, nombre: 'María José Núñez Peña' });
+  await pagina.locator('.oferta').waitFor();
+  await pagina.locator('.lectura-bloque').nth(2).scrollIntoViewIfNeeded();
+  await pagina.locator('.barra-compra:not([hidden])').waitFor();
+  const fuera = await pagina.evaluate(() => [...document.querySelectorAll('.boton, h1, h2, h3, .plan, .carta div, .meses-mini li')]
+    .filter((n) => n.offsetParent !== null && !n.closest('.ejemplos-carrusel'))
+    .filter((n) => { const r = n.getBoundingClientRect(); return r.right > window.innerWidth + 1 || r.left < -1 || n.scrollWidth > n.clientWidth + 1; })
+    .map((n) => `${n.className || n.tagName}: ${n.textContent.trim().slice(0, 40)}`));
+  assert.deepEqual(fuera, []);
   await pagina.close();
 });
