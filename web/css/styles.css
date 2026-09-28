@@ -620,3 +620,19 @@ body:has(.barra-compra:not([hidden])) { padding-bottom: 76px; }
 .barra-compra p { flex: 1 1 auto; min-width: 0; }
 .barra-compra .boton { flex: 0 0 auto; white-space: nowrap; padding: 10px 16px; }
 .mes-clave-boton { text-align: left; justify-content: space-between; }
+
+/* Opinión de la compradora (estrellas grandes, fáciles de tocar). */
+.opinion { margin-top: 32px; padding: 22px 18px; border-radius: var(--radio-contenedor); background: var(--superficie); border: 1px solid var(--borde); }
+.estrellas { border: 0; padding: 0; margin: 0 0 8px; display: flex; flex-wrap: wrap; gap: 6px; }
+.estrellas legend { font-weight: 700; margin-bottom: 10px; padding: 0; }
+.estrellas label { position: relative; display: grid; place-items: center; width: 52px; height: 52px; border-radius: var(--radio-control); border: 2px solid var(--borde); background: var(--fondo); font-size: 1.7rem; color: var(--texto-suave); cursor: pointer; }
+.estrellas input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.estrellas label:has(input:checked), .estrellas label:has(~ label input:checked) { color: #B7791F; border-color: #B7791F; }
+.estrellas label:has(input:focus-visible) { outline: 3px solid var(--acento); outline-offset: 2px; }
+textarea {
+  width: 100%; padding: 12px 14px; background: var(--superficie); border: 2px solid var(--borde); border-radius: var(--radio-control);
+  color: var(--texto); font: 500 1.05rem/1.5 var(--fuente-texto); resize: vertical;
+}
+.opinion-datos { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+@media (max-width: 420px) { .opinion-datos { grid-template-columns: 1fr; } }
+.opinion .boton { width: auto; margin-top: 8px; }

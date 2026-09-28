@@ -176,6 +176,7 @@ function pintar(datos) {
     ),
     tiene('pareja') && seccionPareja(),
     seccion('despedida', 'Para terminar', parrafo(inf.espiritual.carta_final)),
+    formularioOpinion(),
     el('section', { class: 'regalo' },
       el('h2', {}, '¿A quién le regalarías esta lectura?'),
       el('p', {}, 'La lectura gratuita es un regalo bonito para tu mamá, tu hermana o tu mejor amiga. Envíales el cuestionario:'),
@@ -221,6 +222,61 @@ function ofertaMejora(datos) {
     error,
     el('p', { class: 'nota-ia' }, 'Pagas solo la diferencia. Recibirás un informe nuevo y completo, sin repetir el cuestionario.'),
   );
+}
+
+// Opinión de la compradora (compra verificada). Solo se publica si lo autoriza y tras revisión manual.
+function formularioOpinion() {
+  const clave = `${CLAVE_CACHE}:opinion`;
+  const seccionOpinion = el('section', { class: 'opinion no-imprimir', 'aria-labelledby': 'titulo-opinion' });
+  if (almacen.leer(clave)) {
+    seccionOpinion.append(el('h2', { id: 'titulo-opinion' }, 'Gracias por tu opinión'), el('p', {}, 'Nos ayuda muchísimo a mejorar.'));
+    return seccionOpinion;
+  }
+  const error = el('p', { class: 'error', role: 'alert' });
+  const estrellas = el('fieldset', { class: 'estrellas' },
+    el('legend', {}, '¿Cuántas estrellas le das a tu informe?'),
+    [1, 2, 3, 4, 5].map((n) => el('label', {},
+      el('input', { type: 'radio', name: 'estrellas', value: n, required: true }),
+      el('span', { 'aria-hidden': 'true' }, '★'),
+      el('span', { class: 'visualmente-oculto' }, `${n} estrella${n > 1 ? 's' : ''}`))));
+  const texto = el('textarea', { id: 'opinion-texto', name: 'texto', rows: 4, maxlength: 600, required: true });
+  const nombre = el('input', { type: 'text', id: 'opinion-nombre', name: 'nombre', maxlength: 30, autocomplete: 'given-name' });
+  const pais = el('input', { type: 'text', id: 'opinion-pais', name: 'pais', maxlength: 30, autocomplete: 'country-name' });
+  const publicar = el('input', { type: 'checkbox', id: 'opinion-publicar', name: 'publicar' });
+  const formulario = el('form', {
+    class: 'formulario', novalidate: true,
+    onsubmit: async (evento) => {
+      evento.preventDefault();
+      const d = new FormData(formulario);
+      if (!d.get('estrellas')) { error.textContent = 'Elige cuántas estrellas le das.'; return; }
+      if (String(d.get('texto')).trim().length < 10) { error.textContent = 'Cuéntanos un poco más, aunque sea una frase.'; return; }
+      error.textContent = '';
+      try {
+        const respuesta = await fetch('api/opinion', {
+          method: 'POST', headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ s: idSesion, estrellas: Number(d.get('estrellas')), texto: d.get('texto'), nombre: d.get('nombre'), pais: d.get('pais'), publicar: publicar.checked }),
+        });
+        if (respuesta.status === 503) { seccionOpinion.remove(); return; }
+        const cuerpo = await respuesta.json().catch(() => ({}));
+        if (!respuesta.ok) throw new Error(cuerpo.error ?? 'No se pudo enviar');
+        almacen.guardar(clave, true);
+        registrar('opinion_enviada', { estrellas: Number(d.get('estrellas')) });
+        seccionOpinion.replaceChildren(el('h2', {}, 'Gracias por tu opinión'), el('p', {}, 'Nos ayuda muchísimo a mejorar.'));
+      } catch (e) {
+        error.textContent = e.message;
+      }
+    },
+  },
+  estrellas,
+  el('label', { for: 'opinion-texto', class: 'etiqueta-campo' }, '¿Qué es lo que más te llegó?'), texto,
+  el('div', { class: 'opinion-datos' },
+    el('div', {}, el('label', { for: 'opinion-nombre', class: 'etiqueta-campo' }, 'Tu nombre (opcional)'), nombre),
+    el('div', {}, el('label', { for: 'opinion-pais', class: 'etiqueta-campo' }, 'Tu país (opcional)'), pais)),
+  el('label', { class: 'casilla', for: 'opinion-publicar' }, publicar, el('span', {}, 'Autorizo que publiquen mi opinión con mi nombre de pila y mi país.')),
+  error,
+  el('button', { class: 'boton', type: 'submit' }, 'Enviar mi opinión'));
+  seccionOpinion.append(el('h2', { id: 'titulo-opinion' }, '¿Qué te pareció tu informe?'), el('p', { class: 'ayuda' }, 'Tu opinión nos ayuda a mejorar y ayuda a otras mujeres a decidirse.'), formulario);
+  return seccionOpinion;
 }
 
 function carta(datos) {

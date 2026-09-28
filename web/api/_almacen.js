@@ -4,6 +4,8 @@
 import { createHash } from 'node:crypto';
 
 const memoria = new Map();
+// Sin Vercel Blob (o en las pruebas) se usa la memoria de la instancia.
+const enMemoria = () => !process.env.BLOB_READ_WRITE_TOKEN || process.env.BLOB_READ_WRITE_TOKEN === 'memoria-pruebas';
 
 // La ruta no se puede deducir del identificador de compra sin conocer el secreto.
 export function rutaInforme(idSesion, extra = '') {
@@ -15,7 +17,7 @@ export function rutaInforme(idSesion, extra = '') {
 const acceso = () => (process.env.BLOB_ACCESS === 'public' ? 'public' : 'private');
 
 export async function leer(ruta) {
-  if (!process.env.BLOB_READ_WRITE_TOKEN) return memoria.get(ruta) ?? null;
+  if (enMemoria()) return memoria.get(ruta) ?? null;
   const { get } = await import('@vercel/blob');
   try {
     const resultado = await get(ruta, { access: acceso(), useCache: false });
@@ -28,7 +30,7 @@ export async function leer(ruta) {
 }
 
 export async function guardar(ruta, datos) {
-  if (!process.env.BLOB_READ_WRITE_TOKEN) {
+  if (enMemoria()) {
     memoria.set(ruta, datos);
     return;
   }

@@ -192,3 +192,36 @@ test('cupón de recuperación: solo si está configurado y solo para quien vuelv
   delete process.env.CUPON_RECUPERACION;
   delete process.env.CUPON_RECUPERACION_TEXTO;
 });
+
+test('opiniones: solo compras pagadas, con validación, y nunca publicadas sin permiso', async () => {
+  const { POST: opinar } = await import('../web/api/opinion.js');
+  const { leer } = await import('../web/api/_almacen.js');
+  const { createHash } = await import('node:crypto');
+  const pedir = (cuerpo) => opinar(new Request('https://sitio.test/api/opinion', { method: 'POST', body: JSON.stringify(cuerpo), headers: { 'x-forwarded-for': `10.2.0.${Math.floor(Math.random() * 250)}` } }));
+  const id = 'cs_test_opinion0000000001';
+  // Sin almacenamiento configurado, el formulario se oculta (503).
+  assert.equal((await pedir({ s: id, estrellas: 5, texto: 'Me encantó mi informe' })).status, 503);
+
+  process.env.BLOB_READ_WRITE_TOKEN = 'memoria-pruebas';
+  assert.equal((await pedir({ s: 'otra-cosa', estrellas: 5, texto: 'Me encantó mi informe' })).status, 400);
+  assert.equal((await pedir({ s: id, estrellas: 7, texto: 'Me encantó mi informe' })).status, 400);
+  assert.equal((await pedir({ s: id, estrellas: 5, texto: 'ok' })).status, 400);
+  sesionSimulada.payment_status = 'unpaid';
+  assert.equal((await pedir({ s: id, estrellas: 5, texto: 'Me encantó mi informe' })).status, 403);
+  sesionSimulada.payment_status = 'paid';
+
+  const ok = await pedir({ s: id, estrellas: 5, texto: 'Me encantó, <b>me describe</b> muy bien — gracias', nombre: 'Rosa', pais: 'México' });
+  assert.equal(ok.status, 200);
+  const guardada = await leer(`opiniones/${createHash('sha256').update(id).digest('hex').slice(0, 24)}.json`);
+  assert.equal(guardada.estrellas, 5);
+  assert.equal(guardada.texto, 'Me encantó, me describe muy bien, gracias');
+  assert.equal(guardada.publicar, false, 'sin la casilla marcada no se puede publicar');
+  assert.equal(guardada.verificada, true);
+  assert.equal(guardada.numero, 4);
+  delete process.env.BLOB_READ_WRITE_TOKEN;
+});
+
+test('testimonios.json empieza vacío (no hay opiniones inventadas)', () => {
+  const t = JSON.parse(readFileSync(new URL('../web/testimonios.json', import.meta.url)));
+  assert.deepEqual(t.opiniones, []);
+});

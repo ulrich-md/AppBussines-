@@ -15,6 +15,9 @@
     },
     "api/suscribir.js": {
       "maxDuration": 10
+    },
+    "api/opinion.js": {
+      "maxDuration": 15
     }
   }
 }
