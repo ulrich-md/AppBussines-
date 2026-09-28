@@ -70,10 +70,11 @@ REGLAS OBLIGATORIAS:
 - Adapta el vocabulario espiritual a su forma de vivir la espiritualidad: si tiene fe o reza, habla con respeto de la fe y la oración sin imponer ninguna doctrina; si hace rituales, de intención y rituales; si cree en señales, del universo y las señales; si es curiosa sin etiquetas, usa un lenguaje sereno y poco místico.
 - Para dirigirte a ella usa exactamente el marcador ${MARCADOR_NOMBRE} (una o dos veces en total, nunca en el titular). No inventes ningún nombre.
 - No menciones que eres una IA, no hables de productos ni de compras y no uses emojis.
+- No uses guiones largos (— ni –). Usa comas, puntos o dos puntos.
 - Respeta las longitudes indicadas en cada campo.`;
 
   const usuario = `DATOS DE SU NÚMERO
-Número de Vida: ${numero}${r.maestro ? ' (número maestro)' : ''} — ${r.titulo}
+Número de Vida: ${numero}${r.maestro ? ' (número maestro)' : ''}, ${r.titulo}
 Color de poder: ${r.color}
 Descripción base: ${r.teaser}
 Amor: ${r.areas.amor}
@@ -104,7 +105,12 @@ export function normalizarLectura(texto) {
   const lectura = {};
   for (const [campo, maximo] of Object.entries(LIMITES)) {
     const valor = typeof datos?.[campo] === 'string' ? datos[campo] : '';
-    const limpio = valor.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
+    const limpio = valor
+      .replace(/<[^>]*>/g, '')
+      .replace(/\s*[—–]\s*/g, ', ') // sin guiones largos (regla de estilo de la marca)
+      .replace(/\s+/g, ' ')
+      .replace(/^,\s*/, '')
+      .trim();
     if (limpio.length < 5) throw new Error(`Falta el campo "${campo}"`);
     lectura[campo] = limpio.slice(0, maximo);
   }

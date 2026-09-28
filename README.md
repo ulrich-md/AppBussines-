@@ -7,6 +7,7 @@ Cuestionarios web gratis con un resultado básico y un informe completo en PDF d
 
 - [`docs/estrategia.md`](docs/estrategia.md): modelo de negocio, público, catálogo de cuestionarios, reglas y métricas.
 - [`docs/plan-claude-code.md`](docs/plan-claude-code.md): plan de acción y estado de cada tarea.
+- [`docs/diseno.md`](docs/diseno.md): sistema de diseño (colores, tipografía, iconos, imágenes, movimiento y reglas).
 - [`docs/marca.md`](docs/marca.md): 10 propuestas de marca (pendiente de elegir).
 - [`docs/tienda.md`](docs/tienda.md): textos para la ficha de la tienda.
 - [`contenido/tiktok-guiones.md`](contenido/tiktok-guiones.md): 30 guiones para las 2 primeras semanas.
@@ -26,6 +27,7 @@ scripts/build.mjs       Valida cuestionarios y genera páginas e imágenes para 
 scripts/pdf.mjs         Informes Markdown → PDF + portadas de tienda
 informes/               Plantilla de los informes (el contenido de pago no se sube: el repo es público)
 tests/                  Pruebas del motor y de principio a fin en móviles emulados
+.claude/skills/         Skills de diseño instaladas (taste-skill y ui-ux-pro-max, licencia MIT)
 ```
 
 ## Comandos

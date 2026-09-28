@@ -56,7 +56,7 @@ test('el prompt incluye el número, el contexto y todas las respuestas, pero no 
   const { sistema, usuario } = construirPrompt(datos, quiz, { marca: 'Marca', anio: 2026 });
   assert.match(sistema, /\{\{nombre\}\}/);
   assert.match(sistema, /NUNCA des consejos médicos/);
-  assert.match(usuario, /Número de Vida: 6 .*La Cuidadora/);
+  assert.match(usuario, /Número de Vida: 6, La Cuidadora/);
   assert.match(usuario, /Año Personal 2026 es el 3/);
   for (const texto of ['Separada, empezando de nuevo', 'A cuidar de alguien', 'Tener tiempo para mí', 'Tengo fe y rezo', 'Sí, el 11:11']) {
     assert.ok(usuario.includes(texto), texto);

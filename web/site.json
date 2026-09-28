@@ -5,18 +5,22 @@
   "quiz_principal": "numero-de-vida",
   "idioma": "es",
   "colores": {
-    "fondo": "#FBF7F0",
-    "superficie": "#FFFFFF",
-    "texto": "#2B2233",
-    "texto_suave": "#5E5468",
-    "primario": "#5B2E8C",
-    "primario_texto": "#FFFFFF",
-    "acento": "#B8860B",
-    "borde": "#E7DDCF"
+    "_nota": "Solo para imágenes generadas (vista previa, portadas, PDF). La web usa las variables de css/styles.css.",
+    "noche": "#0B0F1E",
+    "noche_2": "#141A2E",
+    "claro": "#F3F4F9",
+    "superficie": "#FCFCFE",
+    "texto": "#141A2E",
+    "texto_suave": "#4A5270",
+    "texto_noche": "#ECEFF8",
+    "texto_noche_suave": "#A9B0CC",
+    "acento": "#2F48B8",
+    "acento_noche": "#93A6FF",
+    "borde": "#D5DAE8"
   },
   "fuentes": {
-    "titulos": "Cormorant Garamond",
-    "texto": "Nunito"
+    "titulos": "Lora",
+    "texto": "Raleway"
   },
   "analitica": {
     "proveedor": "ninguno",

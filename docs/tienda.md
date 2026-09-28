@@ -1,4 +1,4 @@
-# Textos de la tienda — "Tu Número de Vida"
+# Textos de la tienda: "Tu Número de Vida"
 
 Hay un producto por número (12 en total). Los textos son iguales para todos: solo cambian **[N]** (el número) y **[ARQUETIPO]** (La Líder, La Diplomática…).
 Nombres de los arquetipos: 1 La Líder · 2 La Diplomática · 3 La Comunicadora · 4 La Constructora · 5 La Aventurera · 6 La Cuidadora · 7 La Sabia · 8 La Poderosa · 9 La Compasiva · 11 La Iluminadora · 22 La Maestra Constructora · 33 La Maestra Sanadora.
@@ -31,7 +31,7 @@ Tu fecha de nacimiento guarda un número que, según la numerología, habla de t
 - 🌙 **12 afirmaciones**, una para cada mes.
 - 📅 **Tu plan de 30 días:** un pequeño gesto diario para poner en práctica lo que descubras.
 
-**Formato:** PDF de unas 15–20 páginas en tamaño A5. Se lee cómodamente en el teléfono y también se puede imprimir. Lo recibes al momento en tu correo.
+**Formato:** PDF de unas 15-20 páginas en tamaño A5. Se lee cómodamente en el teléfono y también se puede imprimir. Lo recibes al momento en tu correo.
 
 **Pago único.** Sin suscripciones ni cobros posteriores.
 

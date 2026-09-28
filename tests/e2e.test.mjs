@@ -93,6 +93,9 @@ for (const dispositivo of ['iPhone 13', 'Pixel 7']) {
     await recorrer(pagina, { dia: 14, mes: 3, anio: 1985, nombre: '  maría ' });
     assert.match(await pagina.locator('h1').innerText(), /La Constructora/);
     assert.equal((await pagina.locator('.numero').innerText()).trim(), '4');
+    // Cada arquetipo tiene su propia imagen.
+    assert.match(await pagina.locator('.resultado-imagen').getAttribute('src'), /arquetipos\/4-896\.webp$/);
+    assert.ok(await pagina.locator('.resultado-imagen').evaluate((img) => img.decode().then(() => img.naturalWidth > 0)));
     const texto = await pagina.locator('main').innerText();
     assert.match(texto, /María, tu Número de Vida es el/);
     assert.match(texto, /Una constructora que aprende a descansar/);
@@ -109,7 +112,7 @@ for (const dispositivo of ['iPhone 13', 'Pixel 7']) {
     assert.doesNotMatch(JSON.stringify(peticiones[0]), /María|1985/);
     // Sin enlace de tienda configurado, el botón aparece desactivado.
     assert.equal(await pagina.locator('.informe [aria-disabled="true"]').innerText(), 'Muy pronto disponible');
-    const whatsapp = await pagina.getByRole('link', { name: 'Compartir por WhatsApp' }).getAttribute('href');
+    const whatsapp = await pagina.getByRole('link', { name: 'Enviar por WhatsApp' }).getAttribute('href');
     assert.match(decodeURIComponent(whatsapp), /La Constructora .*r\/numero-de-vida\/4\.html/);
     await pagina.screenshot({ path: `${CAPTURAS}${dispositivo}-2-resultado.png`, fullPage: true });
 
@@ -152,7 +155,7 @@ test('número maestro sin nombre y botón de compra con enlace', async () => {
   assert.match(await pagina.locator('.saludo').innerText(), /^Tu Número de Vida es el/);
   // Sin nombre, el marcador se adapta: "Querida {{nombre}}," → "Querida,".
   assert.match(await pagina.locator('main').innerText(), /Querida, tu 4 habla/);
-  await pagina.getByRole('link', { name: 'Quiero mi informe completo' }).click();
+  await pagina.getByRole('link', { name: 'Quiero mi informe' }).click();
   await pagina.waitForURL('https://tienda.ejemplo/numero-11');
   await pagina.close();
 });
@@ -162,7 +165,7 @@ test('página para compartir lleva al cuestionario', async () => {
   await pagina.goto(`${base}r/numero-de-vida/7.html`);
   assert.match(await pagina.locator('h1').innerText(), /La Sabia/);
   assert.equal(await pagina.locator('meta[property="og:image"]').getAttribute('content') !== null, true);
-  await pagina.getByRole('link', { name: 'Descubrir mi número gratis' }).click();
+  await pagina.getByRole('link', { name: 'Descubrir mi número' }).click();
   await pagina.getByRole('button', { name: 'Descubrir mi número' }).waitFor();
   assert.match(pagina.url(), /ref=compartido-7/);
   await pagina.close();
@@ -194,3 +197,55 @@ test('las preguntas usan el nombre', async () => {
   assert.equal(await pagina.locator('h2').innerText(), 'Carmen, ¿cómo está tu vida amorosa ahora?');
   await pagina.close();
 });
+
+// Reglas de diseño (taste-skill / ui-ux-pro-max): sin emojis como iconos y sin guiones largos visibles.
+const EMOJI = /\p{Extended_Pictographic}/u;
+const GUION_LARGO = /[—–]/;
+
+for (const esquema of ['light', 'dark']) {
+  test(`reglas de diseño y capturas en modo ${esquema === 'light' ? 'claro' : 'oscuro'}`, async () => {
+    const contexto = await navegador.newContext({ ...devices['iPhone 13'], colorScheme: esquema });
+    const pagina = await contexto.newPage();
+    await simularIA(pagina);
+    await pagina.goto(base);
+    await pagina.locator('.inicio-imagen').evaluate((img) => img.decode());
+    await pagina.waitForTimeout(600); // fin de la animación de entrada
+    await pagina.screenshot({ path: `${CAPTURAS}${esquema}-1-inicio.png` });
+    const textos = [await pagina.locator('body').innerText()];
+
+    await pagina.getByRole('button', { name: 'Descubrir mi número' }).click();
+    await pagina.getByLabel('Día').selectOption('14');
+    await pagina.getByLabel('Mes').selectOption('3');
+    await pagina.getByLabel('Año').selectOption('1985');
+    await pagina.getByRole('button', { name: 'Continuar' }).click();
+    await pagina.getByRole('textbox').fill('Rosa');
+    await pagina.getByRole('button', { name: 'Continuar' }).click();
+    await pagina.waitForTimeout(500);
+    await pagina.screenshot({ path: `${CAPTURAS}${esquema}-2-pregunta.png` });
+    // Cada opción lleva un icono SVG de la librería (no un emoji).
+    assert.equal(await pagina.locator('.opcion svg use').count(), await pagina.locator('.opcion').count());
+    for (const opcion of OPCIONES) {
+      textos.push(await pagina.locator('main').innerText());
+      await pagina.getByRole('button', { name: opcion }).click();
+    }
+    await pagina.getByRole('heading', { level: 1 }).waitFor();
+    await pagina.locator('.afirmacion').waitFor();
+    await pagina.waitForTimeout(800);
+    await pagina.screenshot({ path: `${CAPTURAS}${esquema}-3-resultado.png`, fullPage: true });
+    textos.push(await pagina.locator('body').innerText());
+
+    for (const texto of textos) {
+      assert.doesNotMatch(texto, EMOJI, 'hay un emoji visible');
+      assert.doesNotMatch(texto, GUION_LARGO, 'hay un guion largo visible');
+    }
+    // Las imágenes respetan su proporción (4:3 el arquetipo, 3:4 la portada del informe).
+    const proporcion = (sel) => pagina.locator(sel).evaluate((n) => n.getBoundingClientRect().width / n.getBoundingClientRect().height);
+    assert.ok(Math.abs((await proporcion('.resultado-imagen')) - 4 / 3) < 0.05);
+    assert.ok(Math.abs((await proporcion('.informe-portada')) - 3 / 4) < 0.05);
+    // La portada del informe es una imagen real que carga.
+    const portada = pagina.locator('.informe-portada');
+    await portada.scrollIntoViewIfNeeded();
+    assert.ok(await portada.evaluate((img) => img.complete && img.naturalWidth > 0));
+    await contexto.close();
+  });
+}

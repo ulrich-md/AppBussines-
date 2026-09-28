@@ -1,14 +1,8 @@
 {
   "id": "numero-de-vida",
   "titulo": "Descubre tu Número de Vida",
-  "subtitulo": "Una lectura escrita solo para ti a partir de tu fecha de nacimiento y de tus respuestas: tu esencia, tu momento, el amor, el dinero y tu camino.",
-  "detalles": [
-    "11 preguntas",
-    "2 minutos",
-    "Gratis"
-  ],
+  "subtitulo": "Una lectura personal y gratuita a partir de tu fecha de nacimiento. 11 preguntas, unos 2 minutos.",
   "boton_empezar": "Descubrir mi número",
-  "texto_calculando": "Calculando tu Número de Vida…",
   "encabezado_resultado": "tu Número de Vida es el",
   "encabezado_resultado_sin_nombre": "Tu Número de Vida es el",
   "calculo": {
@@ -32,7 +26,7 @@
       "12 afirmaciones personales y tu plan de 30 días"
     ],
     "formato": "Unas 15 páginas en PDF, para leer en tu teléfono o imprimir. Lo recibes al momento.",
-    "boton": "Quiero mi informe completo",
+    "boton": "Quiero mi informe",
     "boton_no_disponible": "Muy pronto disponible"
   },
   "aviso": "Contenido de entretenimiento y autoconocimiento. No sustituye el consejo de ningún profesional.",
@@ -63,32 +57,32 @@
         {
           "id": "pareja_estable",
           "texto": "Tengo pareja estable",
-          "emoji": "💑"
+          "icono": "heart"
         },
         {
           "id": "complicada",
           "texto": "Vivo una relación complicada",
-          "emoji": "🌀"
+          "icono": "heart-break"
         },
         {
           "id": "soltera_abierta",
           "texto": "Soltera y abierta al amor",
-          "emoji": "💌"
+          "icono": "door-open"
         },
         {
           "id": "soltera_feliz",
           "texto": "Soltera y feliz así",
-          "emoji": "🌸"
+          "icono": "flower-lotus"
         },
         {
           "id": "empezando",
           "texto": "Separada, empezando de nuevo",
-          "emoji": "🌱"
+          "icono": "plant"
         },
         {
           "id": "viuda",
           "texto": "Viuda",
-          "emoji": "🕊️"
+          "icono": "bird"
         }
       ]
     },
@@ -101,25 +95,25 @@
           "id": "amor",
           "texto": "El amor",
           "etiqueta": "el amor",
-          "emoji": "💞"
+          "icono": "heart"
         },
         {
           "id": "dinero",
           "texto": "El dinero y el trabajo",
           "etiqueta": "el dinero y el trabajo",
-          "emoji": "💰"
+          "icono": "coins"
         },
         {
           "id": "paz",
           "texto": "Mi paz interior",
           "etiqueta": "tu paz interior",
-          "emoji": "🕊️"
+          "icono": "sun-horizon"
         },
         {
           "id": "familia",
           "texto": "Mi familia",
           "etiqueta": "tu familia",
-          "emoji": "🏡"
+          "icono": "house"
         }
       ],
       "texto_con_nombre": "{nombre}, ¿qué área de tu vida quieres entender mejor ahora?",
@@ -134,32 +128,32 @@
         {
           "id": "empleo",
           "texto": "A mi trabajo",
-          "emoji": "💼"
+          "icono": "briefcase"
         },
         {
           "id": "negocio",
           "texto": "A mi negocio o proyecto propio",
-          "emoji": "🚀"
+          "icono": "rocket-launch"
         },
         {
           "id": "hogar",
           "texto": "A mi hogar y mi familia",
-          "emoji": "🏡"
+          "icono": "house"
         },
         {
           "id": "cuidar",
           "texto": "A cuidar de alguien",
-          "emoji": "🤲"
+          "icono": "hand-heart"
         },
         {
           "id": "reinventarme",
           "texto": "A estudiar o reinventarme",
-          "emoji": "📚"
+          "icono": "book-open"
         },
         {
           "id": "jubilada",
           "texto": "Estoy jubilada",
-          "emoji": "☕"
+          "icono": "coffee"
         }
       ]
     },
@@ -172,32 +166,32 @@
         {
           "id": "limites",
           "texto": "Poner límites",
-          "emoji": "🚧"
+          "icono": "hand-palm"
         },
         {
           "id": "ayuda",
           "texto": "Pedir ayuda",
-          "emoji": "🤝"
+          "icono": "handshake"
         },
         {
           "id": "soltar",
           "texto": "Soltar el pasado",
-          "emoji": "🍂"
+          "icono": "leaf"
         },
         {
           "id": "confiar",
           "texto": "Confiar en mí misma",
-          "emoji": "🪞"
+          "icono": "star"
         },
         {
           "id": "decidir",
           "texto": "Tomar una decisión importante",
-          "emoji": "⚖️"
+          "icono": "scales"
         },
         {
           "id": "tiempo",
           "texto": "Tener tiempo para mí",
-          "emoji": "⏳"
+          "icono": "hourglass"
         }
       ]
     },
@@ -209,22 +203,22 @@
         {
           "id": "estancada",
           "texto": "Estancada",
-          "emoji": "🌫️"
+          "icono": "cloud-fog"
         },
         {
           "id": "cambio",
           "texto": "Con ganas de cambio",
-          "emoji": "🌱"
+          "icono": "plant"
         },
         {
           "id": "cansada",
           "texto": "Cansada",
-          "emoji": "🌙"
+          "icono": "moon"
         },
         {
           "id": "ilusionada",
           "texto": "Ilusionada",
-          "emoji": "☀️"
+          "icono": "sun"
         }
       ],
       "texto_ia": "Cómo se siente estos días"
@@ -239,32 +233,32 @@
         {
           "id": "amor",
           "texto": "Amor",
-          "emoji": "💞"
+          "icono": "heart"
         },
         {
           "id": "estabilidad",
           "texto": "Estabilidad económica",
-          "emoji": "🪙"
+          "icono": "coins"
         },
         {
           "id": "paz",
           "texto": "Paz interior",
-          "emoji": "🕊️"
+          "icono": "flower-lotus"
         },
         {
           "id": "rumbo",
           "texto": "Un cambio de rumbo",
-          "emoji": "🧭"
+          "icono": "compass"
         },
         {
           "id": "reconciliacion",
           "texto": "Reconciliarme con alguien",
-          "emoji": "🤍"
+          "icono": "hand-heart"
         },
         {
           "id": "reconocimiento",
           "texto": "Que valoren lo que hago",
-          "emoji": "🏅"
+          "icono": "medal"
         }
       ]
     },
@@ -277,32 +271,32 @@
         {
           "id": "fuerte",
           "texto": "Fuerte",
-          "emoji": "🦁"
+          "icono": "mountains"
         },
         {
           "id": "carinosa",
           "texto": "Cariñosa",
-          "emoji": "🤗"
+          "icono": "heart"
         },
         {
           "id": "divertida",
           "texto": "Divertida",
-          "emoji": "😄"
+          "icono": "smiley"
         },
         {
           "id": "responsable",
           "texto": "Responsable",
-          "emoji": "📋"
+          "icono": "clipboard-text"
         },
         {
           "id": "intuitiva",
           "texto": "Intuitiva",
-          "emoji": "🔮"
+          "icono": "eye"
         },
         {
           "id": "independiente",
           "texto": "Independiente",
-          "emoji": "🦋"
+          "icono": "butterfly"
         }
       ]
     },
@@ -315,22 +309,22 @@
         {
           "id": "fe",
           "texto": "Tengo fe y rezo",
-          "emoji": "🙏"
+          "icono": "hands-praying"
         },
         {
           "id": "rituales",
           "texto": "Hago rituales o medito",
-          "emoji": "🕯️"
+          "icono": "fire"
         },
         {
           "id": "senales",
           "texto": "Creo en las señales del universo",
-          "emoji": "✨"
+          "icono": "sparkle"
         },
         {
           "id": "curiosa",
           "texto": "Soy curiosa, sin etiquetas",
-          "emoji": "🌿"
+          "icono": "magnifying-glass"
         }
       ]
     },
@@ -342,22 +336,22 @@
         {
           "id": "1111",
           "texto": "Sí, el 11:11",
-          "emoji": "🕚"
+          "icono": "clock"
         },
         {
           "id": "333",
           "texto": "Sí, el 333",
-          "emoji": "✨"
+          "icono": "sparkle"
         },
         {
           "id": "otros",
           "texto": "Sí, otros números",
-          "emoji": "🔢"
+          "icono": "hash"
         },
         {
           "id": "no",
           "texto": "No me he fijado",
-          "emoji": "👀"
+          "icono": "eye"
         }
       ],
       "texto_ia": "Números repetidos que ve"
@@ -413,7 +407,9 @@
         "familia": "En tu familia sueles ser la que resuelve, organiza y decide. Te respetan, aunque a veces sientes que nadie te pregunta cómo estás tú. Es buen momento para repartir responsabilidades y dejar que otros también sostengan."
       },
       "compartir": "Me salió el Número de Vida 1: La Líder 🔥 ¿Y a ti? Descúbrelo gratis en 2 minutos:",
-      "comprar_url": ""
+      "comprar_url": "",
+      "imagen": "img/arquetipos/1",
+      "imagen_alt": "Silueta de una mujer en la cima de una montaña al amanecer, con un pañuelo rojo al viento"
     },
     "2": {
       "titulo": "La Diplomática",
@@ -427,7 +423,9 @@
         "familia": "Eres el pegamento de tu familia: la que media, perdona y reúne. Todos te buscan cuando hay problemas. Recuerda que tú también mereces que alguien te sostenga."
       },
       "compartir": "Me salió el Número de Vida 2: La Diplomática 🧡 ¿Cuál es el tuyo? Descúbrelo gratis en 2 minutos:",
-      "comprar_url": ""
+      "comprar_url": "",
+      "imagen": "img/arquetipos/2",
+      "imagen_alt": "Dos barcas juntas en un lago en calma, iluminadas por un farol naranja"
     },
     "3": {
       "titulo": "La Comunicadora",
@@ -441,7 +439,9 @@
         "familia": "Eres la alegría de las reuniones familiares, la que anima y organiza celebraciones. A veces sientes que tu papel es estar siempre bien. Date permiso para tener días grises con los tuyos."
       },
       "compartir": "Me salió el Número de Vida 3: La Comunicadora ✨ ¿Y tú qué número eres? Descúbrelo gratis en 2 minutos:",
-      "comprar_url": ""
+      "comprar_url": "",
+      "imagen": "img/arquetipos/3",
+      "imagen_alt": "Mujer en una colina de noche, rodeada de luciérnagas doradas"
     },
     "4": {
       "titulo": "La Constructora",
@@ -455,7 +455,9 @@
         "familia": "Eres el pilar: la que cumple, la que siempre está, la que no falla. Tu familia sabe que puede contar contigo. Recuerda pedir también, y no confundir amor con obligación."
       },
       "compartir": "Me salió el Número de Vida 4: La Constructora 🌿 ¿Cuál te sale a ti? Descúbrelo gratis en 2 minutos:",
-      "comprar_url": ""
+      "comprar_url": "",
+      "imagen": "img/arquetipos/4",
+      "imagen_alt": "Camino de piedras en un jardín nocturno que lleva a una casita con la ventana encendida"
     },
     "5": {
       "titulo": "La Aventurera",
@@ -469,7 +471,9 @@
         "familia": "Eres la que trae aire fresco a tu familia, la que propone planes y rompe la rutina. A veces sientes que no encajas del todo en lo que esperan de ti. Tu libertad y tu amor por ellos pueden convivir."
       },
       "compartir": "Me salió el Número de Vida 5: La Aventurera 🌊 ¿Y a ti cuál te sale? Descúbrelo gratis en 2 minutos:",
-      "comprar_url": ""
+      "comprar_url": "",
+      "imagen": "img/arquetipos/5",
+      "imagen_alt": "Mujer con una maleta en un acantilado, frente a un mar turquesa bajo las estrellas"
     },
     "6": {
       "titulo": "La Cuidadora",
@@ -483,7 +487,9 @@
         "familia": "La familia es tu centro. Eres la que recuerda los cumpleaños, cocina, acompaña y sostiene. Tu gran regalo en este momento es dejar que otros también cuiden de ti."
       },
       "compartir": "Me salió el Número de Vida 6: La Cuidadora 💗 ¿Cuál es el tuyo? Descúbrelo gratis en 2 minutos:",
-      "comprar_url": ""
+      "comprar_url": "",
+      "imagen": "img/arquetipos/6",
+      "imagen_alt": "Ventana de una casa acogedora de noche, con rosas y velas encendidas"
     },
     "7": {
       "titulo": "La Sabia",
@@ -497,7 +503,9 @@
         "familia": "Eres la sabia de tu familia, la que da consejos certeros aunque a veces se sienta incomprendida. Necesitas tus espacios, y eso no significa que quieras menos. Explícalo con cariño."
       },
       "compartir": "Me salió el Número de Vida 7: La Sabia 🔮 ¿Y tú qué número eres? Descúbrelo gratis en 2 minutos:",
-      "comprar_url": ""
+      "comprar_url": "",
+      "imagen": "img/arquetipos/7",
+      "imagen_alt": "Libro antiguo abierto junto a una ventana, con la luna creciente"
     },
     "8": {
       "titulo": "La Poderosa",
@@ -511,7 +519,9 @@
         "familia": "Eres la fuerte de tu familia, a la que acuden en las crisis. Muchas veces sostuviste a otros, económica o emocionalmente. Mereces que tu esfuerzo sea reconocido, y también que te cuiden."
       },
       "compartir": "Me salió el Número de Vida 8: La Poderosa 👑 ¿Cuál te sale a ti? Descúbrelo gratis en 2 minutos:",
-      "comprar_url": ""
+      "comprar_url": "",
+      "imagen": "img/arquetipos/8",
+      "imagen_alt": "Mujer con vestido largo en un balcón, frente a una ciudad iluminada de noche"
     },
     "9": {
       "titulo": "La Compasiva",
@@ -525,7 +535,9 @@
         "familia": "En tu familia eres la que comprende, la que perdona y la que cura heridas antiguas. A veces cargas con historias que no son tuyas. Honra a los tuyos, pero vive tu propia vida."
       },
       "compartir": "Me salió el Número de Vida 9: La Compasiva 🤍 ¿Y a ti? Descúbrelo gratis en 2 minutos:",
-      "comprar_url": ""
+      "comprar_url": "",
+      "imagen": "img/arquetipos/9",
+      "imagen_alt": "Mujer de blanco soltando un farolillo de papel sobre un lago"
     },
     "11": {
       "titulo": "La Iluminadora",
@@ -540,7 +552,9 @@
         "familia": "Eres la que percibe lo que nadie dice en tu familia. A veces te sentiste diferente o incomprendida. Tu sensibilidad es un regalo para los tuyos, no una carga."
       },
       "compartir": "Me salió el Número de Vida 11: La Iluminadora, ¡un número maestro! 🌙 ¿Cuál es el tuyo? Descúbrelo gratis en 2 minutos:",
-      "comprar_url": ""
+      "comprar_url": "",
+      "imagen": "img/arquetipos/11",
+      "imagen_alt": "Silueta de una mujer en un muelle bajo una luna llena enorme"
     },
     "22": {
       "titulo": "La Maestra Constructora",
@@ -555,7 +569,9 @@
         "familia": "Muchas veces eres la que sostiene el futuro de tu familia: la que planea, ahorra y piensa en todos. Tu legado ya está en marcha. Permítete disfrutar del presente con ellos."
       },
       "compartir": "Me salió el Número de Vida 22: La Maestra Constructora, ¡un número maestro! 💙 ¿Y a ti? Descúbrelo gratis en 2 minutos:",
-      "comprar_url": ""
+      "comprar_url": "",
+      "imagen": "img/arquetipos/22",
+      "imagen_alt": "Puente de piedra antiguo sobre un valle, bajo un cielo lleno de estrellas"
     },
     "33": {
       "titulo": "La Maestra Sanadora",
@@ -570,7 +586,9 @@
         "familia": "Eres el corazón de tu familia, la que une generaciones y cura heridas. Cuida que ese papel no te agote: tu bienestar también es un regalo para ellos."
       },
       "compartir": "Me salió el Número de Vida 33: La Maestra Sanadora, ¡el número maestro más raro! 💜 ¿Cuál es el tuyo? Descúbrelo gratis en 2 minutos:",
-      "comprar_url": ""
+      "comprar_url": "",
+      "imagen": "img/arquetipos/33",
+      "imagen_alt": "Campo de lavanda de noche con un farol encendido"
     }
   },
   "ia": {

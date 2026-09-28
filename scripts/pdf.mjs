@@ -34,11 +34,11 @@ function documento(id) {
   const nombreInforme = quiz.titulo.replace(/^Descubre /, '');
   return `<!doctype html><html lang="es"><head><meta charset="utf-8">
 <link rel="stylesheet" href="plantilla.css">
-<style>:root { --color-numero: ${esc(resultado.color_hex ?? '#5B2E8C')}; }</style>
+<style>:root { --color-numero: ${esc(resultado.color_hex ?? '#93A6FF')}; }</style>
 </head><body>
-<section class="portada">
-  <div class="marca">✦ ${esc(sitio.marca)} ✦</div>
-  <div class="etiqueta">${esc(nombreInforme.charAt(0).toUpperCase() + nombreInforme.slice(1))}${resultado.maestro ? ' · Número maestro' : ''}</div>
+<section class="portada"${resultado.imagen ? ` style="background-image: linear-gradient(180deg, rgba(11, 15, 30, 0.1), rgba(11, 15, 30, 0.88) 72%), url('../web/${esc(resultado.imagen)}-896.webp')"` : ''}>
+  <div class="marca">${esc(sitio.marca)}</div>
+  <div class="etiqueta">${esc(nombreInforme.charAt(0).toUpperCase() + nombreInforme.slice(1))}${resultado.maestro ? ', número maestro' : ''}</div>
   <div class="circulo">${esc(id)}</div>
   <h1>${esc(resultado.titulo)}</h1>
   <p class="sub">Tu informe personal completo</p>
@@ -65,7 +65,7 @@ for (const id of ids) {
     preferCSSPageSize: true,
     displayHeaderFooter: true,
     headerTemplate: '<span></span>',
-    footerTemplate: `<div style="width:100%;font-size:7pt;color:#8a8093;text-align:center;font-family:sans-serif;">
+    footerTemplate: `<div style="width:100%;font-size:7pt;color:#6B7390;text-align:center;font-family:sans-serif;">
       ${esc(sitio.marca)} · <span class="pageNumber"></span></div>`,
   });
   if (existsSync(temporal)) rmSync(temporal);
