@@ -1,76 +1,80 @@
-# Estrategia — "Tu Número de Vida"
+# Estrategia — Cuestionarios de pago (numerología y autoconocimiento)
 
-Documento base del proyecto. Todo lo demás (web, guías, contenido) sale de aquí.
-**Objetivo: empezar a vender en 7–10 días** con un producto que sirve en cualquier época del año.
+Documento base del proyecto. Todo lo demás (web, informes, contenido) sale de aquí.
+**Objetivo: empezar a vender en 7–10 días** con cuestionarios que sirven en cualquier época del año.
 
-## 1. Público objetivo
+## 1. Por qué cuestionarios de pago
 
-- **Principal:** mujeres hispanohablantes de 30 a 55 años (México, resto de Latinoamérica, EE. UU. hispano, España).
-- Según Pew (2025), el 43% de las mujeres de 18 a 49 años cree en la astrología, frente al 27% de las mayores de 50. El grupo de 30 a 49 es el más fuerte.
-- En TikTok, el grupo de más de 35 años es más pequeño que el joven, pero es el que más rápido crece (el de 45 a 54 creció un 34% interanual).
+- **Es un modelo que ya funciona.** Truity factura entre 8 y 15 millones de dólares al año (estimado) vendiendo informes en PDF de 19 a 69 USD detrás de tests gratis. 16Personalities convierte menos del 2%, pero con muchísimo tráfico.
+- **El cuestionario hace que la gente se implique.** En los embudos de cuestionario, la mayoría de la gente se pierde *durante* el cuestionario, no al pagar. Noom convierte más del 10% de quienes terminan su cuestionario, frente a un 2,7% de media.
+- **Encaja con TikTok orgánico.** "Haz este test y comenta qué te salió" es un contenido nativo de TikTok y se comparte mucho.
 
-## 2. Qué atrae más a este público (en orden de fuerza)
+**Dónde NO hay oportunidad:**
+- Tests genéricos (MBTI, Big Five, eneagrama) en inglés o en español. Ya existen gratis y 16Personalities domina el mercado.
 
-1. **Hablar de ella misma.** "Si tu Número de Vida es 7, eres…". La gente se detiene cuando siente que el vídeo habla de ella. Es el gancho número 1.
-2. **Amor, dinero y familia.** Son los tres temas que más interesan. El tono debe ser de **esperanza**, nunca de miedo.
-3. **Números repetidos (111, 333, 11:11).** Son la parte más viral de la numerología en TikTok. Conectan con una espiritualidad de "ángeles" y "señales" que este público ya conoce.
-4. **Participación.** "Comenta tu número", "calcúlalo conmigo", "etiqueta a alguien que sea 8". Los comentarios hacen que TikTok muestre el vídeo a más gente.
-5. **Rituales.** Luna llena, velas o un billete en la cartera, pero según su número. Y en diciembre, los rituales de Año Nuevo (ver el apartado 3).
-6. **Estética cálida y clara.** Dorados, cremas, celestes y luz de vela. Letra **grande y legible**, ritmo pausado y una **voz humana** en lugar de voz robótica.
+**Dónde SÍ hay oportunidad:**
+- Tests **en español** para mujeres de más de 30.
+- Sobre **creencias o temas emocionales** que las plataformas grandes no cubren: numerología, arquetipos o heridas emocionales.
 
-## 3. Producto
+## 2. Modelo de cobro
 
-| Producto | Precio orientativo | Cuándo |
-|---|---|---|
-| **Guía "Tu Número de Vida"** (12 versiones: del 1 al 9 más 11, 22 y 33) | 9 USD | **Ya.** Producto principal que sirve todo el año |
-| **Compatibilidad de pareja** (tu número + el de tu pareja) | 7 USD o paquete de 14 USD con la guía | Semana 3 |
-| **"Tu Año Personal 2027"** (9 versiones) | 9 USD | Mediados de noviembre, **solo como extra de temporada** |
-
-- **Gratis (para atraer):** un **cuestionario web de 60 segundos** que da el Número de Vida con un resultado personalizado y lleva a la guía.
-- **Tienda:** Hotmart, que acepta pagos locales en Latinoamérica, o Gumroad.
-- **Pago único.** Sin suscripciones.
-
-### Cómo funciona el cuestionario
-
-1. Fecha de nacimiento completa.
-2. "¿Qué área de tu vida quieres entender mejor ahora?" Amor / Dinero y trabajo / Paz interior / Familia.
-3. "¿Cómo te sientes estos días?" Estancada / Con ganas de cambio / Cansada / Ilusionada.
-4. "¿Ves números repetidos a menudo?" 11:11 / 333 / Otros / No.
-5. Nombre (solo para personalizar el resultado en pantalla; no se guarda).
-
-**Resultado:** "María, tu Número de Vida es el 7: La Sabia". Muestra un párrafo del número, otro según el área elegida y una frase según su ánimo. Después, el botón **"Quiero mi guía completa"**.
-
-## 4. Canal
-
-- **Solo TikTok orgánico, sin anuncios pagados.**
-- Opcional sin esfuerzo extra: subir los mismos vídeos a Reels de Instagram y Facebook, donde está el público de más de 50.
-- Cuenta de **empresa** para tener el enlace en la biografía desde el primer día.
-
-## 5. Reglas del negocio (no negociables)
-
-- Todo se presenta como **entretenimiento y autoconocimiento**. Nunca como predicción garantizada.
-- Nada de consejos médicos, legales ni de inversión. Nada de "vas a ganar dinero si compras".
-- Tono esperanzador. Nada de miedo.
-- Precio claro, pago único y la garantía de reembolso que exige la tienda.
-- El contenido hecho con IA se etiqueta como IA en TikTok.
-- La marca no se hace pasar por una vidente real ni inventa títulos, testimonios o credenciales.
-
-## 6. Calendario (empieza hoy)
-
-| Días | Objetivo |
+| Modelo | Veredicto |
 |---|---|
-| **Días 1–3** | Elegir la marca. Crear la cuenta de TikTok. **Publicar el primer vídeo el día 1.** Cowork escribe la guía del número 1 para aprobarla. |
-| **Días 4–7** | Las 12 guías terminadas. Tienda abierta. Cuestionario publicado. Enlace en la biografía → **ya se puede vender**. |
-| **Semanas 2–4** | 2–3 vídeos al día. Revisión los lunes. Semana 3: compatibilidad de pareja. |
-| **Mediados de noviembre** | Añadir la guía 2027 como extra de temporada (rituales de Año Nuevo según el número). |
+| **Resultado básico gratis + informe completo de pago** (como Truity) | ✅ **El que usamos.** Quien no paga igual se lleva algo y lo comparte. |
+| Mostrar el resultado a medias con el resto difuminado, con el precio visible | ✅ Se puede probar, siempre con el precio claro antes de hacer clic |
+| Pagar para ver cualquier resultado | ⚠️ Convierte más, pero genera enfado, comentarios negativos en TikTok y reembolsos |
+| Prueba a 1 USD que se convierte en una suscripción de 30 USD al mes (tipo myIQ) | ❌ **Nunca.** Es un patrón de estafa: cientos de quejas, contracargos, cierre de la cuenta de pagos y riesgo legal. |
+| Solo anuncios en la web | ❌ Hace falta muchísimo tráfico y los anuncios en español pagan poco |
 
-## 7. Qué medimos cada semana
+## 3. Público y qué lo atrae
 
-- Vistas por vídeo y qué ganchos funcionan mejor.
-- Visitas al perfil y clics en el enlace.
-- Cuántas personas empiezan el cuestionario, cuántas lo terminan y cuántas hacen clic en "comprar".
-- Ventas y conversión (ventas ÷ cuestionarios terminados).
+- **Público:** mujeres hispanohablantes de 30 a 55 años (México, resto de Latinoamérica, EE. UU. hispano, España). Según Pew (2025), el 43% de las mujeres de 18 a 49 años cree en la astrología. En TikTok, el grupo de más de 35 años es el que más rápido crece.
+- **Qué las atrae (en orden):**
+  1. hablar de ellas mismas
+  2. amor, dinero y familia, siempre con esperanza y nunca con miedo
+  3. números repetidos (111, 11:11)
+  4. participar ("comenta tu resultado")
+  5. rituales
+  6. estética cálida, letra grande y voz humana
+
+## 4. Catálogo de cuestionarios (uno por uno, se mide cuál vende)
+
+| # | Cuestionario | Resultados | Por qué puede funcionar | Cuándo |
+|---|---|---|---|---|
+| 1 | **"Tu Número de Vida"** (numerología + 4 preguntas) | 12 | Es una creencia que conocen, sale de la fecha y no se puede copiar con un test genérico | Semana 1 |
+| 2 | **"¿Qué herida emocional arrastras?"** (rechazo, abandono, humillación, traición, injusticia) | 5 | Un tema de autoayuda muy popular en español entre mujeres de más de 30 | Semana 2 (prueba) |
+| 3 | **"¿Qué diosa vive en ti?"** (arquetipos) | 8–12 | Muy visual: imágenes IA de cada diosa, se comparte mucho | Semana 3–4 (prueba) |
+| 4 | Compatibilidad de pareja (numerología) | — | Se ofrece como extra a quien ya compró | Semana 3 |
+| 5 | "Tu Año Personal 2027" | 9 | Extra de temporada con rituales de Año Nuevo | Mediados de noviembre |
+
+**Precio de partida:** informe de 9 USD. Probar 12–14 USD cuando haya ventas. Pago único.
+
+## 5. Canal
+
+- **Solo TikTok orgánico.** Opcional: los mismos vídeos en Reels de Instagram y Facebook.
+- Cuenta de **empresa** para tener el enlace en la biografía desde el primer día.
+- **Tienda:** Hotmart (acepta pagos locales en Latinoamérica) o Gumroad o Lemon Squeezy, con un producto por resultado. Más adelante: informe personalizado generado automáticamente al pagar.
+
+## 6. Reglas del negocio (no negociables)
+
+- Todo es **entretenimiento y autoconocimiento**. Nunca es un diagnóstico ni una predicción garantizada.
+- El test de heridas emocionales no es psicología clínica. Debe llevar este aviso: "Si estás pasando un momento difícil, busca apoyo profesional."
+- Nada de consejos médicos, legales ni de inversión. Nada de promesas.
+- Tono esperanzador, nada de miedo. Precio claro antes de pagar. Sin suscripciones escondidas.
+- El contenido hecho con IA se etiqueta como IA en TikTok.
+- No se inventan testimonios, credenciales ni cifras.
+- No se guardan datos personales mientras no haga falta.
+
+## 7. Qué medimos y cuándo cambiar
+
+**Qué medimos cada semana:**
+- vistas por vídeo
+- visitas al perfil
+- cuántas personas empiezan el cuestionario y cuántas lo terminan
+- clics en comprar
+- ventas
 
 **Cuándo cambiar de estrategia:**
 - **Día 30** sin ningún vídeo de más de 10.000 vistas: cambiar formatos y ganchos.
-- **Día 45** con vistas y sin ventas: cambiar la oferta (precio, portada o texto del resultado).
+- **Día 45** con vistas y sin ventas: cambiar la oferta (precio, texto del resultado, qué se muestra gratis).
+- Si un cuestionario del catálogo vende el doble que otro, se le da prioridad en el contenido.

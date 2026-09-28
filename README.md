@@ -1,19 +1,17 @@
-# Tu Número de Vida
+# Cuestionarios de numerología y autoconocimiento
 
-Negocio digital de numerología de entretenimiento para mujeres hispanohablantes de 30 a 55 años.
-Un cuestionario web gratis lleva a guías en PDF de pago único. Se promociona solo con TikTok orgánico.
+Negocio digital para mujeres hispanohablantes de 30 a 55 años.
+Cuestionarios web gratis con un resultado básico y un informe completo en PDF de pago único. Se promociona solo con TikTok orgánico.
 Objetivo: empezar a vender en 7–10 días.
 
 ## Documentos
 
-- [`docs/estrategia.md`](docs/estrategia.md): público, qué lo atrae, producto, cuestionario, calendario y métricas.
-- [`docs/plan-claude-code.md`](docs/plan-claude-code.md): plan técnico (cuestionario web, generador de imágenes, publicación).
-- [`docs/brief-claude-cowork.md`](docs/brief-claude-cowork.md): brief listo para pegar en Claude Cowork (marca, guías, contenido de TikTok, revisión semanal).
+- [`docs/estrategia.md`](docs/estrategia.md): por qué cuestionarios de pago, modelo de cobro, público, catálogo de cuestionarios, reglas y métricas.
+- [`docs/plan-claude-code.md`](docs/plan-claude-code.md): plan de acción completo (motor de cuestionarios, informes, contenido de TikTok, generador de imágenes).
 
 ## Quién hace qué
 
 | Quién | Qué |
 |---|---|
-| **Tú** | Elegir la marca, grabar la voz, publicar en TikTok desde el día 1, abrir la tienda, pegar las estadísticas cada lunes |
-| **Claude Cowork** | Marca, las 12 guías en PDF, textos del cuestionario y de la tienda, guiones, revisión semanal |
-| **Claude Code** | Cuestionario web, generador de imágenes para TikTok, publicación y medición |
+| **Tú** | Elegir la marca, publicar en TikTok con tu voz, abrir la tienda, pegar las estadísticas cada lunes |
+| **Claude Code** | Web y cuestionarios, textos, informes en PDF, guiones, imágenes, publicación y medición |
