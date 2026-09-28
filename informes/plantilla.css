@@ -1,0 +1,89 @@
+/* Diseño de los informes en PDF (A5, se lee bien en el móvil y se puede imprimir). */
+@font-face { font-family: 'Nunito'; font-weight: 400; src: url('../web/fonts/nunito-latin-400-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Nunito'; font-weight: 700; src: url('../web/fonts/nunito-latin-700-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Nunito'; font-weight: 800; src: url('../web/fonts/nunito-latin-800-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Cormorant Garamond'; font-weight: 600; src: url('../web/fonts/cormorant-garamond-latin-600-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Cormorant Garamond'; font-weight: 700; src: url('../web/fonts/cormorant-garamond-latin-700-normal.woff2') format('woff2'); }
+
+@page { size: A5; margin: 18mm 15mm 20mm; }
+@page :first { margin: 0; }
+
+:root {
+  --primario: #5B2E8C;
+  --acento: #B8860B;
+  --texto: #2B2233;
+  --suave: #5E5468;
+  --crema: #FBF7F0;
+  --lino: #E7DDCF;
+  --color-numero: #5B2E8C;
+}
+
+html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body {
+  margin: 0;
+  font-family: 'Nunito', sans-serif;
+  font-size: 11.5pt;
+  line-height: 1.6;
+  color: var(--texto);
+}
+
+/* Portada */
+.portada {
+  height: 210mm;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center;
+  padding: 0 16mm;
+  box-sizing: border-box;
+  background:
+    radial-gradient(circle at 50% 18%, rgba(184, 134, 11, 0.25), transparent 50%),
+    radial-gradient(circle at 80% 95%, rgba(91, 46, 140, 0.18), transparent 45%),
+    var(--crema);
+  page-break-after: always;
+}
+.portada .marca { font-family: 'Cormorant Garamond', serif; font-weight: 700; font-size: 16pt; color: var(--primario); letter-spacing: 0.06em; }
+.portada .etiqueta { margin-top: 14mm; font-weight: 800; letter-spacing: 0.25em; text-transform: uppercase; font-size: 9pt; color: var(--acento); }
+.portada .circulo {
+  width: 62mm; height: 62mm; margin: 6mm auto 8mm; border-radius: 50%;
+  display: grid; place-items: center;
+  background: radial-gradient(circle at 35% 30%, #fff, #F3ECFA 70%);
+  border: 2.5mm solid var(--color-numero);
+  box-shadow: 0 0 0 5mm rgba(184, 134, 11, 0.18);
+  font-family: 'Cormorant Garamond', serif; font-weight: 700; font-size: 72pt; color: var(--primario);
+  font-variant-numeric: lining-nums;
+}
+.portada h1 { font-family: 'Cormorant Garamond', serif; font-size: 34pt; line-height: 1.05; margin: 0 0 4mm; }
+.portada .sub { color: var(--suave); font-size: 12pt; margin: 0; }
+.portada .pie { margin-top: 18mm; font-size: 9pt; color: var(--suave); }
+
+/* Contenido */
+h2 {
+  page-break-before: always;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 25pt; line-height: 1.1;
+  color: var(--primario);
+  margin: 0 0 5mm;
+  padding-bottom: 3mm;
+  border-bottom: 0.6mm solid var(--acento);
+}
+h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16pt;
+  color: var(--texto);
+  margin: 6mm 0 2mm;
+  page-break-after: avoid;
+}
+p { margin: 0 0 3mm; orphans: 3; widows: 3; }
+strong { color: var(--primario); }
+ul, ol { padding-left: 5mm; margin: 0 0 4mm; }
+li { margin-bottom: 1.5mm; }
+blockquote {
+  margin: 5mm 0;
+  padding: 4mm 5mm;
+  background: #F6EFE3;
+  border-left: 1.2mm solid var(--acento);
+  border-radius: 2mm;
+  page-break-inside: avoid;
+}
+blockquote p:last-child { margin: 0; }
+hr { border: 0; border-top: 0.3mm solid var(--lino); margin: 8mm 0 4mm; }
+em { color: var(--suave); }
