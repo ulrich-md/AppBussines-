@@ -1,0 +1,5 @@
+node_modules/
+# Contenido de pago: no se publica en el repositorio (es público)
+informes/numero-de-vida/
+informes/pdf/
+tests/capturas/

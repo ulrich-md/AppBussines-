@@ -1,0 +1,25 @@
+{
+  "marca": "Tu Número Sagrado",
+  "lema": "Numerología para conocerte mejor",
+  "url_base": "",
+  "quiz_principal": "numero-de-vida",
+  "idioma": "es",
+  "colores": {
+    "fondo": "#FBF7F0",
+    "superficie": "#FFFFFF",
+    "texto": "#2B2233",
+    "texto_suave": "#5E5468",
+    "primario": "#5B2E8C",
+    "primario_texto": "#FFFFFF",
+    "acento": "#B8860B",
+    "borde": "#E7DDCF"
+  },
+  "fuentes": {
+    "titulos": "Cormorant Garamond",
+    "texto": "Nunito"
+  },
+  "analitica": {
+    "proveedor": "ninguno",
+    "id": ""
+  }
+}

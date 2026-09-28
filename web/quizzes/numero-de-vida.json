@@ -1,0 +1,271 @@
+{
+  "id": "numero-de-vida",
+  "titulo": "Descubre tu Número de Vida",
+  "subtitulo": "Lo que tu fecha de nacimiento dice sobre tu esencia, el amor, el dinero y tu camino.",
+  "detalles": ["5 preguntas", "1 minuto", "Gratis"],
+  "boton_empezar": "Descubrir mi número",
+  "texto_calculando": "Calculando tu Número de Vida…",
+  "encabezado_resultado": "tu Número de Vida es el",
+  "encabezado_resultado_sin_nombre": "Tu Número de Vida es el",
+  "calculo": { "tipo": "formula", "formula": "numero_de_vida", "campo": "fecha" },
+  "precio": { "monto": 9, "moneda": "USD", "texto": "9 USD · pago único" },
+  "informe": {
+    "titulo": "Tu informe completo del Número {id}",
+    "incluye": [
+      "Tu esencia completa: tus dones y tus sombras",
+      "Amor y pareja: con qué números fluyes y con cuáles aprendes",
+      "Dinero y vocación: tus talentos y cómo potenciarlos",
+      "Familia y relaciones",
+      "Tu color de poder, tus números repetidos y un ritual de luna llena",
+      "12 afirmaciones personales y tu plan de 30 días"
+    ],
+    "formato": "Unas 15 páginas en PDF, para leer en el móvil o imprimir. Lo recibes al momento.",
+    "boton": "Quiero mi informe completo",
+    "boton_no_disponible": "Muy pronto disponible"
+  },
+  "aviso": "Contenido de entretenimiento y autoconocimiento. No sustituye el consejo de ningún profesional.",
+  "preguntas": [
+    {
+      "id": "fecha",
+      "tipo": "fecha",
+      "texto": "¿Cuándo naciste?",
+      "ayuda": "Tu Número de Vida sale de tu fecha de nacimiento completa."
+    },
+    {
+      "id": "area",
+      "tipo": "opciones",
+      "texto": "¿Qué área de tu vida quieres entender mejor ahora?",
+      "opciones": [
+        { "id": "amor", "texto": "El amor", "etiqueta": "el amor", "emoji": "💞" },
+        { "id": "dinero", "texto": "El dinero y el trabajo", "etiqueta": "el dinero y el trabajo", "emoji": "💰" },
+        { "id": "paz", "texto": "Mi paz interior", "etiqueta": "tu paz interior", "emoji": "🕊️" },
+        { "id": "familia", "texto": "Mi familia", "etiqueta": "tu familia", "emoji": "🏡" }
+      ]
+    },
+    {
+      "id": "animo",
+      "tipo": "opciones",
+      "texto": "¿Cómo te sientes estos días?",
+      "opciones": [
+        { "id": "estancada", "texto": "Estancada", "emoji": "🌫️" },
+        { "id": "cambio", "texto": "Con ganas de cambio", "emoji": "🌱" },
+        { "id": "cansada", "texto": "Cansada", "emoji": "🌙" },
+        { "id": "ilusionada", "texto": "Ilusionada", "emoji": "☀️" }
+      ]
+    },
+    {
+      "id": "repetidos",
+      "tipo": "opciones",
+      "texto": "¿Ves números repetidos a menudo?",
+      "opciones": [
+        { "id": "1111", "texto": "Sí, el 11:11", "emoji": "🕚" },
+        { "id": "333", "texto": "Sí, el 333", "emoji": "✨" },
+        { "id": "otros", "texto": "Sí, otros números", "emoji": "🔢" },
+        { "id": "no", "texto": "No me he fijado", "emoji": "👀" }
+      ]
+    },
+    {
+      "id": "nombre",
+      "tipo": "texto",
+      "texto": "¿Cómo te llamas?",
+      "ayuda": "Solo para personalizar tu resultado. No lo guardamos.",
+      "placeholder": "Tu nombre",
+      "boton": "Ver mi resultado",
+      "opcional": true,
+      "texto_omitir": "Prefiero no decirlo"
+    }
+  ],
+  "plantilla_resultado": [
+    { "tipo": "resultado", "campo": "teaser", "titulo": "Tu esencia" },
+    { "tipo": "resultado_por_respuesta", "campo": "areas", "pregunta": "area", "titulo": "Lo que tu número dice sobre {opcion}" },
+    { "tipo": "por_respuesta", "pregunta": "animo", "titulo": "Para este momento de tu vida" },
+    { "tipo": "por_respuesta", "pregunta": "repetidos", "titulo": "Tus señales" }
+  ],
+  "textos_por_respuesta": {
+    "animo": {
+      "estancada": "Sentirte estancada no significa que estés fallando: muchas veces es la pausa antes de un cambio importante. Tu número tiene justo la energía que necesitas para volver a moverte.",
+      "cambio": "Esas ganas de cambio son una señal. Tu número te muestra hacia dónde dirigir esa energía para que el cambio sea para bien y no un salto al vacío.",
+      "cansada": "Estar cansada después de sostener tanto es humano. Tu número también habla de cómo recuperar tu energía, y eso es tan importante como todo lo demás.",
+      "ilusionada": "Esa ilusión es tu energía en su mejor momento. Aprovecha esta etapa: tu número te dice qué talentos poner en marcha ahora."
+    },
+    "repetidos": {
+      "1111": "En numerología, el 11:11 se asocia con los nuevos comienzos y con estar alineada con tu camino. Muchas personas lo viven como una invitación a prestar atención a lo que están pensando en ese momento.",
+      "333": "El 333 se asocia con la expresión y el apoyo: una invitación a confiar en ti misma y a decir lo que sientes.",
+      "otros": "Cada secuencia repetida tiene su propio significado. Fijarte en ellas es una forma bonita de escuchar tu intuición.",
+      "no": "Aunque todavía no los notes, a partir de hoy fíjate en los relojes y las matrículas: los números repetidos suelen aparecer cuando empezamos a prestar atención."
+    }
+  },
+  "resultados": {
+    "1": {
+      "titulo": "La Líder",
+      "color": "Rojo",
+      "color_hex": "#C0392B",
+      "teaser": "Naciste para abrir caminos. El 1 es el número de los comienzos: tienes una fuerza interior que aparece justo cuando los demás dudan. Muchas veces te tocó arreglártelas sola, y eso te hizo valiente, aunque también un poco cansada de cargar con todo. Tu gran lección es aprender a liderar sin tener que demostrarle nada a nadie. Cuando confías en tu instinto, las puertas se abren.",
+      "areas": {
+        "amor": "En el amor necesitas admiración y espacio propio. Te atrae la gente segura, pero te cuesta mostrarte vulnerable porque sientes que ser fuerte es tu papel. Tu relación florece cuando te permites pedir ayuda y dejar que te cuiden, sin perder tu independencia.",
+        "dinero": "Tu energía es de emprendedora. Rindes más cuando tomas decisiones que cuando esperas instrucciones. Los proyectos propios, los ascensos y los retos nuevos son tu terreno. Tu desafío: no abandonar lo que empiezas cuando llega la rutina.",
+        "paz": "Tu mente rara vez se detiene: siempre hay algo que resolver. Tu paz llega cuando aprendes que no todo depende de ti. Un rato a solas cada día, sin tener que ser productiva, es medicina para ti.",
+        "familia": "En tu familia sueles ser la que resuelve, organiza y decide. Te respetan, aunque a veces sientes que nadie te pregunta cómo estás tú. Es buen momento para repartir responsabilidades y dejar que otros también sostengan."
+      },
+      "compartir": "Me salió el Número de Vida 1: La Líder 🔥 ¿Y a ti? Descúbrelo gratis en 1 minuto:",
+      "comprar_url": ""
+    },
+    "2": {
+      "titulo": "La Diplomática",
+      "color": "Naranja",
+      "color_hex": "#D35400",
+      "teaser": "Tienes un don que no todo el mundo tiene: sientes lo que los demás sienten. El 2 es el número de la unión y la sensibilidad. Eres quien calma, quien escucha, quien encuentra las palabras justas. Pero de tanto cuidar la armonía, a veces te olvidas de lo que tú necesitas. Tu gran lección es poner límites con la misma dulzura con la que das amor.",
+      "areas": {
+        "amor": "Eres profundamente romántica y leal. Necesitas ternura, detalles y sentir que eres importante. Tu reto es no perderte en la otra persona ni aguantar de más por miedo al conflicto. Tu amor ideal es un equipo, no un sacrificio.",
+        "dinero": "Brillas en alianzas, equipos y trabajos donde se cuida a las personas. Eres la pieza que hace que todo funcione, aunque no siempre te den el mérito. Tu desafío es valorar tu trabajo y aprender a pedir lo que mereces.",
+        "paz": "Absorbes las emociones de tu alrededor como una esponja. Tu paz llega cuando distingues qué es tuyo y qué no. Los espacios tranquilos, el agua y la música suave te recargan.",
+        "familia": "Eres el pegamento de tu familia: la que media, perdona y reúne. Todos te buscan cuando hay problemas. Recuerda que tú también mereces que alguien te sostenga."
+      },
+      "compartir": "Me salió el Número de Vida 2: La Diplomática 🧡 ¿Cuál es el tuyo? Descúbrelo gratis en 1 minuto:",
+      "comprar_url": ""
+    },
+    "3": {
+      "titulo": "La Comunicadora",
+      "color": "Amarillo",
+      "color_hex": "#D4AC0D",
+      "teaser": "Tu luz se nota en cuanto entras a un lugar. El 3 es el número de la alegría, la creatividad y la palabra. Tienes el don de hacer reír, de contar historias y de levantar el ánimo a los demás. Pero detrás de esa sonrisa hay una sensibilidad que no siempre enseñas. Tu gran lección es expresar también lo que te duele, no solo lo que alegra.",
+      "areas": {
+        "amor": "Necesitas una pareja con la que puedas reír y hablar de todo. La rutina y el silencio te apagan. Eres cariñosa y espontánea. Tu reto es no esconder tus inseguridades detrás del humor y dejar que te conozcan de verdad.",
+        "dinero": "Tu talento está en tu voz, tus ideas y tu creatividad. Ventas, comunicación, enseñanza, arte o cualquier trabajo con personas te favorecen. Tu desafío es la constancia: terminar lo que empiezas con tanta ilusión.",
+        "paz": "Tu mente está llena de ideas y a veces se dispersa. Encuentras paz cuando creas algo con tus manos: escribir, cocinar, pintar, bailar. Expresarte es tu manera de sanar.",
+        "familia": "Eres la alegría de las reuniones familiares, la que anima y organiza celebraciones. A veces sientes que tu papel es estar siempre bien. Date permiso para tener días grises con los tuyos."
+      },
+      "compartir": "Me salió el Número de Vida 3: La Comunicadora ✨ ¿Y tú qué número eres? Descúbrelo gratis en 1 minuto:",
+      "comprar_url": ""
+    },
+    "4": {
+      "titulo": "La Constructora",
+      "color": "Verde",
+      "color_hex": "#1E8449",
+      "teaser": "Eres la base sobre la que se apoyan los demás. El 4 es el número del orden, la constancia y la lealtad. Cuando dices que vas a hacer algo, lo haces. Construyes paso a paso lo que otros solo sueñan. Pero tanto esfuerzo a veces te deja rígida o agotada. Tu gran lección es disfrutar del camino, no solo del resultado.",
+      "areas": {
+        "amor": "Eres fiel, estable y cumplidora. Demuestras amor con hechos más que con palabras. Necesitas seguridad y una pareja en quien confiar. Tu reto es soltar un poco el control y dejar espacio a la espontaneidad y la ternura.",
+        "dinero": "Tienes una relación sensata con el dinero: sabes ahorrar y planificar. Rindes en trabajos que piden organización, precisión y responsabilidad. Tu desafío es atreverte a cambiar cuando algo ya no te hace crecer.",
+        "paz": "Tu tranquilidad depende de tener las cosas en orden, y cuando todo se desordena te angustias. Tu paz llega cuando aceptas que no todo se puede planificar. La naturaleza y caminar te equilibran.",
+        "familia": "Eres el pilar: la que cumple, la que siempre está, la que no falla. Tu familia sabe que puede contar contigo. Recuerda pedir también, y no confundir amor con obligación."
+      },
+      "compartir": "Me salió el Número de Vida 4: La Constructora 🌿 ¿Cuál te sale a ti? Descúbrelo gratis en 1 minuto:",
+      "comprar_url": ""
+    },
+    "5": {
+      "titulo": "La Aventurera",
+      "color": "Turquesa",
+      "color_hex": "#117A8B",
+      "teaser": "Tu alma necesita aire, movimiento y experiencias nuevas. El 5 es el número de la libertad y el cambio. Te adaptas a todo, aprendes rápido y tienes una curiosidad que te mantiene joven. Pero la rutina te pesa y a veces te sientes atrapada en una vida que te queda pequeña. Tu gran lección es encontrar tu libertad sin huir de lo importante.",
+      "areas": {
+        "amor": "Necesitas una pareja que te dé confianza y espacio, no control. Te enamoras de la aventura, la conversación y la novedad. Tu reto es comprometerte sin sentir que pierdes tu libertad: el amor correcto te hace volar más alto.",
+        "dinero": "Te va bien con ingresos variados, viajes, ventas y trabajos con movimiento. Los horarios rígidos te apagan. Tu desafío es la disciplina con el dinero: disfrutar hoy sin olvidar el mañana.",
+        "paz": "Tu mente va rápido y a veces te cuesta estar quieta. Tu paz no está en quedarte inmóvil, sino en moverte con conciencia: caminar, bailar, viajar aunque sea cerca. Cambiar de aire te renueva.",
+        "familia": "Eres la que trae aire fresco a tu familia, la que propone planes y rompe la rutina. A veces sientes que no encajas del todo en lo que esperan de ti. Tu libertad y tu amor por ellos pueden convivir."
+      },
+      "compartir": "Me salió el Número de Vida 5: La Aventurera 🌊 ¿Y a ti cuál te sale? Descúbrelo gratis en 1 minuto:",
+      "comprar_url": ""
+    },
+    "6": {
+      "titulo": "La Cuidadora",
+      "color": "Rosa",
+      "color_hex": "#C2185B",
+      "teaser": "Tu corazón es tu mayor fuerza. El 6 es el número del amor, el hogar y la responsabilidad. Eres quien cuida, protege y hace sentir a todos como en casa. Tienes un sentido de la belleza y la armonía muy especial. Pero das tanto que a veces te quedas vacía. Tu gran lección es incluirte a ti misma en la lista de personas que cuidas.",
+      "areas": {
+        "amor": "Amas con entrega total y eres profundamente leal. Sueñas con un hogar lleno de cariño. Tu reto es no convertirte en la mamá de tu pareja ni dar esperando que algún día te devuelvan lo mismo. Mereces un amor recíproco.",
+        "dinero": "Te va bien en todo lo que implique ayudar, enseñar, embellecer o cuidar: salud, educación, belleza, hogar. Tu desafío es cobrar lo justo por tu trabajo sin sentir culpa.",
+        "paz": "Te preocupas por todos y tu mente rara vez descansa. Tu paz llega cuando aprendes a decir que no sin culpa. Un rincón bonito en casa, unas flores o una vela encendida te devuelven a ti.",
+        "familia": "La familia es tu centro. Eres la que recuerda los cumpleaños, cocina, acompaña y sostiene. Tu gran regalo en este momento es dejar que otros también cuiden de ti."
+      },
+      "compartir": "Me salió el Número de Vida 6: La Cuidadora 💗 ¿Cuál es el tuyo? Descúbrelo gratis en 1 minuto:",
+      "comprar_url": ""
+    },
+    "7": {
+      "titulo": "La Sabia",
+      "color": "Violeta",
+      "color_hex": "#7D3C98",
+      "teaser": "Ves lo que otros no ven. El 7 es el número de la intuición, la espiritualidad y la búsqueda de la verdad. Necesitas entender el porqué de las cosas y no te conformas con respuestas fáciles. Tienes un mundo interior profundo que pocos conocen. Tu gran lección es confiar en tu intuición sin aislarte de quienes te quieren.",
+      "areas": {
+        "amor": "Necesitas una conexión profunda, no superficial. Te cuesta abrirte y a veces pareces distante, pero cuando amas, amas de verdad. Tu reto es dejar entrar a alguien en tu mundo sin miedo a que te hieran.",
+        "dinero": "Tu valor está en tu conocimiento. La investigación, el análisis, la espiritualidad o cualquier trabajo que pida profundidad te favorecen. Tu desafío es no infravalorar lo que sabes.",
+        "paz": "Necesitas silencio como otros necesitan compañía. Tu paz llega en la soledad elegida: leer, meditar, rezar, estar cerca del agua. Cuando te desconectas del ruido, tu intuición habla claro.",
+        "familia": "Eres la sabia de tu familia, la que da consejos certeros aunque a veces se sienta incomprendida. Necesitas tus espacios, y eso no significa que quieras menos. Explícalo con cariño."
+      },
+      "compartir": "Me salió el Número de Vida 7: La Sabia 🔮 ¿Y tú qué número eres? Descúbrelo gratis en 1 minuto:",
+      "comprar_url": ""
+    },
+    "8": {
+      "titulo": "La Poderosa",
+      "color": "Dorado",
+      "color_hex": "#B9770E",
+      "teaser": "Tienes una fuerza que impone respeto. El 8 es el número de la abundancia, el poder personal y el logro. Naciste para manejar recursos, tomar decisiones y construir en grande. Has pasado pruebas difíciles que te hicieron más fuerte. Tu gran lección es equilibrar la ambición con el corazón y recordar que ya eres suficiente.",
+      "areas": {
+        "amor": "Buscas una pareja a tu altura, alguien que admire tu fuerza sin sentirse amenazado. Te cuesta mostrarte frágil. Tu reto es separar el amor del control: en la pareja no se trata de ganar, sino de compartir.",
+        "dinero": "El 8 tiene una relación especial con el dinero: sabes generarlo y administrarlo. Liderazgo, negocios y finanzas son tu terreno natural. Tu desafío es que el trabajo no ocupe todo tu tiempo ni toda tu identidad.",
+        "paz": "Vives con mucha exigencia, contigo y con los demás. Tu paz llega cuando dejas de medir tu valor por lo que logras. Descansar también es avanzar.",
+        "familia": "Eres la fuerte de tu familia, a la que acuden en las crisis. Muchas veces sostuviste a otros, económica o emocionalmente. Mereces que tu esfuerzo sea reconocido, y también que te cuiden."
+      },
+      "compartir": "Me salió el Número de Vida 8: La Poderosa 👑 ¿Cuál te sale a ti? Descúbrelo gratis en 1 minuto:",
+      "comprar_url": ""
+    },
+    "9": {
+      "titulo": "La Compasiva",
+      "color": "Blanco",
+      "color_hex": "#D8D0BE",
+      "teaser": "Tienes un alma antigua y un corazón enorme. El 9 es el número de la compasión, la sanación y los ciclos que se cierran. Entiendes el dolor ajeno porque has vivido mucho, y sueñas con un mundo mejor. Pero te cuesta soltar personas y etapas. Tu gran lección es aprender a cerrar ciclos con amor para abrir espacio a lo nuevo.",
+      "areas": {
+        "amor": "Amas sin condiciones y con una generosidad enorme. A veces te enamoras de lo que una persona podría llegar a ser. Tu reto es soltar a quien no te valora y elegir un amor que te dé tanto como tú das.",
+        "dinero": "Te va bien cuando tu trabajo tiene un propósito: ayudar, enseñar, acompañar, crear. Tu desafío es no regalar tu tiempo ni tu talento, y entender que cobrar lo justo también es cuidarte.",
+        "paz": "Cargas con emociones del pasado que ya no te corresponden. Tu paz llega cuando perdonas, a otros y a ti misma. Escribir y dejar ir es para ti un ritual poderoso.",
+        "familia": "En tu familia eres la que comprende, la que perdona y la que cura heridas antiguas. A veces cargas con historias que no son tuyas. Honra a los tuyos, pero vive tu propia vida."
+      },
+      "compartir": "Me salió el Número de Vida 9: La Compasiva 🤍 ¿Y a ti? Descúbrelo gratis en 1 minuto:",
+      "comprar_url": ""
+    },
+    "11": {
+      "titulo": "La Iluminadora",
+      "color": "Plateado",
+      "color_hex": "#95A5A6",
+      "maestro": true,
+      "teaser": "El 11 es un número maestro y no le sale a cualquiera. Tienes una intuición fuera de lo común: presientes cosas, sueñas con señales y sientes la energía de los lugares y de las personas. Viniste a inspirar a otros. Pero esa sensibilidad también te hace vivir las emociones con mucha intensidad. Tu gran lección es creer en tu don sin dejar que el miedo lo apague.",
+      "areas": {
+        "amor": "Buscas una conexión de almas, algo más que una relación común. Sientes a las personas muy rápido. Tu reto es no idealizar ni perderte en el otro: el amor que te corresponde te da calma, no ansiedad.",
+        "dinero": "Tu don es inspirar: enseñar, guiar, crear, acompañar. Te va bien cuando tu trabajo tiene un sentido espiritual o humano. Tu desafío es aterrizar tus ideas en pasos concretos.",
+        "paz": "Eres muy sensible y absorbes mucho de tu entorno. Tu paz llega con rutinas que te protejan: silencio, oración o meditación, naturaleza y buen descanso. Cuando te cuidas, tu intuición se afina.",
+        "familia": "Eres la que percibe lo que nadie dice en tu familia. A veces te sentiste diferente o incomprendida. Tu sensibilidad es un regalo para los tuyos, no una carga."
+      },
+      "compartir": "Me salió el Número de Vida 11: La Iluminadora, ¡un número maestro! 🌙 ¿Cuál es el tuyo? Descúbrelo gratis en 1 minuto:",
+      "comprar_url": ""
+    },
+    "22": {
+      "titulo": "La Maestra Constructora",
+      "color": "Azul marino",
+      "color_hex": "#1B3A6B",
+      "maestro": true,
+      "teaser": "El 22 es el número maestro de quienes construyen. Tienes la visión de una soñadora y la disciplina de una constructora: puedes convertir grandes ideas en realidades que ayudan a muchas personas. Sientes que viniste a hacer algo importante, y esa presión a veces te paraliza. Tu gran lección es avanzar paso a paso, sin exigirte la perfección.",
+      "areas": {
+        "amor": "Buscas una pareja compañera de misión, alguien con quien construir un proyecto de vida sólido. Eres leal y comprometida. Tu reto es no poner siempre las metas por delante del corazón.",
+        "dinero": "Tienes potencial para proyectos grandes: negocios, organizaciones, obras que perduran. Sabes planificar a largo plazo. Tu desafío es delegar y confiar en otras personas para crecer.",
+        "paz": "Cargas con grandes expectativas sobre ti misma. Tu paz llega cuando celebras cada pequeño avance. Recuerda: las grandes obras se construyen ladrillo a ladrillo.",
+        "familia": "Muchas veces eres la que sostiene el futuro de tu familia: la que planea, ahorra y piensa en todos. Tu legado ya está en marcha. Permítete disfrutar del presente con ellos."
+      },
+      "compartir": "Me salió el Número de Vida 22: La Maestra Constructora, ¡un número maestro! 💙 ¿Y a ti? Descúbrelo gratis en 1 minuto:",
+      "comprar_url": ""
+    },
+    "33": {
+      "titulo": "La Maestra Sanadora",
+      "color": "Lavanda",
+      "color_hex": "#8E6BBF",
+      "maestro": true,
+      "teaser": "El 33 es el número maestro más raro, y se le llama el número del amor incondicional. Tu presencia calma, reconforta y enseña. La gente se acerca a ti para contarte su vida y, sin saber cómo, se va mejor. Tu gran lección es cuidar tu propia energía: no puedes salvar a todo el mundo, y tampoco tienes que hacerlo.",
+      "areas": {
+        "amor": "Amas de una forma profunda y generosa, casi espiritual. Tu reto es no confundir amar con rescatar. Mereces una pareja que también te cuide, no alguien a quien tengas que salvar.",
+        "dinero": "Te va bien cuando tu trabajo sirve a otros: enseñar, acompañar, cuidar. Tu desafío es entender que cobrar por tu don no lo hace menos valioso.",
+        "paz": "Sientes el dolor del mundo como si fuera tuyo. Tu paz llega cuando pones límites a tu entrega y te das a ti misma el amor que das a los demás.",
+        "familia": "Eres el corazón de tu familia, la que une generaciones y cura heridas. Cuida que ese papel no te agote: tu bienestar también es un regalo para ellos."
+      },
+      "compartir": "Me salió el Número de Vida 33: La Maestra Sanadora, ¡el número maestro más raro! 💜 ¿Cuál es el tuyo? Descúbrelo gratis en 1 minuto:",
+      "comprar_url": ""
+    }
+  }
+}
