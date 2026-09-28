@@ -1,14 +1,26 @@
 {
   "id": "numero-de-vida",
   "titulo": "Descubre tu Número de Vida",
-  "subtitulo": "Lo que tu fecha de nacimiento dice sobre tu esencia, el amor, el dinero y tu camino.",
-  "detalles": ["5 preguntas", "1 minuto", "Gratis"],
+  "subtitulo": "Una lectura escrita solo para ti a partir de tu fecha de nacimiento y de tus respuestas: tu esencia, tu momento, el amor, el dinero y tu camino.",
+  "detalles": [
+    "11 preguntas",
+    "2 minutos",
+    "Gratis"
+  ],
   "boton_empezar": "Descubrir mi número",
   "texto_calculando": "Calculando tu Número de Vida…",
   "encabezado_resultado": "tu Número de Vida es el",
   "encabezado_resultado_sin_nombre": "Tu Número de Vida es el",
-  "calculo": { "tipo": "formula", "formula": "numero_de_vida", "campo": "fecha" },
-  "precio": { "monto": 9, "moneda": "USD", "texto": "9 USD · pago único" },
+  "calculo": {
+    "tipo": "formula",
+    "formula": "numero_de_vida",
+    "campo": "fecha"
+  },
+  "precio": {
+    "monto": 9,
+    "moneda": "USD",
+    "texto": "9 USD · pago único"
+  },
   "informe": {
     "titulo": "Tu informe completo del Número {id}",
     "incluye": [
@@ -32,14 +44,161 @@
       "ayuda": "Tu Número de Vida sale de tu fecha de nacimiento completa."
     },
     {
+      "id": "nombre",
+      "tipo": "texto",
+      "texto": "¿Cómo te llamas?",
+      "ayuda": "Para dirigirnos a ti por tu nombre. No sale de tu teléfono.",
+      "placeholder": "Tu nombre",
+      "boton": "Continuar",
+      "opcional": true,
+      "texto_omitir": "Prefiero no decirlo"
+    },
+    {
+      "id": "situacion_amor",
+      "tipo": "opciones",
+      "texto": "¿Cómo está tu vida amorosa ahora?",
+      "texto_con_nombre": "{nombre}, ¿cómo está tu vida amorosa ahora?",
+      "texto_ia": "Situación sentimental",
+      "opciones": [
+        {
+          "id": "pareja_estable",
+          "texto": "Tengo pareja estable",
+          "emoji": "💑"
+        },
+        {
+          "id": "complicada",
+          "texto": "Vivo una relación complicada",
+          "emoji": "🌀"
+        },
+        {
+          "id": "soltera_abierta",
+          "texto": "Soltera y abierta al amor",
+          "emoji": "💌"
+        },
+        {
+          "id": "soltera_feliz",
+          "texto": "Soltera y feliz así",
+          "emoji": "🌸"
+        },
+        {
+          "id": "empezando",
+          "texto": "Separada, empezando de nuevo",
+          "emoji": "🌱"
+        },
+        {
+          "id": "viuda",
+          "texto": "Viuda",
+          "emoji": "🕊️"
+        }
+      ]
+    },
+    {
       "id": "area",
       "tipo": "opciones",
       "texto": "¿Qué área de tu vida quieres entender mejor ahora?",
       "opciones": [
-        { "id": "amor", "texto": "El amor", "etiqueta": "el amor", "emoji": "💞" },
-        { "id": "dinero", "texto": "El dinero y el trabajo", "etiqueta": "el dinero y el trabajo", "emoji": "💰" },
-        { "id": "paz", "texto": "Mi paz interior", "etiqueta": "tu paz interior", "emoji": "🕊️" },
-        { "id": "familia", "texto": "Mi familia", "etiqueta": "tu familia", "emoji": "🏡" }
+        {
+          "id": "amor",
+          "texto": "El amor",
+          "etiqueta": "el amor",
+          "emoji": "💞"
+        },
+        {
+          "id": "dinero",
+          "texto": "El dinero y el trabajo",
+          "etiqueta": "el dinero y el trabajo",
+          "emoji": "💰"
+        },
+        {
+          "id": "paz",
+          "texto": "Mi paz interior",
+          "etiqueta": "tu paz interior",
+          "emoji": "🕊️"
+        },
+        {
+          "id": "familia",
+          "texto": "Mi familia",
+          "etiqueta": "tu familia",
+          "emoji": "🏡"
+        }
+      ],
+      "texto_con_nombre": "{nombre}, ¿qué área de tu vida quieres entender mejor ahora?",
+      "texto_ia": "Área que quiere entender mejor"
+    },
+    {
+      "id": "ocupacion",
+      "tipo": "opciones",
+      "texto": "¿A qué dedicas la mayor parte de tu energía?",
+      "texto_ia": "A qué dedica la mayor parte de su energía",
+      "opciones": [
+        {
+          "id": "empleo",
+          "texto": "A mi trabajo",
+          "emoji": "💼"
+        },
+        {
+          "id": "negocio",
+          "texto": "A mi negocio o proyecto propio",
+          "emoji": "🚀"
+        },
+        {
+          "id": "hogar",
+          "texto": "A mi hogar y mi familia",
+          "emoji": "🏡"
+        },
+        {
+          "id": "cuidar",
+          "texto": "A cuidar de alguien",
+          "emoji": "🤲"
+        },
+        {
+          "id": "reinventarme",
+          "texto": "A estudiar o reinventarme",
+          "emoji": "📚"
+        },
+        {
+          "id": "jubilada",
+          "texto": "Estoy jubilada",
+          "emoji": "☕"
+        }
+      ]
+    },
+    {
+      "id": "desafio",
+      "tipo": "opciones",
+      "texto": "¿Qué es lo que más te está costando últimamente?",
+      "texto_ia": "Lo que más le cuesta últimamente",
+      "opciones": [
+        {
+          "id": "limites",
+          "texto": "Poner límites",
+          "emoji": "🚧"
+        },
+        {
+          "id": "ayuda",
+          "texto": "Pedir ayuda",
+          "emoji": "🤝"
+        },
+        {
+          "id": "soltar",
+          "texto": "Soltar el pasado",
+          "emoji": "🍂"
+        },
+        {
+          "id": "confiar",
+          "texto": "Confiar en mí misma",
+          "emoji": "🪞"
+        },
+        {
+          "id": "decidir",
+          "texto": "Tomar una decisión importante",
+          "emoji": "⚖️"
+        },
+        {
+          "id": "tiempo",
+          "texto": "Tener tiempo para mí",
+          "emoji": "⏳"
+        }
       ]
     },
     {
@@ -47,10 +206,132 @@
       "tipo": "opciones",
       "texto": "¿Cómo te sientes estos días?",
       "opciones": [
-        { "id": "estancada", "texto": "Estancada", "emoji": "🌫️" },
-        { "id": "cambio", "texto": "Con ganas de cambio", "emoji": "🌱" },
-        { "id": "cansada", "texto": "Cansada", "emoji": "🌙" },
-        { "id": "ilusionada", "texto": "Ilusionada", "emoji": "☀️" }
+        {
+          "id": "estancada",
+          "texto": "Estancada",
+          "emoji": "🌫️"
+        },
+        {
+          "id": "cambio",
+          "texto": "Con ganas de cambio",
+          "emoji": "🌱"
+        },
+        {
+          "id": "cansada",
+          "texto": "Cansada",
+          "emoji": "🌙"
+        },
+        {
+          "id": "ilusionada",
+          "texto": "Ilusionada",
+          "emoji": "☀️"
+        }
+      ],
+      "texto_ia": "Cómo se siente estos días"
+    },
+    {
+      "id": "deseo",
+      "tipo": "opciones",
+      "texto": "Si pudieras atraer una sola cosa a tu vida, ¿qué sería?",
+      "texto_con_nombre": "{nombre}, si pudieras atraer una sola cosa a tu vida, ¿qué sería?",
+      "texto_ia": "Lo que más desea atraer",
+      "opciones": [
+        {
+          "id": "amor",
+          "texto": "Amor",
+          "emoji": "💞"
+        },
+        {
+          "id": "estabilidad",
+          "texto": "Estabilidad económica",
+          "emoji": "🪙"
+        },
+        {
+          "id": "paz",
+          "texto": "Paz interior",
+          "emoji": "🕊️"
+        },
+        {
+          "id": "rumbo",
+          "texto": "Un cambio de rumbo",
+          "emoji": "🧭"
+        },
+        {
+          "id": "reconciliacion",
+          "texto": "Reconciliarme con alguien",
+          "emoji": "🤍"
+        },
+        {
+          "id": "reconocimiento",
+          "texto": "Que valoren lo que hago",
+          "emoji": "🏅"
+        }
+      ]
+    },
+    {
+      "id": "como_te_ven",
+      "tipo": "opciones",
+      "texto": "¿Cómo te describen las personas que te quieren?",
+      "texto_ia": "Cómo la describen quienes la quieren",
+      "opciones": [
+        {
+          "id": "fuerte",
+          "texto": "Fuerte",
+          "emoji": "🦁"
+        },
+        {
+          "id": "carinosa",
+          "texto": "Cariñosa",
+          "emoji": "🤗"
+        },
+        {
+          "id": "divertida",
+          "texto": "Divertida",
+          "emoji": "😄"
+        },
+        {
+          "id": "responsable",
+          "texto": "Responsable",
+          "emoji": "📋"
+        },
+        {
+          "id": "intuitiva",
+          "texto": "Intuitiva",
+          "emoji": "🔮"
+        },
+        {
+          "id": "independiente",
+          "texto": "Independiente",
+          "emoji": "🦋"
+        }
+      ]
+    },
+    {
+      "id": "espiritualidad",
+      "tipo": "opciones",
+      "texto": "¿Cómo vives tu espiritualidad?",
+      "texto_ia": "Cómo vive su espiritualidad",
+      "opciones": [
+        {
+          "id": "fe",
+          "texto": "Tengo fe y rezo",
+          "emoji": "🙏"
+        },
+        {
+          "id": "rituales",
+          "texto": "Hago rituales o medito",
+          "emoji": "🕯️"
+        },
+        {
+          "id": "senales",
+          "texto": "Creo en las señales del universo",
+          "emoji": "✨"
+        },
+        {
+          "id": "curiosa",
+          "texto": "Soy curiosa, sin etiquetas",
+          "emoji": "🌿"
+        }
       ]
     },
     {
@@ -58,28 +339,52 @@
       "tipo": "opciones",
       "texto": "¿Ves números repetidos a menudo?",
       "opciones": [
-        { "id": "1111", "texto": "Sí, el 11:11", "emoji": "🕚" },
-        { "id": "333", "texto": "Sí, el 333", "emoji": "✨" },
-        { "id": "otros", "texto": "Sí, otros números", "emoji": "🔢" },
-        { "id": "no", "texto": "No me he fijado", "emoji": "👀" }
-      ]
-    },
-    {
-      "id": "nombre",
-      "tipo": "texto",
-      "texto": "¿Cómo te llamas?",
-      "ayuda": "Solo para personalizar tu resultado. No lo guardamos.",
-      "placeholder": "Tu nombre",
-      "boton": "Ver mi resultado",
-      "opcional": true,
-      "texto_omitir": "Prefiero no decirlo"
+        {
+          "id": "1111",
+          "texto": "Sí, el 11:11",
+          "emoji": "🕚"
+        },
+        {
+          "id": "333",
+          "texto": "Sí, el 333",
+          "emoji": "✨"
+        },
+        {
+          "id": "otros",
+          "texto": "Sí, otros números",
+          "emoji": "🔢"
+        },
+        {
+          "id": "no",
+          "texto": "No me he fijado",
+          "emoji": "👀"
+        }
+      ],
+      "texto_ia": "Números repetidos que ve"
     }
   ],
   "plantilla_resultado": [
-    { "tipo": "resultado", "campo": "teaser", "titulo": "Tu esencia" },
-    { "tipo": "resultado_por_respuesta", "campo": "areas", "pregunta": "area", "titulo": "Lo que tu número dice sobre {opcion}" },
-    { "tipo": "por_respuesta", "pregunta": "animo", "titulo": "Para este momento de tu vida" },
-    { "tipo": "por_respuesta", "pregunta": "repetidos", "titulo": "Tus señales" }
+    {
+      "tipo": "resultado",
+      "campo": "teaser",
+      "titulo": "Tu esencia"
+    },
+    {
+      "tipo": "resultado_por_respuesta",
+      "campo": "areas",
+      "pregunta": "area",
+      "titulo": "Lo que tu número dice sobre {opcion}"
+    },
+    {
+      "tipo": "por_respuesta",
+      "pregunta": "animo",
+      "titulo": "Para este momento de tu vida"
+    },
+    {
+      "tipo": "por_respuesta",
+      "pregunta": "repetidos",
+      "titulo": "Tus señales"
+    }
   ],
   "textos_por_respuesta": {
     "animo": {
@@ -107,7 +412,7 @@
         "paz": "Tu mente rara vez se detiene: siempre hay algo que resolver. Tu paz llega cuando aprendes que no todo depende de ti. Un rato a solas cada día, sin tener que ser productiva, es medicina para ti.",
         "familia": "En tu familia sueles ser la que resuelve, organiza y decide. Te respetan, aunque a veces sientes que nadie te pregunta cómo estás tú. Es buen momento para repartir responsabilidades y dejar que otros también sostengan."
       },
-      "compartir": "Me salió el Número de Vida 1: La Líder 🔥 ¿Y a ti? Descúbrelo gratis en 1 minuto:",
+      "compartir": "Me salió el Número de Vida 1: La Líder 🔥 ¿Y a ti? Descúbrelo gratis en 2 minutos:",
       "comprar_url": ""
     },
     "2": {
@@ -121,7 +426,7 @@
         "paz": "Absorbes las emociones de tu alrededor como una esponja. Tu paz llega cuando distingues qué es tuyo y qué no. Los espacios tranquilos, el agua y la música suave te recargan.",
         "familia": "Eres el pegamento de tu familia: la que media, perdona y reúne. Todos te buscan cuando hay problemas. Recuerda que tú también mereces que alguien te sostenga."
       },
-      "compartir": "Me salió el Número de Vida 2: La Diplomática 🧡 ¿Cuál es el tuyo? Descúbrelo gratis en 1 minuto:",
+      "compartir": "Me salió el Número de Vida 2: La Diplomática 🧡 ¿Cuál es el tuyo? Descúbrelo gratis en 2 minutos:",
       "comprar_url": ""
     },
     "3": {
@@ -135,7 +440,7 @@
         "paz": "Tu mente está llena de ideas y a veces se dispersa. Encuentras paz cuando creas algo con tus manos: escribir, cocinar, pintar, bailar. Expresarte es tu manera de sanar.",
         "familia": "Eres la alegría de las reuniones familiares, la que anima y organiza celebraciones. A veces sientes que tu papel es estar siempre bien. Date permiso para tener días grises con los tuyos."
       },
-      "compartir": "Me salió el Número de Vida 3: La Comunicadora ✨ ¿Y tú qué número eres? Descúbrelo gratis en 1 minuto:",
+      "compartir": "Me salió el Número de Vida 3: La Comunicadora ✨ ¿Y tú qué número eres? Descúbrelo gratis en 2 minutos:",
       "comprar_url": ""
     },
     "4": {
@@ -149,7 +454,7 @@
         "paz": "Tu tranquilidad depende de tener las cosas en orden, y cuando todo se desordena te angustias. Tu paz llega cuando aceptas que no todo se puede planificar. La naturaleza y caminar te equilibran.",
         "familia": "Eres el pilar: la que cumple, la que siempre está, la que no falla. Tu familia sabe que puede contar contigo. Recuerda pedir también, y no confundir amor con obligación."
       },
-      "compartir": "Me salió el Número de Vida 4: La Constructora 🌿 ¿Cuál te sale a ti? Descúbrelo gratis en 1 minuto:",
+      "compartir": "Me salió el Número de Vida 4: La Constructora 🌿 ¿Cuál te sale a ti? Descúbrelo gratis en 2 minutos:",
       "comprar_url": ""
     },
     "5": {
@@ -163,7 +468,7 @@
         "paz": "Tu mente va rápido y a veces te cuesta estar quieta. Tu paz no está en quedarte inmóvil, sino en moverte con conciencia: caminar, bailar, viajar aunque sea cerca. Cambiar de aire te renueva.",
         "familia": "Eres la que trae aire fresco a tu familia, la que propone planes y rompe la rutina. A veces sientes que no encajas del todo en lo que esperan de ti. Tu libertad y tu amor por ellos pueden convivir."
       },
-      "compartir": "Me salió el Número de Vida 5: La Aventurera 🌊 ¿Y a ti cuál te sale? Descúbrelo gratis en 1 minuto:",
+      "compartir": "Me salió el Número de Vida 5: La Aventurera 🌊 ¿Y a ti cuál te sale? Descúbrelo gratis en 2 minutos:",
       "comprar_url": ""
     },
     "6": {
@@ -177,7 +482,7 @@
         "paz": "Te preocupas por todos y tu mente rara vez descansa. Tu paz llega cuando aprendes a decir que no sin culpa. Un rincón bonito en casa, unas flores o una vela encendida te devuelven a ti.",
         "familia": "La familia es tu centro. Eres la que recuerda los cumpleaños, cocina, acompaña y sostiene. Tu gran regalo en este momento es dejar que otros también cuiden de ti."
       },
-      "compartir": "Me salió el Número de Vida 6: La Cuidadora 💗 ¿Cuál es el tuyo? Descúbrelo gratis en 1 minuto:",
+      "compartir": "Me salió el Número de Vida 6: La Cuidadora 💗 ¿Cuál es el tuyo? Descúbrelo gratis en 2 minutos:",
       "comprar_url": ""
     },
     "7": {
@@ -191,7 +496,7 @@
         "paz": "Necesitas silencio como otros necesitan compañía. Tu paz llega en la soledad elegida: leer, meditar, rezar, estar cerca del agua. Cuando te desconectas del ruido, tu intuición habla claro.",
         "familia": "Eres la sabia de tu familia, la que da consejos certeros aunque a veces se sienta incomprendida. Necesitas tus espacios, y eso no significa que quieras menos. Explícalo con cariño."
       },
-      "compartir": "Me salió el Número de Vida 7: La Sabia 🔮 ¿Y tú qué número eres? Descúbrelo gratis en 1 minuto:",
+      "compartir": "Me salió el Número de Vida 7: La Sabia 🔮 ¿Y tú qué número eres? Descúbrelo gratis en 2 minutos:",
       "comprar_url": ""
     },
     "8": {
@@ -205,7 +510,7 @@
         "paz": "Vives con mucha exigencia, contigo y con los demás. Tu paz llega cuando dejas de medir tu valor por lo que logras. Descansar también es avanzar.",
         "familia": "Eres la fuerte de tu familia, a la que acuden en las crisis. Muchas veces sostuviste a otros, económica o emocionalmente. Mereces que tu esfuerzo sea reconocido, y también que te cuiden."
       },
-      "compartir": "Me salió el Número de Vida 8: La Poderosa 👑 ¿Cuál te sale a ti? Descúbrelo gratis en 1 minuto:",
+      "compartir": "Me salió el Número de Vida 8: La Poderosa 👑 ¿Cuál te sale a ti? Descúbrelo gratis en 2 minutos:",
       "comprar_url": ""
     },
     "9": {
@@ -219,7 +524,7 @@
         "paz": "Cargas con emociones del pasado que ya no te corresponden. Tu paz llega cuando perdonas, a otros y a ti misma. Escribir y dejar ir es para ti un ritual poderoso.",
         "familia": "En tu familia eres la que comprende, la que perdona y la que cura heridas antiguas. A veces cargas con historias que no son tuyas. Honra a los tuyos, pero vive tu propia vida."
       },
-      "compartir": "Me salió el Número de Vida 9: La Compasiva 🤍 ¿Y a ti? Descúbrelo gratis en 1 minuto:",
+      "compartir": "Me salió el Número de Vida 9: La Compasiva 🤍 ¿Y a ti? Descúbrelo gratis en 2 minutos:",
       "comprar_url": ""
     },
     "11": {
@@ -234,7 +539,7 @@
         "paz": "Eres muy sensible y absorbes mucho de tu entorno. Tu paz llega con rutinas que te protejan: silencio, oración o meditación, naturaleza y buen descanso. Cuando te cuidas, tu intuición se afina.",
         "familia": "Eres la que percibe lo que nadie dice en tu familia. A veces te sentiste diferente o incomprendida. Tu sensibilidad es un regalo para los tuyos, no una carga."
       },
-      "compartir": "Me salió el Número de Vida 11: La Iluminadora, ¡un número maestro! 🌙 ¿Cuál es el tuyo? Descúbrelo gratis en 1 minuto:",
+      "compartir": "Me salió el Número de Vida 11: La Iluminadora, ¡un número maestro! 🌙 ¿Cuál es el tuyo? Descúbrelo gratis en 2 minutos:",
       "comprar_url": ""
     },
     "22": {
@@ -249,7 +554,7 @@
         "paz": "Cargas con grandes expectativas sobre ti misma. Tu paz llega cuando celebras cada pequeño avance. Recuerda: las grandes obras se construyen ladrillo a ladrillo.",
         "familia": "Muchas veces eres la que sostiene el futuro de tu familia: la que planea, ahorra y piensa en todos. Tu legado ya está en marcha. Permítete disfrutar del presente con ellos."
       },
-      "compartir": "Me salió el Número de Vida 22: La Maestra Constructora, ¡un número maestro! 💙 ¿Y a ti? Descúbrelo gratis en 1 minuto:",
+      "compartir": "Me salió el Número de Vida 22: La Maestra Constructora, ¡un número maestro! 💙 ¿Y a ti? Descúbrelo gratis en 2 minutos:",
       "comprar_url": ""
     },
     "33": {
@@ -264,8 +569,42 @@
         "paz": "Sientes el dolor del mundo como si fuera tuyo. Tu paz llega cuando pones límites a tu entrega y te das a ti misma el amor que das a los demás.",
         "familia": "Eres el corazón de tu familia, la que une generaciones y cura heridas. Cuida que ese papel no te agote: tu bienestar también es un regalo para ellos."
       },
-      "compartir": "Me salió el Número de Vida 33: La Maestra Sanadora, ¡el número maestro más raro! 💜 ¿Cuál es el tuyo? Descúbrelo gratis en 1 minuto:",
+      "compartir": "Me salió el Número de Vida 33: La Maestra Sanadora, ¡el número maestro más raro! 💜 ¿Cuál es el tuyo? Descúbrelo gratis en 2 minutos:",
       "comprar_url": ""
     }
+  },
+  "ia": {
+    "endpoint": "api/lectura",
+    "tiempo_maximo_ms": 30000,
+    "mensajes_espera": [
+      "Calculando tu Número de Vida…",
+      "Leyendo tus respuestas…",
+      "Conectando tu número con tu momento actual…",
+      "Escribiendo tu lectura personal…"
+    ],
+    "nombre_por_defecto": "querida",
+    "nota": "Tu lectura ha sido escrita con inteligencia artificial a partir de tus respuestas y de la numerología tradicional.",
+    "bloques": [
+      {
+        "campo": "esencia",
+        "titulo": "Tu esencia"
+      },
+      {
+        "campo": "momento",
+        "titulo": "Tu momento actual"
+      },
+      {
+        "campo": "area",
+        "titulo": "Lo que tu número dice sobre {opcion}"
+      },
+      {
+        "campo": "senal",
+        "titulo": "Tus señales"
+      },
+      {
+        "campo": "consejo",
+        "titulo": "Tu gesto para esta semana"
+      }
+    ]
   }
 }

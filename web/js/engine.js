@@ -163,3 +163,25 @@ export function validarQuiz(quiz) {
   }
   return errores;
 }
+
+// Sustituye el marcador {{nombre}} que escribe la IA. Sin nombre, adapta la frase para que siga
+// sonando natural ("querida {{nombre}}" → "querida", "{{nombre}}, eres…" → "Eres…").
+export function ponerNombre(texto = '', nombre = '', porDefecto = 'querida') {
+  if (nombre) return texto.replaceAll('{{nombre}}', nombre);
+  return texto
+    .replace(/(querida|querido|mi querida)\s+\{\{nombre\}\}/gi, '$1')
+    .replace(/(^|[.!?¡¿]\s*)\{\{nombre\}\},?\s*(\p{L})/gu, (_, inicio, letra) => inicio + letra.toLocaleUpperCase('es'))
+    .replace(/,\s*\{\{nombre\}\}/g, '')
+    .replaceAll('{{nombre}}', porDefecto);
+}
+
+// Rango de edad aproximado a partir de la fecha (es lo único de la fecha que sale del teléfono).
+export function rangoEdad({ dia, mes, anio }, hoy = new Date()) {
+  let edad = hoy.getFullYear() - anio;
+  if (hoy.getMonth() + 1 < mes || (hoy.getMonth() + 1 === mes && hoy.getDate() < dia)) edad -= 1;
+  if (edad < 30) return '18-29';
+  if (edad < 40) return '30-39';
+  if (edad < 50) return '40-49';
+  if (edad < 60) return '50-59';
+  return '60+';
+}

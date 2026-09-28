@@ -264,7 +264,7 @@
 ### 28 · "Tu número no es casualidad"
 - **Gancho:** "Si este video te ha aparecido hoy, no es casualidad."
 - **Texto en pantalla:** "Tu fecha de nacimiento guarda un mensaje ✨"
-- **Voz:** "Hay un número que sale de tu fecha de nacimiento y que habla de tu esencia, de cómo amas y de las lecciones que se repiten en tu vida. Muchas mujeres que lo descubren me dicen lo mismo: 'Ahora entiendo tantas cosas'. Si quieres saber el tuyo, en mi perfil tienes un test gratis. Solo tarda un minuto."
+- **Voz:** "Hay un número que sale de tu fecha de nacimiento y que habla de tu esencia, de cómo amas y de las lecciones que se repiten en tu vida. Muchas mujeres que lo descubren me dicen lo mismo: 'Ahora entiendo tantas cosas'. Si quieres saber el tuyo, en mi perfil tienes un test gratis que te hace una lectura personalizada. Solo tarda dos minutos."
 - **Llamada a la acción:** "Test gratis en el enlace de mi perfil"
 - **Descripción:** Un minuto para conocerte un poco más ✨ #numerologia #autoconocimiento #espiritualidad #señales
 - **Prompt IA:** *a glowing golden thread of light winding through a starry sky and forming a gentle spiral, cream and gold tones, magical*

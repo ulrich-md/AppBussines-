@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node --test tests/engine.test.mjs",
+    "test": "node --test tests/engine.test.mjs tests/lectura.test.mjs",
     "test:e2e": "node --test --test-concurrency=1 tests/e2e.test.mjs",
     "build": "node scripts/build.mjs",
     "pdf": "node scripts/pdf.mjs",

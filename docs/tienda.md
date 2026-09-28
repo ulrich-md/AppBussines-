@@ -40,7 +40,7 @@ Tu fecha de nacimiento guarda un número que, según la numerología, habla de t
 ## Preguntas frecuentes
 
 **¿Cómo sé cuál es mi número?**
-Haz el cuestionario gratis en [enlace de la web]. Tarda un minuto y te dice tu número al momento. También puedes sumar todos los dígitos de tu fecha de nacimiento y reducir el resultado a una cifra. Si en algún paso te sale 11, 22 o 33, ese es tu número (son números maestros).
+Haz el cuestionario gratis en [enlace de la web]. Tarda un par de minutos y te da tu número con una lectura personalizada. También puedes sumar todos los dígitos de tu fecha de nacimiento y reducir el resultado a una cifra. Si en algún paso te sale 11, 22 o 33, ese es tu número (son números maestros).
 
 **¿Cómo recibo el informe?**
 Justo después del pago te llega un correo con el enlace de descarga del PDF. Si no lo ves, revisa la carpeta de spam o promociones.

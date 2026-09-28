@@ -1,6 +1,8 @@
 // Interfaz del cuestionario: una pregunta por pantalla, resultado gratis y botón de compra.
 // Toda la lógica de cálculo vive en engine.js; los textos, en quizzes/<id>.json y site.json.
-import { componerResultado, esFechaValida, interpolar, limpiarNombre } from './engine.js';
+import {
+  anioPersonal, calcularResultado, componerResultado, esFechaValida, interpolar, limpiarNombre, opcionTexto, ponerNombre, rangoEdad,
+} from './engine.js';
 import { iniciarAnalitica, registrar } from './analytics.js';
 
 const MESES = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
@@ -92,9 +94,16 @@ function siguiente() {
   else pantallaCalculando();
 }
 
+// Si la persona dio su nombre, algunas preguntas se lo dicen ("María, ¿…?").
+function textoPregunta(pregunta) {
+  return respuestas.nombre && pregunta.texto_con_nombre
+    ? interpolar(pregunta.texto_con_nombre, { nombre: respuestas.nombre })
+    : pregunta.texto;
+}
+
 function preguntaOpciones(pregunta) {
   return el('section', { class: 'pregunta' },
-    el('h2', {}, pregunta.texto),
+    el('h2', {}, textoPregunta(pregunta)),
     pregunta.ayuda && el('p', { class: 'ayuda' }, pregunta.ayuda),
     el('div', { class: 'opciones' },
       pregunta.opciones.map((opcion) =>
@@ -191,17 +200,85 @@ function preguntaTexto(pregunta) {
 }
 
 function pantallaCalculando() {
-  mostrar(el('section', { class: 'calculando' },
-    el('div', { class: 'orbe', 'aria-hidden': 'true' }),
-    el('h2', {}, quiz.texto_calculando ?? 'Calculando…'),
-  ));
-  setTimeout(pantallaResultado, 1600);
+  const mensajes = quiz.ia?.mensajes_espera ?? [quiz.texto_calculando ?? 'Calculando…'];
+  const titulo = el('h2', {}, mensajes[0]);
+  const nota = el('p', { class: 'ayuda' }, quiz.ia ? 'Estamos escribiendo una lectura solo para ti. Puede tardar unos segundos.' : '');
+  mostrar(el('section', { class: 'calculando' }, el('div', { class: 'orbe', 'aria-hidden': 'true' }), titulo, nota));
+
+  let indice = 0;
+  const rotar = setInterval(() => {
+    indice = Math.min(indice + 1, mensajes.length - 1);
+    titulo.textContent = mensajes[indice];
+  }, 3500);
+  const terminar = (lectura) => {
+    clearInterval(rotar);
+    pantallaResultado(lectura);
+  };
+
+  if (!quiz.ia) {
+    setTimeout(() => terminar(null), 1600);
+    return;
+  }
+  const inicio = Date.now();
+  pedirLectura()
+    .then((lectura) => {
+      registrar('lectura_ia', { quiz: quiz.id, estado: 'ok', segundos: Math.round((Date.now() - inicio) / 1000) });
+      terminar(lectura);
+    })
+    .catch((error) => {
+      // Si la IA falla, se muestra el resultado escrito de antemano: nadie se queda sin lectura.
+      console.warn('Lectura con IA no disponible:', error.message);
+      registrar('lectura_ia', { quiz: quiz.id, estado: 'fallo' });
+      terminar(null);
+    });
 }
 
-function pantallaResultado() {
-  const { id, resultado, bloques } = componerResultado(quiz, respuestas);
+// Al servidor solo se envían el número, la edad aproximada y las respuestas de opción múltiple.
+// El nombre y la fecha de nacimiento no salen del teléfono.
+async function pedirLectura() {
+  const numero = calcularResultado(quiz, respuestas);
+  const cuerpo = {
+    numero,
+    anio_personal: anioPersonal(respuestas.fecha, new Date().getFullYear()),
+    edad: rangoEdad(respuestas.fecha),
+    respuestas: Object.fromEntries(
+      quiz.preguntas.filter((p) => p.tipo === 'opciones').map((p) => [p.id, respuestas[p.id]]),
+    ),
+  };
+  const controlador = new AbortController();
+  const limite = setTimeout(() => controlador.abort(), quiz.ia.tiempo_maximo_ms ?? 30000);
+  try {
+    const respuesta = await fetch(quiz.ia.endpoint, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify(cuerpo),
+      signal: controlador.signal,
+    });
+    if (!respuesta.ok) throw new Error(`HTTP ${respuesta.status}`);
+    const { lectura } = await respuesta.json();
+    if (!lectura?.esencia) throw new Error('Respuesta sin lectura');
+    return lectura;
+  } finally {
+    clearTimeout(limite);
+  }
+}
+
+// Bloques del resultado: los de la IA si hay lectura, o los textos escritos de antemano si no.
+function bloquesDeLectura(lectura) {
   const nombre = respuestas.nombre;
-  registrar('quiz_completado', { quiz: quiz.id, resultado: id, origen });
+  const porDefecto = quiz.ia.nombre_por_defecto;
+  const opcion = opcionTexto(quiz, 'area', respuestas.area);
+  return quiz.ia.bloques
+    .filter((b) => lectura[b.campo])
+    .map((b) => ({ titulo: interpolar(b.titulo, { opcion }), texto: ponerNombre(lectura[b.campo], nombre, porDefecto) }));
+}
+
+function pantallaResultado(lectura = null) {
+  const compuesto = componerResultado(quiz, respuestas);
+  const { id, resultado } = compuesto;
+  const bloques = lectura ? bloquesDeLectura(lectura) : compuesto.bloques;
+  const nombre = respuestas.nombre;
+  registrar('quiz_completado', { quiz: quiz.id, resultado: id, origen, ia: Boolean(lectura) });
   document.documentElement.style.setProperty('--color-resultado', resultado.color_hex ?? 'var(--primario)');
 
   const urlCompartir = new URL(`r/${quiz.id}/${id}.html`, location.href).href;
@@ -214,8 +291,14 @@ function pantallaResultado() {
       resultado.maestro && el('span', { class: 'sello' }, 'Número maestro'),
       el('h1', {}, el('span', { class: 'visualmente-oculto' }, `${id}: `), resultado.titulo),
       resultado.color && el('p', { class: 'color-poder' }, el('i', { 'aria-hidden': 'true' }), `Tu color de poder: ${resultado.color}`),
+      lectura?.titular && el('p', { class: 'titular' }, `«${ponerNombre(lectura.titular, nombre, '')}»`),
     ),
     bloques.map((b) => el('article', { class: 'tarjeta' }, el('h3', {}, b.titulo), el('p', {}, b.texto))),
+    lectura?.frase && el('aside', { class: 'afirmacion' },
+      el('p', { class: 'afirmacion-etiqueta' }, 'Tu frase para repetir'),
+      el('p', { class: 'afirmacion-texto' }, ponerNombre(lectura.frase, nombre, '')),
+    ),
+    lectura && quiz.ia.nota && el('p', { class: 'nota-ia' }, quiz.ia.nota),
     bloqueInforme(id, resultado),
     el('section', { class: 'compartir' },
       el('h3', {}, '¿Quién de tus amigas querría saber su número?'),

@@ -34,7 +34,7 @@ function primeraFrase(texto) {
 
 function paginaCompartida(quiz, id, r) {
   const titulo = `${r.titulo} · ${quiz.titulo.replace(/^Descubre /, '')} ${id}`;
-  const descripcion = `${primeraFrase(r.teaser)} Descubre el tuyo gratis en 1 minuto.`;
+  const descripcion = `${primeraFrase(r.teaser)} Descubre el tuyo gratis.`;
   const imagen = urlAbsoluta(`og/${quiz.id}/${id}.png`);
   const destino = `../../?q=${quiz.id}&ref=compartido-${id}`;
   return `<!doctype html>
@@ -133,7 +133,7 @@ for (const quiz of quizzes) {
   const nombreCorto = quiz.titulo.replace(/^Descubre /, '');
   imagenes.push({
     salida: join(dirImagenes, 'portada.png'),
-    html: htmlImagen({ numero: '✦', titulo: nombreCorto.charAt(0).toUpperCase() + nombreCorto.slice(1), subtitulo: 'Lo que tu fecha de nacimiento dice de ti', pie: 'Descúbrelo gratis en 1 minuto →', color: sitio.colores.acento }),
+    html: htmlImagen({ numero: '✦', titulo: nombreCorto.charAt(0).toUpperCase() + nombreCorto.slice(1), subtitulo: 'Lo que tu fecha de nacimiento dice de ti', pie: 'Tu lectura personalizada gratis →', color: sitio.colores.acento }),
   });
   for (const [id, r] of Object.entries(quiz.resultados)) {
     writeFileSync(join(dirPaginas, `${id}.html`), paginaCompartida(quiz, id, r));
