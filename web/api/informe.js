@@ -1,5 +1,5 @@
 // GET /api/informe?s=<id de compra>              → el informe completo (se genera la primera vez)
-// GET /api/informe?s=<id de compra>&pareja=<n>   → compatibilidad con otro Número de Vida (Pack Completo)
+// GET /api/informe?s=<id de compra>&pareja=<n>   → compatibilidad con otro Número de Vida (plan con pareja)
 // Solo funciona con compras pagadas en Stripe: la IA nunca trabaja gratis desde aquí.
 import { cargarConfiguracion, responder, origenDe, ipDe } from './_config.js';
 import { validarPeticion, permitido } from './_lectura.js';

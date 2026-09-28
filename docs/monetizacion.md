@@ -36,7 +36,7 @@ TikTok (gratis) → Cuestionario de 11 preguntas → Lectura gratis con IA (muy 
 | **Recuperación si cancela el pago** | Vuelta desde Stripe | Vuelve a su resultado, no a empezar de cero. |
 | **Informe escrito por IA para cada compradora** (unas 3.000 palabras, 12 meses, ritual, plan, compatibilidad) | Informe | Vale mucho más que un PDF igual para todas y genera menos reembolsos. |
 | **Mejora pagando la diferencia** (5,99 / 10,99 USD) | Informe básico | Una segunda venta a quien ya confió. |
-| **Compatibilidad** con hasta 5 personas | Pack Completo | Da razones para volver y hablar del informe con otros. |
+| **Compatibilidad** con hasta 5 personas | Informe + 12 meses + Pareja | Da razones para volver y hablar del informe con otros. |
 | **Regalo por WhatsApp** y **email "tu número del mes"** | Informe y resultado | Crea una lista propia para volver a vender sin anuncios (p. ej. la guía 2027 en noviembre). |
 
 ## Reglas que NO se rompen (y que también protegen las ventas)

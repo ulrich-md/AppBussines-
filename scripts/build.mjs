@@ -16,7 +16,7 @@ const c = sitio.colores;
 const sinImagenes = process.argv.includes('--sin-imagenes');
 
 // Iconos de la interfaz (además de los que declaran las opciones de cada cuestionario).
-const ICONOS_INTERFAZ = ['arrow-right', 'arrow-left', 'whatsapp-logo', 'link', 'lock-simple', 'arrow-counter-clockwise', 'download-simple', 'check', 'shield-check', 'gift', 'envelope-simple', 'caret-down', 'sparkle', 'credit-card'];
+const ICONOS_INTERFAZ = ['arrow-right', 'arrow-left', 'whatsapp-logo', 'link', 'lock-simple', 'arrow-counter-clockwise', 'download-simple', 'check', 'shield-check', 'gift', 'envelope-simple', 'caret-down', 'sparkle', 'credit-card', 'seal-check', 'magnifying-glass-plus', 'x'];
 
 const esc = (texto = '') =>
   String(texto).replace(/[&<>"']/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[ch]);
@@ -48,8 +48,7 @@ function paginaCompartida(quiz, id, r) {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>${esc(`${r.titulo} · ${nombreQuiz} ${id}`)}</title>
   <meta name="description" content="${esc(descripcion)}">
-  <meta name="theme-color" content="#F3F4F9" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#0B0F1E" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#FBF6EF">
   <meta property="og:type" content="website">
   <meta property="og:title" content="${esc(`Me salió el ${id}: ${r.titulo}. ¿Y a ti?`)}">
   <meta property="og:description" content="${esc(descripcion)}">
@@ -89,8 +88,8 @@ function recursosImagen() {
   const fuente = (familia, peso, archivo, estilo = 'normal') =>
     `@font-face { font-family: '${familia}'; font-weight: ${peso}; font-style: ${estilo}; src: url(data:font/woff2;base64,${readFileSync(join(WEB, 'fonts', archivo)).toString('base64')}) format('woff2'); }`;
   const fuentes = [
-    fuente('Raleway', 600, 'raleway-latin-600-normal.woff2'),
-    fuente('Raleway', 700, 'raleway-latin-700-normal.woff2'),
+    fuente('Nunito Sans', 600, 'nunito-sans-latin-600-normal.woff2'),
+    fuente('Nunito Sans', 700, 'nunito-sans-latin-700-normal.woff2'),
     fuente('Lora', 600, 'lora-latin-600-normal.woff2'),
     fuente('Lora', 700, 'lora-latin-700-normal.woff2'),
     fuente('Lora', 500, 'lora-latin-500-italic.woff2', 'italic'),
@@ -101,7 +100,7 @@ function recursosImagen() {
 
 const estilosBase = ({ fuentes }) => `${fuentes}
   * { box-sizing: border-box; }
-  body { margin: 0; font-family: 'Raleway', sans-serif; color: ${c.texto_noche}; font-variant-numeric: lining-nums; }
+  body { margin: 0; font-family: 'Nunito Sans', sans-serif; color: ${c.texto_noche}; font-variant-numeric: lining-nums; }
   .anillo { display: grid; place-items: center; border-radius: 50%; background: ${c.noche_2};
     font-family: 'Lora', serif; font-weight: 700; color: ${c.texto_noche}; line-height: 1; }
   .marca { font-family: 'Lora', serif; font-weight: 600; color: ${c.texto_noche}; }
@@ -115,7 +114,7 @@ function htmlVistaPrevia(recursos, { numero, titulo, subtitulo, pie, color, maes
   .texto { padding: 52px 60px 48px; display: flex; flex-direction: column; justify-content: center; }
   .marca { font-size: 28px; margin-bottom: 26px; }
   .fila { display: flex; align-items: center; gap: 22px; margin-bottom: 22px; }
-  .anillo { width: 128px; height: 128px; flex-shrink: 0; border: 6px solid ${color}; box-shadow: 0 0 0 10px rgba(147, 166, 255, 0.18);
+  .anillo { width: 128px; height: 128px; flex-shrink: 0; border: 6px solid ${color}; box-shadow: 0 0 0 10px rgba(229, 155, 190, 0.22);
     font-size: ${String(numero).length > 1 ? 58 : 70}px; }
   .sello { font-size: 22px; padding: 4px 16px; }
   h1 { font-family: 'Lora', serif; font-weight: 600; font-size: 66px; line-height: 1.04; margin: 0 0 16px; }
@@ -140,7 +139,7 @@ function htmlPortadaInforme(recursos, { numero, titulo, etiqueta, color, maestro
     padding: 56px 40px; background: linear-gradient(180deg, rgba(11, 15, 30, 0.1), rgba(11, 15, 30, 0.88) 72%), url(${imagen}) center / cover; }
   .marca { font-size: 26px; }
   .etiqueta { margin-top: 60px; font-size: 20px; font-weight: 700; color: ${c.texto_noche_suave}; }
-  .anillo { width: 230px; height: 230px; margin: 22px 0 28px; border: 8px solid ${color}; box-shadow: 0 0 0 14px rgba(147, 166, 255, 0.18);
+  .anillo { width: 230px; height: 230px; margin: 22px 0 28px; border: 8px solid ${color}; box-shadow: 0 0 0 14px rgba(229, 155, 190, 0.22);
     font-size: ${String(numero).length > 1 ? 104 : 124}px; }
   h1 { font-family: 'Lora', serif; font-weight: 600; font-size: 54px; line-height: 1.05; margin: 0 0 12px; }
   .sello { font-size: 18px; padding: 3px 14px; margin-bottom: 12px; }

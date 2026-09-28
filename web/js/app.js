@@ -15,6 +15,7 @@ const origen = (params.get('ref') || params.get('utm_source') || 'directo').slic
 let sitio;
 let quiz;
 let catalogo;
+let testimonios = [];
 let ultimaLectura = null;
 let volvioDelPago = false;
 let descuentoRecuperacion = null;
@@ -41,6 +42,10 @@ function aplicarMarca() {
 // ---------- Pantallas ----------
 
 function pantallaInicio() {
+  const empezar = (lugar) => () => { registrar('quiz_inicio', { quiz: quiz.id, origen, lugar }); irAPaso(0); };
+  const botonEmpezar = (lugar, texto = quiz.boton_empezar ?? 'Empezar') => el('button', { class: 'boton', type: 'button', onclick: empezar(lugar) },
+    texto, icono('arrow-right'));
+  const portada = quiz.portada ?? {};
   mostrar(
     el('section', { class: 'inicio pantalla' },
       el('img', {
@@ -49,20 +54,67 @@ function pantallaInicio() {
         srcset: 'img/portada-640.webp 640w, img/portada-896.webp 896w',
         sizes: '(min-width: 900px) 50vw, 100vw',
         width: 896, height: 1120,
-        alt: 'Cielo nocturno sobre un lago en calma, con una constelación y la luna creciente',
+        alt: portada.imagen_alt ?? 'Cielo nocturno sobre un lago en calma, con una constelación y la luna creciente',
         fetchpriority: 'high',
       }),
       el('div', { class: 'inicio-texto' },
         el('h1', {}, quiz.titulo),
         el('p', { class: 'subtitulo' }, quiz.subtitulo),
-        el('button', {
-          class: 'boton', type: 'button',
-          onclick: () => { registrar('quiz_inicio', { quiz: quiz.id, origen }); irAPaso(0); },
-        }, quiz.boton_empezar ?? 'Empezar', icono('arrow-right')),
+        botonEmpezar('portada'),
+        el('ul', { class: 'inicio-confianza' },
+          (portada.confianza ?? ['Gratis', 'Sin registro']).map((t) => el('li', {}, icono('check'), el('span', {}, t)))),
       ),
+    ),
+    portada.pasos && el('section', { class: 'inicio-seccion', 'aria-labelledby': 'titulo-pasos' },
+      el('h2', { id: 'titulo-pasos' }, portada.titulo_pasos ?? 'Así funciona'),
+      el('ol', { class: 'pasos' }, portada.pasos.map((p, i) => el('li', {},
+        p.imagen
+          ? el('img', { class: 'paso-imagen', src: p.imagen, alt: p.imagen_alt ?? '', width: 640, height: 480, loading: 'lazy', decoding: 'async' })
+          : el('span', { class: 'paso-numero', 'aria-hidden': 'true' }, i + 1),
+        el('div', {}, el('h3', {}, `${i + 1}. ${p.titulo}`), el('p', {}, p.texto)),
+      ))),
+    ),
+    portada.ejemplo && ejemploResultado(portada.ejemplo),
+    seccionTestimonios(),
+    portada.pasos && el('section', { class: 'inicio-seccion inicio-final' },
+      el('h2', {}, portada.titulo_final ?? 'Descubre tu número'),
+      portada.texto_final && el('p', {}, portada.texto_final),
+      botonEmpezar('final', portada.boton_final ?? 'Empezar mi lectura gratis'),
     ),
   );
   app.classList.add('ancho');
+}
+
+// Ejemplo de lo que se recibe (un resultado real del cuestionario, con datos inventados y así indicado).
+function ejemploResultado(ejemplo) {
+  const resultado = quiz.resultados[ejemplo.numero];
+  if (!resultado) return null;
+  return el('section', { class: 'inicio-seccion', 'aria-labelledby': 'titulo-ejemplo' },
+    el('h2', { id: 'titulo-ejemplo' }, ejemplo.titulo ?? 'Lo que vas a recibir'),
+    el('article', { class: 'ejemplo-resultado' },
+      el('img', { src: `${resultado.imagen}-640.webp`, alt: resultado.imagen_alt ?? '', width: 640, height: 800, loading: 'lazy', decoding: 'async' }),
+      el('div', {},
+        el('p', { class: 'ejemplo-etiqueta' }, ejemplo.etiqueta ?? 'Ejemplo de resultado'),
+        el('p', { class: 'ejemplo-numero' }, el('span', { class: 'numero numero-mini' }, ejemplo.numero), resultado.titulo),
+        el('p', {}, ejemplo.texto ?? resultado.teaser),
+        ejemplo.nota && el('p', { class: 'nota-ia' }, ejemplo.nota),
+      ),
+    ),
+  );
+}
+
+// Opiniones reales (web/testimonios.json). Si no hay ninguna aprobada, no se muestra la sección.
+function seccionTestimonios() {
+  if (!testimonios.length) return null;
+  return el('section', { class: 'inicio-seccion testimonios', 'aria-labelledby': 'titulo-testimonios' },
+    el('h2', { id: 'titulo-testimonios' }, 'Lo que dicen quienes ya tienen su informe'),
+    el('ul', {}, testimonios.slice(-3).reverse().map((o) => el('li', {},
+      el('figure', {},
+        el('p', { class: 'estrellas-fijas', role: 'img', 'aria-label': `${o.estrellas} de 5 estrellas` }, '★'.repeat(o.estrellas), el('span', { class: 'estrella-vacia' }, '★'.repeat(5 - o.estrellas))),
+        el('blockquote', {}, el('p', {}, o.texto)),
+        el('figcaption', {}, [o.nombre, o.pais].filter(Boolean).join(', ') || 'Compradora', el('span', { class: 'verificada' }, icono('seal-check'), 'Compra verificada')),
+      )))),
+  );
 }
 
 function progreso() {
@@ -120,7 +172,7 @@ function preguntaOpciones(pregunta) {
           onclick: (evento) => {
             respuestas[pregunta.id] = opcion.id;
             evento.currentTarget.setAttribute('aria-pressed', 'true');
-            setTimeout(siguiente, 200);
+            setTimeout(siguiente, 450);
           },
         },
         opcion.icono && el('span', { class: 'opcion-icono' }, icono(opcion.icono)),
@@ -165,7 +217,7 @@ function preguntaFecha(pregunta) {
   el('div', { class: 'campos-fecha' },
     selector('dia', 'Día', Array.from({ length: 31 }, (_, i) => [i + 1, i + 1]), previa.dia),
     selector('mes', 'Mes', MESES.map((m, i) => [i + 1, m]), previa.mes),
-    selector('anio', 'Año', Array.from({ length: anioActual - 1919 }, (_, i) => [anioActual - i, anioActual - i]), previa.anio),
+    selector('anio', 'Año', Array.from({ length: anioActual - 18 - 1929 }, (_, i) => [anioActual - 18 - i, anioActual - 18 - i]), previa.anio),
   ),
   error,
   el('button', { class: 'boton', type: 'submit' }, 'Continuar'));
@@ -294,10 +346,28 @@ function cartaResumen(carta) {
     ['Cumpleaños', carta.cumpleanos],
     [`Año ${anio}`, carta.anio_personal],
   ].filter(([, valor]) => valor);
-  return el('dl', { class: 'carta', 'aria-label': 'Tu carta numerológica' },
-    celdas.map(([etiqueta, valor]) => el('div', {}, el('dt', {}, etiqueta), el('dd', {}, valor))),
-  );
+  return [
+    el('dl', { class: 'carta', 'aria-label': 'Tu carta numerológica' },
+      celdas.map(([etiqueta, valor]) => el('div', {}, el('dt', {}, etiqueta), el('dd', {}, valor))),
+    ),
+    el('details', { class: 'glosario' },
+      el('summary', {}, '¿Qué significa cada número?', icono('caret-down')),
+      el('dl', {},
+        GLOSARIO.filter(([nombre]) => celdas.some(([etiqueta]) => etiqueta.startsWith(nombre)))
+          .map(([nombre, texto]) => el('div', {}, el('dt', {}, nombre), el('dd', {}, texto))),
+      ),
+    ),
+  ];
 }
+
+// Explicación sencilla de cada número de la carta (sin jerga).
+const GLOSARIO = [
+  ['Vida', 'Sale de tu fecha de nacimiento completa. Habla de tu camino y de lo que viniste a aprender.'],
+  ['Alma', 'Sale de las vocales de tu nombre. Habla de lo que deseas en lo más profundo.'],
+  ['Expresión', 'Sale de todas las letras de tu nombre. Habla de tus talentos y de cómo te muestras.'],
+  ['Cumpleaños', 'Es el día en que naciste. Habla de un don especial que te acompaña.'],
+  ['Año', 'Tu Año Personal: la energía que te acompaña este año, del 1 (empezar) al 9 (cerrar ciclos).'],
+];
 
 function pintarLectura(zonaLectura, zonaFinal, compuesto, lectura) {
   const { id, resultado } = compuesto;
@@ -489,16 +559,18 @@ function ofertaPlanes(id, resultado) {
         el('ul', { class: 'descubrimientos' }, descubrimientos(resultado).map((t) => el('li', {}, icono('sparkle'), el('span', {}, t)))),
       ),
     ),
-    lineaDeMeses(),
-    ejemplosInforme(),
     planes,
     boton,
     error,
     el('ul', { class: 'confianza' },
       el('li', {}, icono('shield-check'), el('span', {}, `Garantía de ${garantia} días: si no te gusta, te devolvemos el dinero`)),
-      el('li', {}, icono('credit-card'), el('span', {}, 'Pago único y seguro con Stripe. Sin suscripciones')),
+      el('li', {}, icono('credit-card'), el('span', {}, 'Pagas una sola vez con tarjeta (Visa, Mastercard y más), en una página de pago segura. Sin cobros mensuales')),
       el('li', {}, icono('download-simple'), el('span', {}, 'Lo recibes al momento, por email y para descargar en PDF')),
+      sitio.contacto && el('li', {}, icono('envelope-simple'), el('span', {}, `¿Dudas? Escríbenos a ${sitio.contacto}`)),
     ),
+    seccionTestimonios(),
+    lineaDeMeses(),
+    ejemplosInforme(),
     preguntasFrecuentes(garantia),
   );
 }
@@ -512,7 +584,7 @@ function lineaDeMeses() {
   return el('div', { class: 'linea-meses' },
     el('p', { class: 'oferta-etiqueta' }, 'Tus próximos 12 meses'),
     el('ol', { class: 'meses-mini' }, meses.map((m) => el('li', { class: esClave(m) ? 'es-clave' : '' },
-      el('span', { class: 'mes-nombre' }, NOMBRES_MES[m.mes - 1].slice(0, 3)),
+      el('span', { class: 'mes-nombre' }, NOMBRES_MES[m.mes - 1]),
       el('span', { class: 'mes-num' }, m.numero),
       esClave(m) && el('span', { class: 'visualmente-oculto' }, ' (tu mes clave)'),
     ))),
@@ -531,11 +603,28 @@ function ejemplosInforme() {
     el('p', { class: 'oferta-etiqueta' }, 'Así es un informe por dentro'),
     el('div', { class: 'ejemplos-carrusel', tabindex: 0, 'aria-label': 'Páginas de ejemplo de un informe' },
       ejemplos.map(([src, texto]) => el('figure', {},
-        el('a', { href: src, target: '_blank', rel: 'noopener', onclick: () => registrar('ejemplo_visto', { ejemplo: src }) },
-          el('img', { src, alt: `${texto}. Página de un informe de ejemplo (ábrela en grande).`, width: 600, height: 900, loading: 'lazy', decoding: 'async' })),
+        el('a', {
+          href: src, target: '_blank', rel: 'noopener',
+          onclick: (evento) => { registrar('ejemplo_visto', { ejemplo: src }); verEnGrande(evento, src, texto); },
+        },
+        el('img', { src, alt: `${texto}. Página de un informe de ejemplo.`, width: 600, height: 900, loading: 'lazy', decoding: 'async' }),
+        el('span', { class: 'ejemplo-lupa' }, icono('magnifying-glass-plus'), 'Ver en grande')),
         el('figcaption', {}, texto)))),
     el('p', { class: 'nota-ia' }, 'Páginas reales del informe de otra persona. El tuyo se escribe con tu carta y tus respuestas.'),
   );
+}
+
+// Visor a pantalla completa para leer las páginas de ejemplo sin salir de la oferta.
+function verEnGrande(evento, src, texto) {
+  if (typeof HTMLDialogElement !== 'function') return;
+  evento.preventDefault();
+  const visor = el('dialog', { class: 'visor', 'aria-label': texto, onclose: () => visor.remove() },
+    el('form', { method: 'dialog' },
+      el('button', { class: 'boton visor-cerrar', type: 'submit' }, icono('x'), 'Cerrar')),
+    el('img', { src, alt: `${texto}. Página de un informe de ejemplo.`, width: 600, height: 900 }));
+  visor.addEventListener('click', (e) => { if (e.target === visor) visor.close(); });
+  document.body.append(visor);
+  visor.showModal();
 }
 
 function preguntasFrecuentes(garantia) {
@@ -545,7 +634,8 @@ function preguntasFrecuentes(garantia) {
     ['¿Es una suscripción?', 'No. Pagas una sola vez y el informe es tuyo para siempre.'],
     ['¿Y si no me gusta?', `Tienes ${garantia} días de garantía. Escríbenos y te devolvemos el dinero.`],
     ['¿Qué datos guardan?', 'Para escribir tu informe guardamos junto a tu compra tu nombre de pila, tus números y tus respuestas. Nunca tu fecha de nacimiento completa.'],
-    ['¿Cómo puedo pagar?', 'Con tarjeta de crédito o débito y, según tu país, otros métodos locales que verás al pagar.'],
+    ['¿Cómo puedo pagar?', 'Con tarjeta de crédito o débito (Visa, Mastercard, American Express) y, según tu país, otros métodos locales que verás al pagar. El pago lo procesa Stripe, una empresa de pagos segura: nosotros nunca vemos los datos de tu tarjeta.'],
+    ['¿En qué moneda pago?', 'El precio está en dólares estadounidenses. En la página de pago ves el importe final antes de confirmar y, si tu tarjeta es de otra moneda, tu banco hace el cambio.'],
     ['¿Predice mi futuro?', 'No. Es contenido de entretenimiento y autoconocimiento basado en la tradición de la numerología, para reflexionar sobre tu vida.'],
   ];
   return el('div', { class: 'faq' },
@@ -642,13 +732,17 @@ function barraCompra() {
     el('button', {
       class: 'boton', type: 'button',
       onclick: () => { registrar('barra_compra_clic'); (document.querySelector('.planes') ?? oferta).scrollIntoView({ behavior: 'smooth', block: 'start' }); },
-    }, 'Ver opciones'),
+    }, 'Ver mi informe'),
   );
   document.body.append(barra);
   let lecturaVista = false;
   let ofertaVisible = false;
-  const actualizar = () => { barra.hidden = !lecturaVista || ofertaVisible; };
+  let mesVisible = false;
+  // Se esconde también sobre la tarjeta del mes clave, que ya tiene su propio botón.
+  const actualizar = () => { barra.hidden = !lecturaVista || ofertaVisible || mesVisible; };
   new IntersectionObserver(([e]) => { ofertaVisible = e.isIntersecting || e.boundingClientRect.top < 0; actualizar(); }).observe(oferta);
+  const mes = document.querySelector('.mes-clave');
+  if (mes) new IntersectionObserver(([e]) => { mesVisible = e.isIntersecting; actualizar(); }).observe(mes);
   // Aparece en cuanto la cabecera del resultado sale de la pantalla (aunque se haga scroll rápido).
   const cabecera = document.querySelector('.resultado-cabecera');
   if (cabecera) new IntersectionObserver(([e]) => { lecturaVista = !e.isIntersecting && e.boundingClientRect.top < 0; actualizar(); }).observe(cabecera);
@@ -715,6 +809,8 @@ async function iniciar() {
     const id = pedido && /^[a-z0-9-]{1,60}$/.test(pedido) ? pedido : sitio.quiz_principal;
     quiz = await cargarJSON(`quizzes/${id}.json`);
     catalogo = await cargarJSON('productos.json').catch(() => null);
+    // Solo opiniones reales de compradoras verificadas (ver scripts/opiniones.mjs). Vacío = no se muestra nada.
+    testimonios = (await cargarJSON('testimonios.json').catch(() => null))?.opiniones?.filter((o) => o.verificada && o.texto) ?? [];
     aplicarMarca();
     iniciarAnalitica(sitio.analitica);
     if (params.get('compra') === 'cancelada' && recuperarSesion()) {

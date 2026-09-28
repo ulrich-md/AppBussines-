@@ -34,7 +34,7 @@ function documento(id) {
   const nombreInforme = quiz.titulo.replace(/^Descubre /, '');
   return `<!doctype html><html lang="es"><head><meta charset="utf-8">
 <link rel="stylesheet" href="plantilla.css">
-<style>:root { --color-numero: ${esc(resultado.color_hex ?? '#93A6FF')}; }</style>
+<style>:root { --color-numero: ${esc(resultado.color_hex ?? '#E59BBE')}; }</style>
 </head><body>
 <section class="portada"${resultado.imagen ? ` style="background-image: linear-gradient(180deg, rgba(11, 15, 30, 0.1), rgba(11, 15, 30, 0.88) 72%), url('../web/${esc(resultado.imagen)}-896.webp')"` : ''}>
   <div class="marca">${esc(sitio.marca)}</div>

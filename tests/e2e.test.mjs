@@ -168,7 +168,7 @@ test('número maestro sin nombre, elegir plan y pagar', async () => {
   assert.match(await pagina.locator('main').innerText(), /Querida, tu 4 habla/);
   // Sin nombre, la portada del informe no inventa uno.
   assert.match(await pagina.locator('.portada-viva').innerText(), /Tu informe personal/);
-  await pagina.getByText('Pack Completo').click();
+  await pagina.getByText('Informe + 12 meses + Pareja', { exact: true }).click();
   assert.match(await pagina.locator('.boton-compra').innerText(), /US\$19\.99/);
   await pagina.locator('.boton-compra').click();
   await pagina.waitForURL('https://tienda.ejemplo/checkout/cs_test_1');

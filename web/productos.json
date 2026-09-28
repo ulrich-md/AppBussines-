@@ -42,7 +42,7 @@
     },
     {
       "id": "premium",
-      "nombre": "Pack Completo",
+      "nombre": "Informe + 12 meses + Pareja",
       "precio": 1999,
       "resumen": "Todo, más tu compatibilidad de pareja y un plan de 4 semanas.",
       "incluye": [
@@ -72,14 +72,14 @@
       "desde": "esencial",
       "hacia": "premium",
       "precio": 1099,
-      "nombre": "Mejora a Pack Completo",
+      "nombre": "Mejora a Informe + 12 meses + Pareja",
       "texto": "Añade tus 12 meses, tu compatibilidad de pareja y tu plan personal de 4 semanas."
     },
     {
       "desde": "completo",
       "hacia": "premium",
       "precio": 599,
-      "nombre": "Mejora a Pack Completo",
+      "nombre": "Mejora a Informe + 12 meses + Pareja",
       "texto": "Añade tu compatibilidad de pareja (o con quien quieras) y tu plan personal de 4 semanas."
     }
   ]

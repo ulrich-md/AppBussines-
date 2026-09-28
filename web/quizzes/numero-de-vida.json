@@ -3,6 +3,43 @@
   "titulo": "Descubre tu Número de Vida",
   "subtitulo": "Una lectura personal y gratuita a partir de tu fecha de nacimiento y tu nombre. 11 preguntas, unos 2 minutos.",
   "boton_empezar": "Descubrir mi número",
+  "portada": {
+    "confianza": [
+      "Gratis",
+      "Sin registro",
+      "Tu nombre y tu fecha no salen de tu teléfono"
+    ],
+    "titulo_pasos": "Así funciona",
+    "pasos": [
+      {
+        "titulo": "Tu fecha y tu nombre",
+        "texto": "Con ellos calculamos tus números: Vida, Alma, Expresión y tu Año Personal.",
+        "imagen": "img/pasos/1.webp",
+        "imagen_alt": "Manos de una mujer madura sostienen una pluma sobre un cuaderno con una cuadrícula dibujada a mano."
+      },
+      {
+        "titulo": "Unas preguntas sobre tu momento",
+        "texto": "Amor, trabajo, familia y lo que más deseas ahora. Solo tocas la respuesta.",
+        "imagen": "img/pasos/2.webp",
+        "imagen_alt": "Mujer latina sonríe mientras lee en su celular, sentada en el sofá bajo la luz cálida de una lámpara."
+      },
+      {
+        "titulo": "Tu lectura, al momento y gratis",
+        "texto": "Tu número, tu arquetipo y una lectura escrita para ti. Si quieres ir más allá, puedes pedir tu informe completo.",
+        "imagen": "img/pasos/3.webp",
+        "imagen_alt": "Cuadernillo con tapa color ciruela y adorno dorado sobre lino, junto a rosas secas y una vela encendida."
+      }
+    ],
+    "ejemplo": {
+      "numero": "6",
+      "titulo": "Lo que vas a recibir",
+      "etiqueta": "Ejemplo de resultado",
+      "nota": "Es la descripción del Número de Vida 6. Tu resultado incluye además una lectura escrita para ti con tu carta y tus respuestas."
+    },
+    "titulo_final": "¿Qué dice tu fecha de nacimiento de ti?",
+    "texto_final": "Unos 2 minutos. Sin registro y sin pagar nada.",
+    "imagen_alt": "Mujer latina de cabello canoso escribe sonriente en un cuaderno junto a la ventana, con una taza de té, flores secas y una vela."
+  },
   "encabezado_resultado": "tu Número de Vida es el",
   "encabezado_resultado_sin_nombre": "Tu Número de Vida es el",
   "calculo": {
@@ -415,7 +452,7 @@
       "compartir": "Me salió el Número de Vida 1: La Líder 🔥 ¿Y a ti? Descúbrelo gratis en 2 minutos:",
       "comprar_url": "",
       "imagen": "img/arquetipos/1",
-      "imagen_alt": "Silueta de una mujer en la cima de una montaña al amanecer, con un pañuelo rojo al viento"
+      "imagen_alt": "Silueta de una mujer en la cima de una montaña al amanecer, con una bufanda roja al viento."
     },
     "2": {
       "titulo": "La Diplomática",
@@ -431,7 +468,7 @@
       "compartir": "Me salió el Número de Vida 2: La Diplomática 🧡 ¿Cuál es el tuyo? Descúbrelo gratis en 2 minutos:",
       "comprar_url": "",
       "imagen": "img/arquetipos/2",
-      "imagen_alt": "Dos barcas juntas en un lago en calma, iluminadas por un farol naranja"
+      "imagen_alt": "Dos botes de madera juntos en un lago en calma al atardecer, iluminados por un farol naranja."
     },
     "3": {
       "titulo": "La Comunicadora",
@@ -447,7 +484,7 @@
       "compartir": "Me salió el Número de Vida 3: La Comunicadora ✨ ¿Y tú qué número eres? Descúbrelo gratis en 2 minutos:",
       "comprar_url": "",
       "imagen": "img/arquetipos/3",
-      "imagen_alt": "Mujer en una colina de noche, rodeada de luciérnagas doradas"
+      "imagen_alt": "Mujer de vestido claro en una colina al atardecer dorado, rodeada de luciérnagas."
     },
     "4": {
       "titulo": "La Constructora",
@@ -463,7 +500,7 @@
       "compartir": "Me salió el Número de Vida 4: La Constructora 🌿 ¿Cuál te sale a ti? Descúbrelo gratis en 2 minutos:",
       "comprar_url": "",
       "imagen": "img/arquetipos/4",
-      "imagen_alt": "Camino de piedras en un jardín nocturno que lleva a una casita con la ventana encendida"
+      "imagen_alt": "Camino de piedra entre rosas y lavanda que lleva a una casita con la ventana iluminada al atardecer."
     },
     "5": {
       "titulo": "La Aventurera",
@@ -479,7 +516,7 @@
       "compartir": "Me salió el Número de Vida 5: La Aventurera 🌊 ¿Y a ti cuál te sale? Descúbrelo gratis en 2 minutos:",
       "comprar_url": "",
       "imagen": "img/arquetipos/5",
-      "imagen_alt": "Mujer con una maleta en un acantilado, frente a un mar turquesa bajo las estrellas"
+      "imagen_alt": "Mujer con sombrero y maleta en un acantilado frente a un mar turquesa al atardecer."
     },
     "6": {
       "titulo": "La Cuidadora",
@@ -495,7 +532,7 @@
       "compartir": "Me salió el Número de Vida 6: La Cuidadora 💗 ¿Cuál es el tuyo? Descúbrelo gratis en 2 minutos:",
       "comprar_url": "",
       "imagen": "img/arquetipos/6",
-      "imagen_alt": "Ventana de una casa acogedora de noche, con rosas y velas encendidas"
+      "imagen_alt": "Ventana de una casa acogedora al anochecer, con rosas en flor y velas encendidas."
     },
     "7": {
       "titulo": "La Sabia",
@@ -511,7 +548,7 @@
       "compartir": "Me salió el Número de Vida 7: La Sabia 🔮 ¿Y tú qué número eres? Descúbrelo gratis en 2 minutos:",
       "comprar_url": "",
       "imagen": "img/arquetipos/7",
-      "imagen_alt": "Libro antiguo abierto junto a una ventana, con la luna creciente"
+      "imagen_alt": "Libro antiguo abierto junto a una ventana con luna creciente en un cielo rosado del atardecer."
     },
     "8": {
       "titulo": "La Poderosa",
@@ -527,7 +564,7 @@
       "compartir": "Me salió el Número de Vida 8: La Poderosa 👑 ¿Cuál te sale a ti? Descúbrelo gratis en 2 minutos:",
       "comprar_url": "",
       "imagen": "img/arquetipos/8",
-      "imagen_alt": "Mujer con vestido largo en un balcón, frente a una ciudad iluminada de noche"
+      "imagen_alt": "Mujer con vestido largo color ciruela en un balcón frente a una ciudad al atardecer."
     },
     "9": {
       "titulo": "La Compasiva",
@@ -543,7 +580,7 @@
       "compartir": "Me salió el Número de Vida 9: La Compasiva 🤍 ¿Y a ti? Descúbrelo gratis en 2 minutos:",
       "comprar_url": "",
       "imagen": "img/arquetipos/9",
-      "imagen_alt": "Mujer de blanco soltando un farolillo de papel sobre un lago"
+      "imagen_alt": "Mujer vestida de blanco suelta un farol de papel sobre un lago al anochecer."
     },
     "11": {
       "titulo": "La Iluminadora",
@@ -560,7 +597,7 @@
       "compartir": "Me salió el Número de Vida 11: La Iluminadora, ¡un número maestro! 🌙 ¿Cuál es el tuyo? Descúbrelo gratis en 2 minutos:",
       "comprar_url": "",
       "imagen": "img/arquetipos/11",
-      "imagen_alt": "Silueta de una mujer en un muelle bajo una luna llena enorme"
+      "imagen_alt": "Silueta de una mujer al final de un muelle frente a una enorme luna llena en un cielo rosado y dorado."
     },
     "22": {
       "titulo": "La Maestra Constructora",
@@ -577,7 +614,7 @@
       "compartir": "Me salió el Número de Vida 22: La Maestra Constructora, ¡un número maestro! 💙 ¿Y a ti? Descúbrelo gratis en 2 minutos:",
       "comprar_url": "",
       "imagen": "img/arquetipos/22",
-      "imagen_alt": "Puente de piedra antiguo sobre un valle, bajo un cielo lleno de estrellas"
+      "imagen_alt": "Antiguo puente de piedra sobre un valle con un río a la hora dorada."
     },
     "33": {
       "titulo": "La Maestra Sanadora",
@@ -594,7 +631,7 @@
       "compartir": "Me salió el Número de Vida 33: La Maestra Sanadora, ¡el número maestro más raro! 💜 ¿Cuál es el tuyo? Descúbrelo gratis en 2 minutos:",
       "comprar_url": "",
       "imagen": "img/arquetipos/33",
-      "imagen_alt": "Campo de lavanda de noche con un farol encendido"
+      "imagen_alt": "Campo de lavanda al atardecer con un farol encendido entre las flores."
     }
   },
   "ia": {
@@ -640,73 +677,73 @@
       "nombre": "guerrera",
       "texto": "Por dentro late un deseo profundo de ser libre y abrir tu propio camino, aunque a veces lo escondas para no incomodar.",
       "imagen": "img/almas/1.webp",
-      "imagen_alt": "Una antorcha encendida en lo alto de una montaña bajo las estrellas"
+      "imagen_alt": "Antorcha encendida en la cima de una montaña al atardecer, sobre un mar de nubes."
     },
     "2": {
       "nombre": "romántica",
       "texto": "Lo que tu alma más desea es amar y ser amada en calma, sentir que formas parte de algo y que tu ternura es valorada.",
       "imagen": "img/almas/2.webp",
-      "imagen_alt": "Dos velas flotando juntas sobre el agua entre pétalos de rosa"
+      "imagen_alt": "Dos velas flotan juntas sobre el agua entre pétalos de rosa, bajo un atardecer cálido."
     },
     "3": {
       "nombre": "artista",
       "texto": "Tu alma necesita expresarse: crear, reír, contar lo que sientes. Cuando te callas demasiado, te apagas.",
       "imagen": "img/almas/3.webp",
-      "imagen_alt": "Un caballete con un lienzo en blanco a la luz de la luna"
+      "imagen_alt": "Caballete con un lienzo en blanco en un estudio lleno de luz dorada."
     },
     "4": {
       "nombre": "guardiana",
       "texto": "En lo más hondo buscas seguridad: un hogar firme, personas leales y la tranquilidad de saber que lo que construyes durará.",
       "imagen": "img/almas/4.webp",
-      "imagen_alt": "Un faro de piedra iluminando el mar de noche"
+      "imagen_alt": "Faro de piedra que ilumina el mar al atardecer."
     },
     "5": {
       "nombre": "viajera",
       "texto": "Tu alma pide aire, cambio y experiencias nuevas. La rutina que no eliges te pesa más de lo que admites.",
       "imagen": "img/almas/5.webp",
-      "imagen_alt": "Un mapa antiguo y una brújula frente al mar turquesa de noche"
+      "imagen_alt": "Mapa antiguo y brújula frente a un mar turquesa al atardecer."
     },
     "6": {
       "nombre": "protectora",
       "texto": "Tu deseo más profundo es cuidar y ver felices a los tuyos. Tu reto es permitirte recibir ese mismo cuidado.",
       "imagen": "img/almas/6.webp",
-      "imagen_alt": "Un nido con luz cálida en una rama florecida de noche"
+      "imagen_alt": "Nido con pajaritos en una rama florecida bajo la luz dorada del atardecer."
     },
     "7": {
       "nombre": "mística",
       "texto": "Tu alma busca respuestas profundas y momentos de silencio. Sientes que la vida tiene un sentido oculto que quieres descubrir.",
       "imagen": "img/almas/7.webp",
-      "imagen_alt": "Una vela encendida en un templo de piedra abierto a las estrellas"
+      "imagen_alt": "Vela encendida en un templo de piedra abierto al anochecer, frente al mar."
     },
     "8": {
       "nombre": "reina",
       "texto": "Por dentro deseas reconocimiento, abundancia y la libertad que da no depender de nadie. Naciste para ocupar tu lugar.",
       "imagen": "img/almas/8.webp",
-      "imagen_alt": "Una corona dorada sobre terciopelo azul frente a una ciudad iluminada"
+      "imagen_alt": "Corona dorada sobre un cojín de terciopelo color ciruela frente a una ciudad al atardecer."
     },
     "9": {
       "nombre": "sanadora",
       "texto": "Tu alma desea un mundo más justo y amoroso. Sientes el dolor ajeno como propio y quieres ayudar a sanar.",
       "imagen": "img/almas/9.webp",
-      "imagen_alt": "Un cuenco de agua que refleja la luna llena entre hierbas y flores blancas"
+      "imagen_alt": "Cuenco de agua que refleja la luna, rodeado de hierbas y flores blancas al anochecer."
     },
     "11": {
       "nombre": "visionaria",
       "texto": "Tu alma es muy intuitiva: presientes, sueñas y te inspiras. Deseas encontrar y compartir una luz que guíe a otros.",
       "imagen": "img/almas/11.webp",
-      "imagen_alt": "Un telescopio antiguo apuntando a un cometa plateado"
+      "imagen_alt": "Telescopio antiguo que apunta a un cometa plateado en un cielo rosado y violeta."
     },
     "22": {
       "nombre": "arquitecta",
       "texto": "En lo más hondo deseas dejar un legado: construir algo grande y duradero que ayude a muchas personas.",
       "imagen": "img/almas/22.webp",
-      "imagen_alt": "Una torre con escalera de caracol que se eleva hacia las estrellas"
+      "imagen_alt": "Escalera de caracol en una torre de piedra que sube hacia un cielo dorado."
     },
     "33": {
       "nombre": "maestra",
       "texto": "Tu alma desea amar sin condiciones y enseñar con el ejemplo. Tu mayor alegría es ver crecer a quienes quieres.",
       "imagen": "img/almas/33.webp",
-      "imagen_alt": "Un camino de farolillos entre lavanda hacia un roble bajo las estrellas"
+      "imagen_alt": "Camino de faroles de papel entre la lavanda hacia un roble al atardecer."
     }
   }
 }

@@ -6,21 +6,21 @@
   "idioma": "es",
   "colores": {
     "_nota": "Solo para imágenes generadas (vista previa, portadas, PDF). La web usa las variables de css/styles.css.",
-    "noche": "#0B0F1E",
-    "noche_2": "#141A2E",
-    "claro": "#F3F4F9",
-    "superficie": "#FCFCFE",
-    "texto": "#141A2E",
-    "texto_suave": "#4A5270",
-    "texto_noche": "#ECEFF8",
-    "texto_noche_suave": "#A9B0CC",
-    "acento": "#2F48B8",
-    "acento_noche": "#93A6FF",
-    "borde": "#D5DAE8"
+    "noche": "#2A1E28",
+    "noche_2": "#3A2A36",
+    "claro": "#FBF6EF",
+    "superficie": "#FFFFFF",
+    "texto": "#2A1E28",
+    "texto_suave": "#5C4B57",
+    "texto_noche": "#F4ECE6",
+    "texto_noche_suave": "#D9C9D2",
+    "acento": "#8A2D5E",
+    "acento_noche": "#E59BBE",
+    "borde": "#E8DCD0"
   },
   "fuentes": {
     "titulos": "Lora",
-    "texto": "Raleway"
+    "texto": "Nunito Sans"
   },
   "analitica": {
     "proveedor": "ninguno",

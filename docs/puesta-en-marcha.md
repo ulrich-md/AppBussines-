@@ -52,7 +52,7 @@ Después de añadir o cambiar variables: **Redeploy**.
 - [ ] Cuestionario completo en tu móvil, en modo claro y oscuro.
 - [ ] La lectura gratis se genera con IA (si ves el texto fijo, revisa `GEMINI_API_KEY` en Vercel → Logs).
 - [ ] Compra de prueba de cada plan y una mejora desde el informe básico.
-- [ ] Compatibilidad de pareja en el Pack Completo.
+- [ ] Compatibilidad de pareja en el plan Informe + 12 meses + Pareja.
 - [ ] Descargar en PDF desde el móvil (Compartir → Imprimir → Guardar como PDF).
 - [ ] El email con el enlace llega (si configuraste Resend).
 - [ ] `contacto` rellenado y términos y privacidad revisados.

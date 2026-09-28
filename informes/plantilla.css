@@ -1,6 +1,6 @@
 /* Diseño de los informes en PDF (A5, se lee bien en el móvil y se puede imprimir). */
-@font-face { font-family: 'Raleway'; font-weight: 500; src: url('../web/fonts/raleway-latin-500-normal.woff2') format('woff2'); }
-@font-face { font-family: 'Raleway'; font-weight: 700; src: url('../web/fonts/raleway-latin-700-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Nunito Sans'; font-weight: 500; src: url('../web/fonts/nunito-sans-latin-500-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Nunito Sans'; font-weight: 700; src: url('../web/fonts/nunito-sans-latin-700-normal.woff2') format('woff2'); }
 @font-face { font-family: 'Lora'; font-weight: 500; font-style: italic; src: url('../web/fonts/lora-latin-500-italic.woff2') format('woff2'); }
 @font-face { font-family: 'Lora'; font-weight: 600; src: url('../web/fonts/lora-latin-600-normal.woff2') format('woff2'); }
 @font-face { font-family: 'Lora'; font-weight: 700; src: url('../web/fonts/lora-latin-700-normal.woff2') format('woff2'); }
@@ -8,23 +8,23 @@
 @page { size: A5; margin: 18mm 15mm 20mm; }
 @page :first { margin: 0; }
 
-/* Mismo sistema que la web (docs/diseno.md): un acento cobalto, neutros fríos, Lora + Raleway. */
+/* Mismo sistema que la web (docs/diseno.md): un acento ciruela, fondo crema cálido, Lora + Nunito Sans. */
 :root {
-  --acento: #2F48B8;
-  --texto: #141A2E;
-  --suave: #4A5270;
-  --noche: #0B0F1E;
-  --claro-noche: #ECEFF8;
-  --suave-noche: #A9B0CC;
-  --borde: #D5DAE8;
-  --acento-suave: #E3E8FA;
-  --color-numero: #93A6FF;
+  --acento: #8A2D5E;
+  --texto: #2A1E28;
+  --suave: #5C4B57;
+  --noche: #2A1E28;
+  --claro-noche: #F4ECE6;
+  --suave-noche: #D9C9D2;
+  --borde: #E8DCD0;
+  --acento-suave: #F5E9EF;
+  --color-numero: #E59BBE;
 }
 
 html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 body {
   margin: 0;
-  font-family: 'Raleway', sans-serif;
+  font-family: 'Nunito Sans', sans-serif;
   font-weight: 500;
   font-size: 11pt;
   line-height: 1.6;
@@ -47,9 +47,9 @@ body {
 .portada .circulo {
   width: 56mm; height: 56mm; margin: 6mm auto 8mm; border-radius: 50%;
   display: grid; place-items: center;
-  background: #141A2E;
+  background: #2A1E28;
   border: 2mm solid var(--color-numero);
-  box-shadow: 0 0 0 4mm rgba(147, 166, 255, 0.18);
+  box-shadow: 0 0 0 4mm rgba(229, 155, 190, 0.22);
   font-family: 'Lora', serif; font-weight: 700; font-size: 64pt; color: var(--claro-noche);
 }
 .portada h1 { font-family: 'Lora', serif; font-weight: 600; font-size: 30pt; line-height: 1.05; margin: 0 0 3mm; }
