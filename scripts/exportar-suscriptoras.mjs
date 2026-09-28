@@ -1,5 +1,5 @@
 // Exporta los emails suscritos a "tu número del mes" a un CSV (para Brevo, Mailchimp, Resend…).
-// Uso: BLOB_READ_WRITE_TOKEN=... node scripts/exportar-suscriptoras.mjs > suscriptoras.csv
+// Uso (con las variables de Vercel: `npx vercel env pull .env.local`): node --env-file=.env.local scripts/exportar-suscriptoras.mjs > suscriptoras.csv
 import { list, get } from '@vercel/blob';
 
 const acceso = process.env.BLOB_ACCESS === 'public' ? 'public' : 'private';

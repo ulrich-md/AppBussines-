@@ -4,12 +4,12 @@ import { createHash } from 'node:crypto';
 import { responder, ipDe, limpiarVariable } from './_config.js';
 import { permitido } from './_lectura.js';
 import { esIdSesion, obtenerSesion } from './_stripe.js';
-import { guardar } from './_almacen.js';
+import { guardar, hayBlob } from './_almacen.js';
 import { limpiarTexto } from './_gemini.js';
 
 export async function POST(request) {
   const clave = limpiarVariable(process.env.STRIPE_SECRET_KEY);
-  if (!clave || !process.env.BLOB_READ_WRITE_TOKEN) return responder(503, { error: 'Opiniones no disponibles' });
+  if (!clave || !hayBlob()) return responder(503, { error: 'Opiniones no disponibles' });
   if (!permitido(`opinion:${ipDe(request)}`, { maximo: 5 })) return responder(429, { error: 'Demasiados intentos' });
   let cuerpo;
   try {

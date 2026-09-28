@@ -15,14 +15,14 @@ Todo el código ya está listo. Lo que falta son **tus cuentas y tus claves**. N
 | `GEMINI_API_KEY` | Sí | Lectura gratis e informe de pago. **Cambia la clave que compartiste en el chat.** |
 | `STRIPE_SECRET_KEY` | Sí, para cobrar | Empieza con `sk_test_…` para probar y cambia a `sk_live_…` para vender. |
 | `SITE_URL` | Recomendada | Tu dirección pública (p. ej. `https://tunumerosagrado.com`). Se usa en los enlaces de pago. |
-| `BLOB_READ_WRITE_TOKEN` | Sí, para vender | Guarda cada informe (privado) para que la compradora pueda volver a abrirlo sin volver a pagar a la IA. También guarda la lista de emails. |
+| `BLOB_STORE_ID` (o `BLOB_READ_WRITE_TOKEN`) | Sí, para vender | Las crea Vercel al conectar el almacén Blob; no se escriben a mano. Guarda cada informe (privado) para que la compradora pueda volver a abrirlo sin volver a pagar a la IA. También guarda la lista de emails. |
 | `INFORME_SECRETO` | Recomendada | Cualquier texto largo y aleatorio. Protege las rutas de los informes guardados. |
 | `RESEND_API_KEY` y `EMAIL_FROM` | Opcional | Envía por email el enlace del informe (p. ej. `EMAIL_FROM="Tu Número Sagrado <hola@tudominio.com>"`). |
 | `GEMINI_MODEL` | Opcional | Modelos en orden de preferencia, separados por comas. Por defecto: `gemini-3.5-flash, gemini-3.8-flash, gemini-3.5-flash-lite`. |
 | `CUPON_RECUPERACION` y `CUPON_RECUPERACION_TEXTO` | Opcional | Descuento real para quien cancela el pago y vuelve. Crea un cupón en Stripe (Products → Coupons, p. ej. 15% de descuento) y pon su **id** en `CUPON_RECUPERACION` y el texto que se muestra en `CUPON_RECUPERACION_TEXTO` (p. ej. `15%`). Sin estas variables, no se promete ningún descuento. |
 | `BLOB_ACCESS` | Opcional | `private` por defecto. Solo cámbialo a `public` si tu almacén de Blob no admite acceso privado. |
 
-**Vercel Blob:** en Vercel → Storage → Create → **Blob**, conéctalo al proyecto (se crea `BLOB_READ_WRITE_TOKEN`) y elige acceso **privado**.
+**Vercel Blob:** en Vercel → Storage → Create → **Blob**, conéctalo al proyecto y elige acceso **privado**. Vercel crea `BLOB_STORE_ID` (y la web se autentica sola con el token OIDC de Vercel) o, en cuentas antiguas, `BLOB_READ_WRITE_TOKEN`. Las dos formas funcionan.
 
 Después de añadir o cambiar variables: **Redeploy**.
 

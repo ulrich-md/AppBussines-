@@ -1,6 +1,7 @@
 // Revisa las opiniones de compradoras y aprueba las que quieras publicar.
-//   BLOB_READ_WRITE_TOKEN=... node scripts/opiniones.mjs            → lista las opiniones recibidas
-//   BLOB_READ_WRITE_TOKEN=... node scripts/opiniones.mjs aprobar <id> [<id>…]
+// Antes, descarga las variables de Vercel: npx vercel env pull .env.local
+//   node --env-file=.env.local scripts/opiniones.mjs                    → lista las opiniones recibidas
+//   node --env-file=.env.local scripts/opiniones.mjs aprobar <id> [<id>…]
 //        → las añade a web/testimonios.json (solo si la persona autorizó publicarla)
 // Después: git commit + despliegue. Nunca se publica una opinión sin permiso ni se edita su contenido.
 import { readFileSync, writeFileSync } from 'node:fs';

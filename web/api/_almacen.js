@@ -1,11 +1,14 @@
 // Guarda los informes ya generados para no volver a pagar a la IA en cada visita.
-// Con BLOB_READ_WRITE_TOKEN (Vercel Blob) se guardan de forma privada; sin él, solo en la memoria
-// de la instancia (sirve para desarrollo, pero en producción conviene activar Blob).
+// Con Vercel Blob se guardan de forma privada; sin él, solo en la memoria de la instancia
+// (sirve para desarrollo, pero en producción conviene activar Blob).
+// Vercel conecta el almacén de dos formas: BLOB_STORE_ID (con el token OIDC automático de Vercel,
+// la forma actual) o BLOB_READ_WRITE_TOKEN (la forma clásica). @vercel/blob acepta las dos.
 import { createHash } from 'node:crypto';
 
 const memoria = new Map();
 // Sin Vercel Blob (o en las pruebas) se usa la memoria de la instancia.
-const enMemoria = () => !process.env.BLOB_READ_WRITE_TOKEN || process.env.BLOB_READ_WRITE_TOKEN === 'memoria-pruebas';
+export const hayBlob = () => Boolean(process.env.BLOB_READ_WRITE_TOKEN || process.env.BLOB_STORE_ID);
+const enMemoria = () => !hayBlob() || process.env.BLOB_READ_WRITE_TOKEN === 'memoria-pruebas';
 
 // La ruta no se puede deducir del identificador de compra sin conocer el secreto.
 export function rutaInforme(idSesion, extra = '') {

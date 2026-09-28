@@ -4,3 +4,7 @@ informes/numero-de-vida/
 informes/pdf/
 tests/capturas/
 tests/capturas/movil/
+
+# Variables descargadas de Vercel (claves): nunca al repositorio
+.env
+.env.*
