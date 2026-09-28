@@ -16,7 +16,7 @@ export async function GET(request) {
   const idSesion = url.searchParams.get('s');
   if (!esIdSesion(idSesion)) return responder(400, { error: 'Enlace de informe no válido' });
   const clave = limpiarVariable(process.env.STRIPE_SECRET_KEY);
-  const apiKey = process.env.GEMINI_API_KEY;
+  const apiKey = limpiarVariable(process.env.GEMINI_API_KEY);
   if (!clave || !apiKey) return responder(503, { error: 'Informe no configurado' });
   if (!permitido(`informe:${ipDe(request)}`, { maximo: 30 })) return responder(429, { error: 'Demasiadas peticiones. Espera unos minutos.' });
 
@@ -87,6 +87,6 @@ export async function GET(request) {
     return responder(200, resultado);
   } catch (e) {
     console.error('Error generando el informe:', e.message);
-    return responder(502, { error: 'Tu informe se está escribiendo con mucha demanda. Vuelve a intentarlo en un momento.' });
+    return responder(502, { error: 'Tu informe se está escribiendo con mucha demanda. Vuelve a intentarlo en un momento.', codigo: e.codigo });
   }
 }

@@ -74,6 +74,7 @@ async function llamarModelo({ sistema, usuario }, opciones) {
         return llamarModelo({ sistema, usuario }, { ...opciones, nivelRazonamiento: 'low' });
       }
       const error = new Error(`${modelo} respondió ${respuesta.status}: ${detalle.slice(0, 200)}`);
+      error.codigo = codigoGemini(respuesta.status, detalle);
       // Clave inválida o sin permisos: no tiene sentido probar otros modelos.
       error.reintentable = ![401, 403].includes(respuesta.status);
       throw error;
@@ -82,7 +83,10 @@ async function llamarModelo({ sistema, usuario }, opciones) {
     const partes = json?.candidates?.[0]?.content?.parts ?? [];
     return parsear(partes.filter((p) => !p.thought).map((p) => p.text ?? '').join(''));
   } catch (error) {
-    if (error.name === 'AbortError') error.reintentable = true;
+    if (error.name === 'AbortError') {
+      error.reintentable = true;
+      error.codigo = 'tiempo_agotado';
+    }
     throw error;
   } finally {
     clearTimeout(temporizador);
@@ -93,6 +97,7 @@ async function llamarModelo({ sistema, usuario }, opciones) {
 export async function generarJSON(prompt, { apiKey, modelos, esquema, normalizar, tiempoTotalMs = 36000, tiempoPorModeloMs = 22000, fetchImpl = fetch }) {
   const inicio = Date.now();
   let ultimoError;
+  const codigos = [];
   for (const modelo of modelos) {
     const restante = tiempoTotalMs - (Date.now() - inicio);
     if (restante < 3000) break;
@@ -106,9 +111,24 @@ export async function generarJSON(prompt, { apiKey, modelos, esquema, normalizar
       }
     } catch (error) {
       ultimoError = error;
+      codigos.push(`${modelo}:${error.codigo ?? 'respuesta_no_valida'}`);
       console.warn(`Fallo con ${modelo}: ${error.message}`);
       if (!error.reintentable) break;
     }
   }
-  throw ultimoError ?? new Error('Sin tiempo para generar el texto');
+  const error = ultimoError ?? new Error('Sin tiempo para generar el texto');
+  // Resumen corto por modelo (p. ej. "gemini-3.5-flash:400_API_KEY_INVALID"): sin datos secretos.
+  error.codigo = codigos.join(' ').slice(0, 300) || 'sin_tiempo';
+  throw error;
+}
+
+// Código corto a partir de la respuesta de error de Gemini (estado HTTP + motivo), sin datos secretos.
+function codigoGemini(estado, detalle) {
+  try {
+    const { error } = JSON.parse(detalle);
+    const motivo = error?.details?.find((d) => d.reason)?.reason ?? error?.status;
+    return `${estado}_${String(motivo ?? '').replace(/[^A-Z0-9_]/gi, '').slice(0, 40)}`;
+  } catch {
+    return String(estado);
+  }
 }

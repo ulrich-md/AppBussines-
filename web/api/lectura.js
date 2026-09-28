@@ -4,11 +4,11 @@
 //   GEMINI_MODEL    modelos a usar, separados por comas, en orden de preferencia (opcional)
 import { validarPeticion, construirPrompt, generarLectura, permitido } from './_lectura.js';
 import { modelosConfigurados } from './_gemini.js';
-import { cargarConfiguracion, responder } from './_config.js';
+import { cargarConfiguracion, responder, limpiarVariable } from './_config.js';
 
 
 export async function POST(request) {
-  const apiKey = process.env.GEMINI_API_KEY;
+  const apiKey = limpiarVariable(process.env.GEMINI_API_KEY);
   if (!apiKey) return responder(503, { error: 'Lectura con IA no configurada' });
 
   const ip = (request.headers.get('x-forwarded-for') ?? '').split(',')[0].trim() || 'desconocida';
@@ -34,6 +34,6 @@ export async function POST(request) {
     return responder(200, { lectura });
   } catch (e) {
     console.error('Error generando la lectura:', e.message);
-    return responder(502, { error: 'No se pudo generar la lectura' });
+    return responder(502, { error: 'No se pudo generar la lectura', codigo: e.codigo });
   }
 }
