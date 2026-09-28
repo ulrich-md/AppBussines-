@@ -98,23 +98,31 @@ export async function generarJSON(prompt, { apiKey, modelos, esquema, normalizar
   const inicio = Date.now();
   let ultimoError;
   const codigos = [];
-  for (const modelo of modelos) {
-    const restante = tiempoTotalMs - (Date.now() - inicio);
-    if (restante < 3000) break;
-    try {
-      const datos = await llamarModelo(prompt, { apiKey, modelo, esquema, tiempoMaximoMs: Math.min(tiempoPorModeloMs, restante), fetchImpl });
-      try {
-        return { datos: normalizar(datos), modelo };
-      } catch (error) {
-        error.reintentable = true;
-        throw error;
-      }
-    } catch (error) {
-      ultimoError = error;
-      codigos.push(`${modelo}:${error.codigo ?? 'respuesta_no_valida'}`);
-      console.warn(`Fallo con ${modelo}: ${error.message}`);
-      if (!error.reintentable) break;
+  // Si todos los modelos están saturados (503/429) y queda tiempo, se espera un poco y se repite la ronda.
+  for (let ronda = 0; ronda < 3; ronda++) {
+    if (ronda > 0) {
+      if (tiempoTotalMs - (Date.now() - inicio) < 3000 + 1500 * ronda) break;
+      await new Promise((ok) => setTimeout(ok, 1500 * ronda));
     }
+    for (const modelo of modelos) {
+      const restante = tiempoTotalMs - (Date.now() - inicio);
+      if (restante < 3000) break;
+      try {
+        const datos = await llamarModelo(prompt, { apiKey, modelo, esquema, tiempoMaximoMs: Math.min(tiempoPorModeloMs, restante), fetchImpl });
+        try {
+          return { datos: normalizar(datos), modelo };
+        } catch (error) {
+          error.reintentable = true;
+          throw error;
+        }
+      } catch (error) {
+        ultimoError = error;
+        codigos.push(`${modelo}:${error.codigo ?? 'respuesta_no_valida'}`);
+        console.warn(`Fallo con ${modelo}: ${error.message}`);
+        if (!error.reintentable) break;
+      }
+    }
+    if (ultimoError && !ultimoError.reintentable) break;
   }
   const error = ultimoError ?? new Error('Sin tiempo para generar el texto');
   // Resumen corto por modelo (p. ej. "gemini-3.5-flash:400_API_KEY_INVALID"): sin datos secretos.
