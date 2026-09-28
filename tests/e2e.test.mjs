@@ -109,6 +109,8 @@ for (const dispositivo of ['iPhone 13', 'Pixel 7']) {
     assert.match(texto, /escrita con inteligencia artificial/);
     assert.match(texto, /Tu mundo interior/);
     assert.match(texto, /Tu mes clave para tu paz interior/);
+    // Imagen del alma: una por Número del Alma (aquí, el 9).
+    assert.match(await pagina.locator('.lectura-bloque .bloque-imagen').getAttribute('src'), /almas\/9\.webp$/);
     // Carta completa visible: Vida 4, Alma 9, Expresión 9, Cumpleaños 5.
     assert.deepEqual(await pagina.locator('.resultado-cabecera .carta dd').allInnerTexts(), ['4', '9', '9', '5', '9']);
     // Ni el nombre ni la fecha de nacimiento salen del teléfono: solo los números ya calculados.
@@ -318,6 +320,7 @@ test('página del informe de pago: secciones, 12 meses, compatibilidad y PDF', a
       assert.ok(texto.includes(titulo), titulo);
     }
     assert.equal(await pagina.locator('.mes').count(), 12);
+    assert.match(await pagina.locator('#perfil .bloque-imagen').getAttribute('src'), /almas\/9\.webp$/);
     assert.equal(await pagina.locator('.afirmaciones li').count(), 12);
     assert.equal(await pagina.locator('.semana').count(), 4);
     assert.doesNotMatch(texto, /[—–]/);

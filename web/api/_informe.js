@@ -164,6 +164,7 @@ export function datosFijos(datos, quiz, hoy = new Date()) {
     color_hex: r.color_hex,
     imagen: r.imagen,
     imagen_alt: r.imagen_alt,
+    alma: alma ? { nombre: alma.nombre, imagen: alma.imagen, imagen_alt: alma.imagen_alt } : null,
     carta: datos.carta,
     mes_clave: datos.mesClave,
     deseo: datos.respuestas.deseo?.etiqueta ?? '',

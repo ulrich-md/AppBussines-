@@ -532,3 +532,10 @@ input[type="email"] {
 .mejora-opcion h3 { font-size: 1.1rem; margin-bottom: 4px; }
 .mejora-opcion .boton { width: auto; }
 @media print { .mejora { display: none !important; } }
+
+/* Imagen del alma (una por Número del Alma) dentro de la lectura y del informe. */
+.bloque-imagen {
+  display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover;
+  border-radius: var(--radio-contenedor); margin: 4px 0 14px; background: #141A2E;
+}
+@media print { .bloque-imagen { max-height: 7cm; } }

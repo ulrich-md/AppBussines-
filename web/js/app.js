@@ -307,7 +307,10 @@ function pintarLectura(zonaLectura, zonaFinal, compuesto, lectura) {
   zonaLectura.setAttribute('aria-busy', 'false');
   zonaLectura.replaceChildren(
     lectura?.titular && el('p', { class: 'titular' }, ponerNombre(lectura.titular, nombre, '')),
-    ...bloques.map((b, i) => el('section', { class: 'lectura-bloque', style: { '--i': i } }, el('h2', {}, b.titulo), el('p', {}, b.texto))),
+    ...bloques.map((b, i) => el('section', { class: 'lectura-bloque', style: { '--i': i } },
+      el('h2', {}, b.titulo),
+      b.imagen && el('img', { class: 'bloque-imagen', src: b.imagen, alt: b.alt ?? '', width: 800, height: 600, loading: 'lazy', decoding: 'async' }),
+      el('p', {}, b.texto))),
     tarjetaMesClave(lectura),
     lectura?.frase && el('aside', { class: 'afirmacion' },
       el('p', { class: 'afirmacion-etiqueta' }, 'Tu frase para repetir'),
@@ -372,7 +375,7 @@ function bloquesFijos(compuesto) {
   const { carta } = datosCarta();
   const alma = carta.alma ? quiz.almas?.[String(carta.alma)] : null;
   const bloques = [...compuesto.bloques];
-  if (alma) bloques.splice(1, 0, { titulo: `Tu mundo interior: alma de ${alma.nombre}`, texto: alma.texto });
+  if (alma) bloques.splice(1, 0, { titulo: `Tu mundo interior: alma de ${alma.nombre}`, texto: alma.texto, imagen: alma.imagen, alt: alma.imagen_alt });
   return bloques;
 }
 
@@ -396,9 +399,15 @@ function bloquesDeLectura(lectura) {
   const nombre = nombreSaludo();
   const porDefecto = quiz.ia.nombre_por_defecto;
   const opcion = opcionTexto(quiz, 'area', respuestas.area);
+  const { carta } = datosCarta();
+  const alma = carta.alma ? quiz.almas?.[String(carta.alma)] : null;
   return quiz.ia.bloques
     .filter((b) => lectura[b.campo])
-    .map((b) => ({ titulo: interpolar(b.titulo, { opcion }), texto: ponerNombre(lectura[b.campo], nombre, porDefecto) }));
+    .map((b) => {
+      const bloque = { titulo: interpolar(b.titulo, { opcion }), texto: ponerNombre(lectura[b.campo], nombre, porDefecto) };
+      if (b.campo === 'interior' && alma) Object.assign(bloque, { titulo: `Tu mundo interior: alma de ${alma.nombre}`, imagen: alma.imagen, alt: alma.imagen_alt });
+      return bloque;
+    });
 }
 
 // ---------- Oferta: informe completo personalizado ----------

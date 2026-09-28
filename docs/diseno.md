@@ -57,6 +57,7 @@ Este documento es la referencia para cualquier pantalla, imagen o PDF nuevo.
 - **Iconos:** Phosphor (peso "regular"), en el sprite `web/img/iconos.svg` que genera `npm run build`. **Sin emojis** en la interfaz (taste-skill §3.D, ui-ux-pro-max: prioridad 4).
 - **Imágenes reales generadas con Higgsfield** (taste-skill §4.8), todas de la misma familia visual: fotografía artística nocturna en azul cobalto, figuras solo de espaldas y sin texto.
   - `img/portada-*.webp`: portada del cuestionario.
+  - `img/almas/<n>.webp`: **una imagen por Número del Alma** (antorcha, velas, lienzo, faro…), en el bloque "Tu mundo interior" de la lectura y del informe.
   - `img/arquetipos/<n>-*.webp`: **una imagen por arquetipo**. Se usa en el resultado, en la página para compartir, en la vista previa de WhatsApp y en la portada del informe y del PDF.
 - Formato WebP a 640 y 896px de ancho (unos 20 a 90 KB cada una). Todas con `width` y `height` para que la página no salte al cargar, y con texto alternativo descriptivo.
 

@@ -288,3 +288,88 @@
 - **Llamada a la acción:** "Comenta si te salió un número maestro"
 - **Descripción:** La duda más repetida 👇 #numerosmaestros #numerologia #11 #22 #33
 - **Prompt IA:** *three golden glowing numbers 11 22 33 carved in marble in a moonlit temple, violet and gold, majestic (si la IA no dibuja bien los números, usa el prompt sin números y pon las cifras como texto en TikTok)*
+
+---
+
+# Guiones 31-40: el Número del Alma y el arquetipo combinado
+
+Son los ganchos más personales: dan una identidad propia ("soy Constructora con alma de sanadora") que la gente quiere comentar y compartir. El cuestionario ya calcula el alma a partir del nombre completo.
+
+### 31 · "¿Qué alma tienes?"
+- **Gancho:** "Tu fecha dice quién eres. Tu nombre dice qué desea tu alma."
+- **Texto en pantalla:** "Tu Número del Alma está escondido en tu nombre ✨"
+- **Voz:** "En numerología, las vocales de tu nombre completo esconden tu Número del Alma: lo que deseas en lo más hondo, aunque no lo digas. Hay almas guerreras, románticas, artistas, guardianas, viajeras, protectoras, místicas, reinas y sanadoras. Y tres muy raras: visionaria, arquitecta y maestra. En mi perfil tienes el test gratis que te dice la tuya. Luego vuelve y cuéntame cuál te salió."
+- **Llamada a la acción:** "Comenta tu alma"
+- **Descripción:** ¿Qué alma te salió? #numerologia #numerodelalma #autoconocimiento #espiritualidad
+- **Prompt IA:** *an ornate old mirror in a moonlit stone room reflecting a starry sky instead of the room, silver and cobalt tones*
+
+### 32 · Arquetipo combinado (serie)
+- **Gancho:** "Me salió 'La Constructora con alma de sanadora' y lloré un poquito."
+- **Texto en pantalla:** "Cuando el test te describe demasiado bien 🥲"
+- **Voz:** "Mi Número de Vida es el 4, La Constructora: la que sostiene a todos y no falla. Pero mi alma es un 9, sanadora: lo que de verdad deseo es cuidar y soltar el pasado. Por fuera soy fuerte, por dentro quiero paz. ¿Tú qué combinación tienes? Hay 144 posibles."
+- **Llamada a la acción:** "Comenta la tuya: '[número] con alma de [tipo]'"
+- **Descripción:** Hay 144 combinaciones. ¿Cuál es la tuya? #numerologia #arquetipos #autoconocimiento
+- **Prompt IA:** usa la imagen del arquetipo 4 (el camino de piedras hacia la casita) y después la del alma 9 (el cuenco con la luna). Las dos están en `web/img/`.
+
+### 33 · Alma de reina
+- **Gancho:** "Si tu alma es un 8, naciste para ocupar tu lugar. Y te cuesta admitirlo."
+- **Texto en pantalla:** "Alma de reina 👑"
+- **Voz:** "Las mujeres con Número del Alma 8 desean, en lo más profundo, reconocimiento y libertad. No es ambición vacía: es no querer depender de nadie. Muchas lo esconden para no parecer 'demasiado'. Si te salió alma de reina, hoy te lo digo: no tienes que hacerte pequeña."
+- **Llamada a la acción:** "Guarda el video, reina"
+- **Descripción:** Para las de alma 8 👑 #numerologia #almadereina #mujerpoderosa
+- **Prompt IA:** *a delicate golden crown on deep blue velvet on a marble balustrade at night overlooking city lights*
+
+### 34 · Alma mística
+- **Gancho:** "Si tu alma es un 7, siempre has sentido que la vida tiene un sentido oculto."
+- **Texto en pantalla:** "Alma mística 🔮"
+- **Voz:** "El Número del Alma 7 busca respuestas profundas. Necesitas silencio, leer, rezar o meditar, y a veces te sientes distinta en las reuniones ruidosas. No es que seas rara: tu alma escucha cosas que otros no oyen. ¿Te pasa?"
+- **Llamada a la acción:** "Comenta 'mística' si te salió"
+- **Descripción:** Almas 7, esto es para ustedes 🔮 #numerologia #almamistica #intuicion
+- **Prompt IA:** *a single candle burning on an altar stone inside an ancient temple open to a violet starry sky*
+
+### 35 · "Tu mes clave"
+- **Gancho:** "Hay un mes en los próximos 12 en el que tu energía está a favor del amor. ¿Sabes cuál es?"
+- **Texto en pantalla:** "Tu mes clave para el amor 💞"
+- **Voz:** "En numerología cada mes tiene un número personal para ti, según tu fecha. Los meses 6 y 2 favorecen el amor y los vínculos, y el 8, el dinero. El test gratis de mi perfil te dice tu mes clave para lo que quieres atraer: amor, estabilidad, paz o un cambio de rumbo. A mí me salió mayo. ¿Y a ti?"
+- **Llamada a la acción:** "Comenta tu mes clave"
+- **Descripción:** ¿Cuál es tu mes? #numerologia #mespersonal #amor
+- **Prompt IA:** *an old wall calendar page glowing softly by a window at night with rose petals on the sill, cobalt night tones, no readable text*
+
+### 36 · Respuesta: "calculo tu alma"
+- **Formato:** respuesta en video a quien deje su nombre.
+- **Gancho:** "[Nombre] me pidió su Número del Alma. Solo las vocales."
+- **Voz:** "Tomamos las vocales de tu nombre: [vocales]. A vale 1, E 5, I 9, O 6 y U 3. Suman [total]… y reducimos: [número]. ¡Tienes alma de [tipo]! [Una frase del texto del alma en `web/quizzes/numero-de-vida.json` → `almas`]. Si quieres tu combinación completa, el test está en mi perfil."
+- **Llamada a la acción:** "Deja tu nombre y hago el tuyo"
+- **Descripción:** Calculando almas 🔢 #numerologia #numerodelalma #respondiendo
+
+### 37 · Alma sanadora
+- **Gancho:** "Si tu alma es un 9, sientes el dolor de los demás como si fuera tuyo."
+- **Texto en pantalla:** "Alma sanadora 🤍"
+- **Voz:** "Las almas 9 desean un mundo más justo y amoroso. Perdonan, ayudan, sostienen… y a veces cargan con historias que no son suyas. Tu tarea no es salvar a todos: es sanar también tu propio corazón."
+- **Llamada a la acción:** "Envíaselo a tu amiga sanadora"
+- **Descripción:** Para las almas 9 🤍 #numerologia #almasanadora #sanar
+- **Prompt IA:** *a white ceramic bowl of water reflecting the full moon among healing herbs and white flowers on a stone table at night*
+
+### 38 · Los 3 números maestros del alma
+- **Gancho:** "Solo 3 almas no se reducen nunca. Si tienes una, no es casualidad."
+- **Texto en pantalla:** "Almas maestras: 11, 22 y 33 🌙"
+- **Voz:** "Alma 11, visionaria: intuición fuera de lo común. Alma 22, arquitecta: deseas dejar un legado. Alma 33, maestra: amas sin condiciones y enseñas con el ejemplo. Son muy poco frecuentes. Si te salió una, cuéntamelo."
+- **Llamada a la acción:** "Comenta 11, 22 o 33"
+- **Descripción:** ¿Tienes un alma maestra? #numerosmaestros #numerologia #alma
+- **Prompt IA:** *a vintage brass telescope on a hilltop pointing at a silver comet crossing a starry sky*
+
+### 39 · "Me hice el informe completo" (solo si lo compraste tú)
+- **Formato:** tu reacción real, mostrando tu propio informe en pantalla.
+- **Gancho:** "Pagué el informe completo de mi número para ver si valía la pena."
+- **Voz:** "Te enseño lo que trae: mi carta completa, mis dones y mis sombras, con quién fluyo en el amor, mis próximos 12 meses uno a uno y un ritual pensado para mí. Lo que más me sorprendió fue [tu parte favorita]. Se escribe para cada persona, no es igual para todas. El test gratis está en mi perfil."
+- **Llamada a la acción:** "¿Quieres que lea una parte del tuyo?"
+- **Descripción:** Mi opinión sincera 👀 #numerologia #informenumerologico
+- **Nota:** usa solo tu informe real y tu opinión real. Nunca testimonios inventados.
+
+### 40 · Compatibilidad con alma
+- **Gancho:** "No mires solo su Número de Vida. Mira su alma."
+- **Texto en pantalla:** "La compatibilidad está en el alma 💑"
+- **Voz:** "Dos personas pueden tener Números de Vida muy distintos y almas que se entienden sin hablar. Por ejemplo, una Líder con alma romántica necesita a alguien que la admire y también la cuide. Por eso la compatibilidad no es 'buena' o 'mala': es aprender a leer lo que el otro desea por dentro."
+- **Llamada a la acción:** "Comenta tu número y el de tu pareja"
+- **Descripción:** ¿Se entienden sus almas? #compatibilidad #numerologia #pareja
+- **Prompt IA:** *two candles floating together on still water among rose petals under a starry sky*

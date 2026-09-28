@@ -638,51 +638,75 @@
   "almas": {
     "1": {
       "nombre": "guerrera",
-      "texto": "Por dentro late un deseo profundo de ser libre y abrir tu propio camino, aunque a veces lo escondas para no incomodar."
+      "texto": "Por dentro late un deseo profundo de ser libre y abrir tu propio camino, aunque a veces lo escondas para no incomodar.",
+      "imagen": "img/almas/1.webp",
+      "imagen_alt": "Una antorcha encendida en lo alto de una montaña bajo las estrellas"
     },
     "2": {
       "nombre": "romántica",
-      "texto": "Lo que tu alma más desea es amar y ser amada en calma, sentir que formas parte de algo y que tu ternura es valorada."
+      "texto": "Lo que tu alma más desea es amar y ser amada en calma, sentir que formas parte de algo y que tu ternura es valorada.",
+      "imagen": "img/almas/2.webp",
+      "imagen_alt": "Dos velas flotando juntas sobre el agua entre pétalos de rosa"
     },
     "3": {
       "nombre": "artista",
-      "texto": "Tu alma necesita expresarse: crear, reír, contar lo que sientes. Cuando te callas demasiado, te apagas."
+      "texto": "Tu alma necesita expresarse: crear, reír, contar lo que sientes. Cuando te callas demasiado, te apagas.",
+      "imagen": "img/almas/3.webp",
+      "imagen_alt": "Un caballete con un lienzo en blanco a la luz de la luna"
     },
     "4": {
       "nombre": "guardiana",
-      "texto": "En lo más hondo buscas seguridad: un hogar firme, personas leales y la tranquilidad de saber que lo que construyes durará."
+      "texto": "En lo más hondo buscas seguridad: un hogar firme, personas leales y la tranquilidad de saber que lo que construyes durará.",
+      "imagen": "img/almas/4.webp",
+      "imagen_alt": "Un faro de piedra iluminando el mar de noche"
     },
     "5": {
       "nombre": "viajera",
-      "texto": "Tu alma pide aire, cambio y experiencias nuevas. La rutina que no eliges te pesa más de lo que admites."
+      "texto": "Tu alma pide aire, cambio y experiencias nuevas. La rutina que no eliges te pesa más de lo que admites.",
+      "imagen": "img/almas/5.webp",
+      "imagen_alt": "Un mapa antiguo y una brújula frente al mar turquesa de noche"
     },
     "6": {
       "nombre": "protectora",
-      "texto": "Tu deseo más profundo es cuidar y ver felices a los tuyos. Tu reto es permitirte recibir ese mismo cuidado."
+      "texto": "Tu deseo más profundo es cuidar y ver felices a los tuyos. Tu reto es permitirte recibir ese mismo cuidado.",
+      "imagen": "img/almas/6.webp",
+      "imagen_alt": "Un nido con luz cálida en una rama florecida de noche"
     },
     "7": {
       "nombre": "mística",
-      "texto": "Tu alma busca respuestas profundas y momentos de silencio. Sientes que la vida tiene un sentido oculto que quieres descubrir."
+      "texto": "Tu alma busca respuestas profundas y momentos de silencio. Sientes que la vida tiene un sentido oculto que quieres descubrir.",
+      "imagen": "img/almas/7.webp",
+      "imagen_alt": "Una vela encendida en un templo de piedra abierto a las estrellas"
     },
     "8": {
       "nombre": "reina",
-      "texto": "Por dentro deseas reconocimiento, abundancia y la libertad que da no depender de nadie. Naciste para ocupar tu lugar."
+      "texto": "Por dentro deseas reconocimiento, abundancia y la libertad que da no depender de nadie. Naciste para ocupar tu lugar.",
+      "imagen": "img/almas/8.webp",
+      "imagen_alt": "Una corona dorada sobre terciopelo azul frente a una ciudad iluminada"
     },
     "9": {
       "nombre": "sanadora",
-      "texto": "Tu alma desea un mundo más justo y amoroso. Sientes el dolor ajeno como propio y quieres ayudar a sanar."
+      "texto": "Tu alma desea un mundo más justo y amoroso. Sientes el dolor ajeno como propio y quieres ayudar a sanar.",
+      "imagen": "img/almas/9.webp",
+      "imagen_alt": "Un cuenco de agua que refleja la luna llena entre hierbas y flores blancas"
     },
     "11": {
       "nombre": "visionaria",
-      "texto": "Tu alma es muy intuitiva: presientes, sueñas y te inspiras. Deseas encontrar y compartir una luz que guíe a otros."
+      "texto": "Tu alma es muy intuitiva: presientes, sueñas y te inspiras. Deseas encontrar y compartir una luz que guíe a otros.",
+      "imagen": "img/almas/11.webp",
+      "imagen_alt": "Un telescopio antiguo apuntando a un cometa plateado"
     },
     "22": {
       "nombre": "arquitecta",
-      "texto": "En lo más hondo deseas dejar un legado: construir algo grande y duradero que ayude a muchas personas."
+      "texto": "En lo más hondo deseas dejar un legado: construir algo grande y duradero que ayude a muchas personas.",
+      "imagen": "img/almas/22.webp",
+      "imagen_alt": "Una torre con escalera de caracol que se eleva hacia las estrellas"
     },
     "33": {
       "nombre": "maestra",
-      "texto": "Tu alma desea amar sin condiciones y enseñar con el ejemplo. Tu mayor alegría es ver crecer a quienes quieres."
+      "texto": "Tu alma desea amar sin condiciones y enseñar con el ejemplo. Tu mayor alegría es ver crecer a quienes quieres.",
+      "imagen": "img/almas/33.webp",
+      "imagen_alt": "Un camino de farolillos entre lavanda hacia un roble bajo las estrellas"
     }
   }
 }
