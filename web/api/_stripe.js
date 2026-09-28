@@ -29,6 +29,8 @@ export async function llamarStripe(ruta, { metodo = 'GET', datos, clave, fetchIm
   if (!respuesta.ok) {
     const error = new Error(`Stripe ${respuesta.status}: ${json?.error?.message ?? 'error desconocido'}`);
     error.estado = respuesta.status;
+    // Código corto de Stripe (p. ej. "api_key_invalid", "url_invalid"): no contiene datos secretos.
+    error.codigo = String(json?.error?.code ?? json?.error?.type ?? `http_${respuesta.status}`).slice(0, 60);
     throw error;
   }
   return json;

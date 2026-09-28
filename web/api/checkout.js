@@ -16,7 +16,7 @@ export async function POST(request) {
   // Error frecuente: pegar la clave publicable (pk_…) en lugar de la secreta (sk_… o rk_…).
   if (!/^(sk|rk)_(test|live)_/.test(clave)) {
     console.error('Error creando el pago: STRIPE_SECRET_KEY debe empezar por sk_test_ o sk_live_ (¿pegaste la clave publicable pk_?).');
-    return responder(502, { error: 'No se pudo iniciar el pago' });
+    return responder(502, { error: 'No se pudo iniciar el pago', codigo: 'clave_no_secreta' });
   }
   if (!permitido(`checkout:${ipDe(request)}`, { maximo: 10 })) return responder(429, { error: 'Demasiados intentos. Espera unos minutos.' });
 
@@ -47,7 +47,7 @@ export async function POST(request) {
     return responder(200, { url: sesion.url });
   } catch (e) {
     console.error('Error creando el pago:', e.message);
-    return responder(502, { error: 'No se pudo iniciar el pago' });
+    return responder(502, { error: 'No se pudo iniciar el pago', codigo: e.codigo ?? 'desconocido' });
   }
 }
 
