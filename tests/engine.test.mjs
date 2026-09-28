@@ -114,3 +114,48 @@ test('Número de Vida: cada resultado se compone con todos sus bloques', () => {
     }
   }
 });
+
+test('números del nombre (pitagórico, sin acentos, ñ = n)', async () => {
+  const { normalizarNombre, numeroExpresion, numeroAlma, numeroPersonalidad, primerNombre } = await import('../web/js/engine.js');
+  assert.equal(normalizarNombre('  María José Núñez-Peña '), 'maria jose nunezpena');
+  // vocales a,i,a,o,e,u,e,e,a = 36 → 9 · consonantes m,r,j,s,n,n,z,p,n = 45 → 9 · total 81 → 9
+  assert.equal(numeroAlma('María José Núñez Peña'), 9);
+  assert.equal(numeroPersonalidad('María José Núñez Peña'), 9);
+  assert.equal(numeroExpresion('María José Núñez Peña'), 9);
+  // "ana" → a+n+a = 1+5+1 = 7; alma a+a = 2; personalidad n = 5
+  assert.equal(numeroExpresion('Ana'), 7);
+  assert.equal(numeroAlma('Ana'), 2);
+  assert.equal(numeroPersonalidad('Ana'), 5);
+  // Conserva números maestros: "kk" → 2+2 = 4; "ss" + "t"… usamos un caso que sume 11: "ai" = 1+9 = 10 → 1; "bi" = 2+9 = 11
+  assert.equal(numeroExpresion('Bi'), 11);
+  assert.equal(numeroExpresion('123'), null);
+  assert.equal(primerNombre('  maría josé lópez'), 'María');
+});
+
+test('meses personales y mes clave', async () => {
+  const { mesPersonal, proximosMeses, mesClave, cartaNumerologica, numeroCumpleanos } = await import('../web/js/engine.js');
+  const fecha = { dia: 14, mes: 3, anio: 1985 }; // año personal 2026 = 9
+  assert.equal(mesPersonal(fecha, 2026, 10), 1); // 9 + 10 = 19 → 1
+  assert.equal(mesPersonal(fecha, 2027, 5), 6); // año 2027 = 1 → 1 + 5 = 6
+  const hoy = new Date('2026-09-28T12:00:00');
+  const meses = proximosMeses(fecha, hoy);
+  assert.equal(meses.length, 12);
+  assert.deepEqual(meses[0], { anio: 2026, mes: 10, numero: 1 });
+  assert.deepEqual(mesClave(fecha, 'amor', hoy), { anio: 2027, mes: 5, numero: 6 });
+  assert.equal(mesClave(fecha, 'inexistente', hoy), null);
+  assert.equal(numeroCumpleanos({ dia: 29 }), 11);
+  assert.equal(numeroCumpleanos({ dia: 28 }), 1);
+  const carta = cartaNumerologica(fecha, '', hoy);
+  assert.equal(carta.alma, null);
+  assert.equal(carta.vida, 4);
+  assert.equal(carta.anio_personal, 9);
+  assert.equal(carta.anio_personal_siguiente, 1);
+});
+
+test('arquetipo combinado', async () => {
+  const { arquetipoCombinado } = await import('../web/js/engine.js');
+  const quiz = cargarQuiz('numero-de-vida');
+  assert.equal(arquetipoCombinado(quiz, { vida: 4, alma: 9 }), 'La Constructora con alma de sanadora');
+  assert.equal(arquetipoCombinado(quiz, { vida: 11, alma: null }), 'La Iluminadora');
+  assert.equal(Object.keys(quiz.almas).length, 12);
+});

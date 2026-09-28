@@ -2,8 +2,19 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "functions": {
     "api/lectura.js": {
-      "maxDuration": 40,
-      "includeFiles": "{quizzes/**,site.json}"
+      "maxDuration": 60,
+      "includeFiles": "{quizzes/**,site.json,productos.json}"
+    },
+    "api/checkout.js": {
+      "maxDuration": 20,
+      "includeFiles": "{quizzes/**,site.json,productos.json}"
+    },
+    "api/informe.js": {
+      "maxDuration": 90,
+      "includeFiles": "{quizzes/**,site.json,productos.json}"
+    },
+    "api/suscribir.js": {
+      "maxDuration": 10
     }
   }
 }

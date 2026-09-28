@@ -49,7 +49,7 @@ async function recorrer(pagina, { dia, mes, anio, nombre }) {
   await pagina.getByLabel('Mes').selectOption(String(mes));
   await pagina.getByLabel('Año').selectOption(String(anio));
   await pagina.getByRole('button', { name: 'Continuar' }).click();
-  if (nombre === undefined) await pagina.getByRole('button', { name: 'Prefiero no decirlo' }).click();
+  if (nombre === undefined) await pagina.getByRole('button', { name: 'Prefiero solo usar mi fecha' }).click();
   else {
     await pagina.getByRole('textbox').fill(nombre);
     await pagina.getByRole('button', { name: 'Continuar' }).click();
@@ -73,6 +73,8 @@ async function simularIA(pagina, { estado = 200, peticiones = [] } = {}) {
           senal: 'El 11:11 es una invitación a confiar.',
           consejo: 'Esta semana, reserva diez minutos para ti.',
           frase: 'Merezco descansar y ser cuidada.',
+          interior: 'Tu alma desea calma y reconocimiento.',
+          mes_clave: 'Ese mes resuena con tu deseo de paz.',
         },
       },
     });
@@ -90,8 +92,9 @@ for (const dispositivo of ['iPhone 13', 'Pixel 7']) {
     await pagina.goto(base);
     await pagina.screenshot({ path: `${CAPTURAS}${dispositivo}-1-inicio.png`, fullPage: true });
 
-    await recorrer(pagina, { dia: 14, mes: 3, anio: 1985, nombre: '  maría ' });
-    assert.match(await pagina.locator('h1').innerText(), /La Constructora/);
+    await recorrer(pagina, { dia: 14, mes: 3, anio: 1985, nombre: '  maría josé núñez peña ' });
+    // Arquetipo combinado: Número de Vida 4 + Número del Alma 9 (vocales del nombre completo).
+    assert.match(await pagina.locator('h1').innerText(), /La Constructora con alma de sanadora$/);
     assert.equal((await pagina.locator('.numero').innerText()).trim(), '4');
     // Cada arquetipo tiene su propia imagen.
     assert.match(await pagina.locator('.resultado-imagen').getAttribute('src'), /arquetipos\/4-896\.webp$/);
@@ -104,16 +107,23 @@ for (const dispositivo of ['iPhone 13', 'Pixel 7']) {
     assert.match(texto, /Tu gesto para esta semana/);
     assert.match(texto, /Merezco descansar y ser cuidada/);
     assert.match(texto, /escrita con inteligencia artificial/);
-    assert.match(texto, /9 USD · pago único/);
-    // Ni el nombre ni la fecha de nacimiento salen del teléfono.
+    assert.match(texto, /Tu mundo interior/);
+    assert.match(texto, /Tu mes clave para tu paz interior/);
+    // Carta completa visible: Vida 4, Alma 9, Expresión 9, Cumpleaños 5.
+    assert.deepEqual(await pagina.locator('.resultado-cabecera .carta dd').allInnerTexts(), ['4', '9', '9', '5', '9']);
+    // Ni el nombre ni la fecha de nacimiento salen del teléfono: solo los números ya calculados.
     assert.equal(peticiones.length, 1);
-    assert.deepEqual(Object.keys(peticiones[0]).sort(), ['anio_personal', 'edad', 'numero', 'respuestas']);
-    assert.equal(peticiones[0].numero, '4');
-    assert.doesNotMatch(JSON.stringify(peticiones[0]), /María|1985/);
-    // Sin enlace de tienda configurado, el botón aparece desactivado.
-    assert.equal(await pagina.locator('.informe [aria-disabled="true"]').innerText(), 'Muy pronto disponible');
+    assert.deepEqual(Object.keys(peticiones[0]).sort(), ['carta', 'edad', 'mes_clave', 'respuestas']);
+    assert.equal(peticiones[0].carta.vida, 4);
+    assert.equal(peticiones[0].carta.alma, 9);
+    assert.doesNotMatch(JSON.stringify(peticiones[0]), /Mar[ií]a|1985|núñez/i);
+    // Oferta: 3 planes, el recomendado preseleccionado y el precio en el botón.
+    assert.equal(await pagina.locator('.plan').count(), 3);
+    assert.equal(await pagina.locator('.plan input:checked').getAttribute('value'), 'completo');
+    assert.match(await pagina.locator('.boton-compra').innerText(), /US\$14\.99/);
+    assert.match(await pagina.locator('.portada-viva').innerText(), /El informe de María/);
     const whatsapp = await pagina.getByRole('link', { name: 'Enviar por WhatsApp' }).getAttribute('href');
-    assert.match(decodeURIComponent(whatsapp), /La Constructora .*r\/numero-de-vida\/4\.html/);
+    assert.match(decodeURIComponent(whatsapp), /La Constructora con alma de sanadora .*r\/numero-de-vida\/4\.html/);
     await pagina.screenshot({ path: `${CAPTURAS}${dispositivo}-2-resultado.png`, fullPage: true });
 
     // Sin horizontal scroll en el móvil.
@@ -138,16 +148,15 @@ test('fecha imposible muestra un error', async () => {
   await pagina.close();
 });
 
-test('número maestro sin nombre y botón de compra con enlace', async () => {
+test('número maestro sin nombre, elegir plan y pagar', async () => {
   const pagina = await navegador.newPage({ ...devices['iPhone 13'] });
   await simularIA(pagina);
-  // Simula un enlace de tienda configurado para el resultado 11.
-  await pagina.route('**/quizzes/numero-de-vida.json', async (ruta) => {
-    const quiz = JSON.parse(await readFile(join(WEB, 'quizzes/numero-de-vida.json'), 'utf8'));
-    quiz.resultados['11'].comprar_url = 'https://tienda.ejemplo/numero-11';
-    await ruta.fulfill({ json: quiz });
+  const compras = [];
+  await pagina.route('**/api/checkout', async (ruta) => {
+    compras.push(JSON.parse(ruta.request().postData()));
+    await ruta.fulfill({ json: { url: 'https://tienda.ejemplo/checkout/cs_test_1' } });
   });
-  await pagina.route('https://tienda.ejemplo/**', (ruta) => ruta.fulfill({ body: 'tienda' }));
+  await pagina.route('https://tienda.ejemplo/**', (ruta) => ruta.fulfill({ body: 'pago' }));
   await pagina.goto(base);
   await recorrer(pagina, { dia: 29, mes: 9, anio: 1980 }); // 38 → 11
   assert.equal((await pagina.locator('.numero').innerText()).trim(), '11');
@@ -155,8 +164,15 @@ test('número maestro sin nombre y botón de compra con enlace', async () => {
   assert.match(await pagina.locator('.saludo').innerText(), /^Tu Número de Vida es el/);
   // Sin nombre, el marcador se adapta: "Querida {{nombre}}," → "Querida,".
   assert.match(await pagina.locator('main').innerText(), /Querida, tu 4 habla/);
-  await pagina.getByRole('link', { name: 'Quiero mi informe' }).click();
-  await pagina.waitForURL('https://tienda.ejemplo/numero-11');
+  // Sin nombre, la portada del informe no inventa uno.
+  assert.match(await pagina.locator('.portada-viva').innerText(), /Tu informe personal/);
+  await pagina.getByText('Pack Completo').click();
+  assert.match(await pagina.locator('.boton-compra').innerText(), /US\$19\.99/);
+  await pagina.locator('.boton-compra').click();
+  await pagina.waitForURL('https://tienda.ejemplo/checkout/cs_test_1');
+  assert.equal(compras[0].producto, 'premium');
+  assert.equal(compras[0].carta.vida, 11);
+  assert.equal(compras[0].nombre, '');
   await pagina.close();
 });
 
@@ -241,11 +257,131 @@ for (const esquema of ['light', 'dark']) {
     // Las imágenes respetan su proporción (4:3 el arquetipo, 3:4 la portada del informe).
     const proporcion = (sel) => pagina.locator(sel).evaluate((n) => n.getBoundingClientRect().width / n.getBoundingClientRect().height);
     assert.ok(Math.abs((await proporcion('.resultado-imagen')) - 4 / 3) < 0.05);
-    assert.ok(Math.abs((await proporcion('.informe-portada')) - 3 / 4) < 0.05);
-    // La portada del informe es una imagen real que carga.
-    const portada = pagina.locator('.informe-portada');
-    await portada.scrollIntoViewIfNeeded();
-    assert.ok(await portada.evaluate((img) => img.complete && img.naturalWidth > 0));
+    assert.ok(Math.abs((await proporcion('.portada-viva')) - 3 / 4) < 0.05);
     await contexto.close();
   });
 }
+
+test('si cancela el pago, vuelve a su resultado sin repetir el cuestionario', async () => {
+  const pagina = await navegador.newPage({ ...devices['Pixel 7'] });
+  const peticiones = [];
+  await simularIA(pagina, { peticiones });
+  await pagina.route('**/api/checkout', (ruta) => ruta.fulfill({ json: { url: `${base}?q=numero-de-vida&compra=cancelada` } }));
+  await pagina.goto(base);
+  await recorrer(pagina, { dia: 14, mes: 3, anio: 1985, nombre: 'Rosa' });
+  await pagina.locator('.boton-compra').click();
+  await pagina.waitForURL(/compra=cancelada/);
+  await pagina.locator('.oferta').waitFor();
+  assert.match(await pagina.locator('h1').innerText(), /La Constructora/);
+  assert.match(await pagina.locator('main').innerText(), /Querida Rosa/);
+  assert.equal(peticiones.length, 1, 'no vuelve a pedir la lectura a la IA');
+  await pagina.close();
+});
+
+test('si los pagos no están configurados, lo explica sin romper nada', async () => {
+  const pagina = await navegador.newPage({ ...devices['Pixel 7'] });
+  await simularIA(pagina);
+  await pagina.route('**/api/checkout', (ruta) => ruta.fulfill({ status: 503, json: { error: 'Pagos no configurados' } }));
+  await pagina.goto(base);
+  await recorrer(pagina, { dia: 14, mes: 3, anio: 1985, nombre: 'Rosa' });
+  await pagina.locator('.boton-compra').click();
+  await pagina.locator('.oferta .error', { hasText: /se están activando/ }).waitFor();
+  assert.match(await pagina.locator('.boton-compra').innerText(), /Quiero mi informe/);
+  await pagina.close();
+});
+
+async function simularInforme(pagina, { producto } = {}) {
+  const informe = JSON.parse(await readFile(new URL('./fixtures/informe-premium.json', import.meta.url), 'utf8'));
+  if (producto) informe.producto = { ...informe.producto, id: producto, secciones: ['perfil', 'areas', 'espiritual'] };
+  await pagina.route('**/api/informe?*', async (ruta) => {
+    const url = new URL(ruta.request().url());
+    if (url.searchParams.get('pareja')) {
+      return ruta.fulfill({ json: { pareja: { numero: Number(url.searchParams.get('pareja')), titulo: 'La Sabia', resumen: 'Una combinación profunda y tranquila.', fortalezas: ['Respeto', 'Calma', 'Lealtad'], retos: ['Silencios', 'Rutina', 'Distancia'], consejo: 'Hablen claro cada semana.' } } });
+    }
+    return ruta.fulfill({ json: informe });
+  });
+}
+
+test('página del informe de pago: secciones, 12 meses, compatibilidad y PDF', async () => {
+  for (const esquema of ['light', 'dark']) {
+    const contexto = await navegador.newContext({ ...devices['iPhone 13'], colorScheme: esquema });
+    const pagina = await contexto.newPage();
+    const errores = [];
+    pagina.on('pageerror', (e) => errores.push(e.message));
+    await simularInforme(pagina);
+    await pagina.goto(`${base}informe.html?s=cs_test_demoInforme000001`);
+    await pagina.locator('#bienvenida').waitFor();
+    const texto = await pagina.locator('main').innerText();
+    assert.match(await pagina.locator('h1').innerText(), /La Constructora con alma de sanadora/);
+    assert.match(texto, /El informe personal de María/);
+    for (const titulo of ['Una carta para ti', 'Tu perfil', 'Amor y pareja', 'Dinero y vocación', 'Tus ciclos', 'Tu lado espiritual', 'Tu plan de 4 semanas', 'Compatibilidad', 'Para terminar']) {
+      assert.ok(texto.includes(titulo), titulo);
+    }
+    assert.equal(await pagina.locator('.mes').count(), 12);
+    assert.equal(await pagina.locator('.afirmaciones li').count(), 12);
+    assert.equal(await pagina.locator('.semana').count(), 4);
+    assert.doesNotMatch(texto, /[—–]/);
+    assert.doesNotMatch(texto, /\p{Extended_Pictographic}/u);
+    // Compatibilidad: solo se envía el Número de Vida de la otra persona.
+    const pedidas = [];
+    pagina.on('request', (r) => { if (r.url().includes('pareja=')) pedidas.push(r.url()); });
+    await pagina.getByLabel('Día').selectOption('7');
+    await pagina.getByLabel('Mes').selectOption('7');
+    await pagina.getByLabel('Año').selectOption('1980');
+    await pagina.getByRole('button', { name: 'Ver nuestra compatibilidad' }).click();
+    await pagina.locator('.pareja').waitFor();
+    assert.match(pedidas[0], /pareja=\d+$/);
+    assert.doesNotMatch(pedidas[0], /1980/);
+    assert.match(await pagina.locator('.pareja h3').innerText(), /Tú y un \d+: La Sabia/);
+    await pagina.screenshot({ path: `${CAPTURAS}${esquema}-4-informe.png`, fullPage: true });
+    // Guardado en el teléfono: al volver no se pide otra vez al servidor.
+    let pedidasInforme = 0;
+    pagina.on('request', (r) => { if (r.url().includes('api/informe') && !r.url().includes('pareja')) pedidasInforme += 1; });
+    await pagina.reload();
+    await pagina.locator('#bienvenida').waitFor();
+    assert.equal(pedidasInforme, 0);
+    // El PDF se hace imprimiendo: la versión impresa oculta botones y formularios.
+    await pagina.emulateMedia({ media: 'print' });
+    assert.equal(await pagina.locator('.informe-acciones').isVisible(), false);
+    assert.equal(await pagina.locator('form').first().isVisible(), false);
+    assert.deepEqual(errores, []);
+    await contexto.close();
+  }
+});
+
+test('informe pendiente de pago (efectivo)', async () => {
+  const pagina = await navegador.newPage({ ...devices['Pixel 7'] });
+  await pagina.route('**/api/informe?*', (ruta) => ruta.fulfill({ status: 202, json: { estado: 'pendiente' } }));
+  await pagina.goto(`${base}informe.html?s=cs_test_pendienteOxxo00001`);
+  await pagina.getByRole('heading', { name: 'Tu pago está pendiente' }).waitFor();
+  await pagina.close();
+});
+
+test('páginas legales', async () => {
+  const pagina = await navegador.newPage({ ...devices['Pixel 7'] });
+  for (const [ruta, titulo] of [['terminos.html', 'Términos y reembolsos'], ['privacidad.html', 'Privacidad']]) {
+    await pagina.goto(`${base}${ruta}`);
+    assert.equal(await pagina.locator('h1').innerText(), titulo);
+    assert.doesNotMatch(await pagina.locator('main').innerText(), /[—–]/);
+  }
+  await pagina.close();
+});
+
+test('informe básico: ofrece mejorar pagando la diferencia', async () => {
+  const pagina = await navegador.newPage({ ...devices['Pixel 7'] });
+  await simularInforme(pagina, { producto: 'esencial' });
+  const pedidas = [];
+  await pagina.route('**/api/checkout', async (ruta) => {
+    pedidas.push(JSON.parse(ruta.request().postData()));
+    await ruta.fulfill({ json: { url: 'https://tienda.ejemplo/mejora' } });
+  });
+  await pagina.route('https://tienda.ejemplo/**', (ruta) => ruta.fulfill({ body: 'pago' }));
+  await pagina.goto(`${base}informe.html?s=cs_test_informeBasico000001`);
+  await pagina.locator('.mejora').waitFor();
+  assert.equal(await pagina.locator('.mejora-opcion').count(), 2);
+  assert.equal(await pagina.locator('#ciclos').count(), 0, 'el básico no incluye los ciclos');
+  await pagina.getByRole('button', { name: 'Añadir por US$5.99' }).click();
+  await pagina.waitForURL('https://tienda.ejemplo/mejora');
+  assert.deepEqual(pedidas[0], { producto: 'completo', mejora_de: 'cs_test_informeBasico000001' });
+  await pagina.close();
+});

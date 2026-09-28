@@ -25,5 +25,7 @@
   "analitica": {
     "proveedor": "ninguno",
     "id": ""
-  }
+  },
+  "contacto": "",
+  "_contacto_nota": "Email de atención al cliente (reembolsos, dudas). Obligatorio antes de vender: aparece en términos y privacidad."
 }

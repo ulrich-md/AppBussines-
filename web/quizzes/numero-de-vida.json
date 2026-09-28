@@ -1,7 +1,7 @@
 {
   "id": "numero-de-vida",
   "titulo": "Descubre tu Número de Vida",
-  "subtitulo": "Una lectura personal y gratuita a partir de tu fecha de nacimiento. 11 preguntas, unos 2 minutos.",
+  "subtitulo": "Una lectura personal y gratuita a partir de tu fecha de nacimiento y tu nombre. 11 preguntas, unos 2 minutos.",
   "boton_empezar": "Descubrir mi número",
   "encabezado_resultado": "tu Número de Vida es el",
   "encabezado_resultado_sin_nombre": "Tu Número de Vida es el",
@@ -40,12 +40,12 @@
     {
       "id": "nombre",
       "tipo": "texto",
-      "texto": "¿Cómo te llamas?",
-      "ayuda": "Para dirigirnos a ti por tu nombre. No sale de tu teléfono.",
-      "placeholder": "Tu nombre",
+      "texto": "¿Cuál es tu nombre completo?",
+      "ayuda": "Nombre y apellidos, como en tu acta de nacimiento. Con ellos calculamos tu Número del Alma y tu Número de Expresión. No sale de tu teléfono.",
+      "placeholder": "Ej.: María José López Ramírez",
       "boton": "Continuar",
       "opcional": true,
-      "texto_omitir": "Prefiero no decirlo"
+      "texto_omitir": "Prefiero solo usar mi fecha"
     },
     {
       "id": "situacion_amor",
@@ -233,32 +233,38 @@
         {
           "id": "amor",
           "texto": "Amor",
-          "icono": "heart"
+          "icono": "heart",
+          "etiqueta": "el amor"
         },
         {
           "id": "estabilidad",
           "texto": "Estabilidad económica",
-          "icono": "coins"
+          "icono": "coins",
+          "etiqueta": "tu estabilidad económica"
         },
         {
           "id": "paz",
           "texto": "Paz interior",
-          "icono": "flower-lotus"
+          "icono": "flower-lotus",
+          "etiqueta": "tu paz interior"
         },
         {
           "id": "rumbo",
           "texto": "Un cambio de rumbo",
-          "icono": "compass"
+          "icono": "compass",
+          "etiqueta": "un cambio de rumbo"
         },
         {
           "id": "reconciliacion",
           "texto": "Reconciliarme con alguien",
-          "icono": "hand-heart"
+          "icono": "hand-heart",
+          "etiqueta": "una reconciliación"
         },
         {
           "id": "reconocimiento",
           "texto": "Que valoren lo que hago",
-          "icono": "medal"
+          "icono": "medal",
+          "etiqueta": "que valoren lo que haces"
         }
       ]
     },
@@ -593,11 +599,11 @@
   },
   "ia": {
     "endpoint": "api/lectura",
-    "tiempo_maximo_ms": 30000,
+    "tiempo_maximo_ms": 42000,
     "mensajes_espera": [
-      "Calculando tu Número de Vida…",
-      "Leyendo tus respuestas…",
-      "Conectando tu número con tu momento actual…",
+      "Leyendo tu carta numerológica…",
+      "Calculando tu Número del Alma y tus ciclos…",
+      "Conectando tus números con tus respuestas…",
       "Escribiendo tu lectura personal…"
     ],
     "nombre_por_defecto": "querida",
@@ -606,6 +612,10 @@
       {
         "campo": "esencia",
         "titulo": "Tu esencia"
+      },
+      {
+        "campo": "interior",
+        "titulo": "Tu mundo interior"
       },
       {
         "campo": "momento",
@@ -624,5 +634,55 @@
         "titulo": "Tu gesto para esta semana"
       }
     ]
+  },
+  "almas": {
+    "1": {
+      "nombre": "guerrera",
+      "texto": "Por dentro late un deseo profundo de ser libre y abrir tu propio camino, aunque a veces lo escondas para no incomodar."
+    },
+    "2": {
+      "nombre": "romántica",
+      "texto": "Lo que tu alma más desea es amar y ser amada en calma, sentir que formas parte de algo y que tu ternura es valorada."
+    },
+    "3": {
+      "nombre": "artista",
+      "texto": "Tu alma necesita expresarse: crear, reír, contar lo que sientes. Cuando te callas demasiado, te apagas."
+    },
+    "4": {
+      "nombre": "guardiana",
+      "texto": "En lo más hondo buscas seguridad: un hogar firme, personas leales y la tranquilidad de saber que lo que construyes durará."
+    },
+    "5": {
+      "nombre": "viajera",
+      "texto": "Tu alma pide aire, cambio y experiencias nuevas. La rutina que no eliges te pesa más de lo que admites."
+    },
+    "6": {
+      "nombre": "protectora",
+      "texto": "Tu deseo más profundo es cuidar y ver felices a los tuyos. Tu reto es permitirte recibir ese mismo cuidado."
+    },
+    "7": {
+      "nombre": "mística",
+      "texto": "Tu alma busca respuestas profundas y momentos de silencio. Sientes que la vida tiene un sentido oculto que quieres descubrir."
+    },
+    "8": {
+      "nombre": "reina",
+      "texto": "Por dentro deseas reconocimiento, abundancia y la libertad que da no depender de nadie. Naciste para ocupar tu lugar."
+    },
+    "9": {
+      "nombre": "sanadora",
+      "texto": "Tu alma desea un mundo más justo y amoroso. Sientes el dolor ajeno como propio y quieres ayudar a sanar."
+    },
+    "11": {
+      "nombre": "visionaria",
+      "texto": "Tu alma es muy intuitiva: presientes, sueñas y te inspiras. Deseas encontrar y compartir una luz que guíe a otros."
+    },
+    "22": {
+      "nombre": "arquitecta",
+      "texto": "En lo más hondo deseas dejar un legado: construir algo grande y duradero que ayude a muchas personas."
+    },
+    "33": {
+      "nombre": "maestra",
+      "texto": "Tu alma desea amar sin condiciones y enseñar con el ejemplo. Tu mayor alegría es ver crecer a quienes quieres."
+    }
   }
 }

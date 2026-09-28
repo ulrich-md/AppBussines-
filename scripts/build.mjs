@@ -16,7 +16,7 @@ const c = sitio.colores;
 const sinImagenes = process.argv.includes('--sin-imagenes');
 
 // Iconos de la interfaz (además de los que declaran las opciones de cada cuestionario).
-const ICONOS_INTERFAZ = ['arrow-right', 'arrow-left', 'whatsapp-logo', 'link', 'lock-simple', 'arrow-counter-clockwise'];
+const ICONOS_INTERFAZ = ['arrow-right', 'arrow-left', 'whatsapp-logo', 'link', 'lock-simple', 'arrow-counter-clockwise', 'download-simple', 'check', 'shield-check', 'gift', 'envelope-simple', 'caret-down', 'sparkle', 'credit-card'];
 
 const esc = (texto = '') =>
   String(texto).replace(/[&<>"']/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[ch]);

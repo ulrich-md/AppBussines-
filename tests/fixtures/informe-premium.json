@@ -1,0 +1,216 @@
+{
+ "estado": "listo",
+ "producto": {
+  "id": "premium",
+  "nombre": "Pack Completo",
+  "secciones": [
+   "perfil",
+   "areas",
+   "espiritual",
+   "ciclos",
+   "plan",
+   "pareja"
+  ]
+ },
+ "nombre": "María",
+ "vida": 4,
+ "titulo": "La Constructora",
+ "arquetipo": "La Constructora con alma de sanadora",
+ "maestro": false,
+ "color": "Verde",
+ "color_hex": "#1E8449",
+ "imagen": "img/arquetipos/4",
+ "imagen_alt": "Camino de piedras en un jardín nocturno que lleva a una casita con la ventana encendida",
+ "carta": {
+  "vida": 4,
+  "cumpleanos": 5,
+  "expresion": 9,
+  "alma": 9,
+  "personalidad": 9,
+  "anio_personal": 9,
+  "anio_personal_siguiente": 1,
+  "mes_personal": 9
+ },
+ "mes_clave": {
+  "anio": 2027,
+  "mes": 5,
+  "numero": 6
+ },
+ "deseo": "el amor",
+ "meses": [
+  {
+   "anio": 2026,
+   "mes": 10,
+   "numero": 1,
+   "nombre": "octubre"
+  },
+  {
+   "anio": 2026,
+   "mes": 11,
+   "numero": 2,
+   "nombre": "noviembre"
+  },
+  {
+   "anio": 2026,
+   "mes": 12,
+   "numero": 3,
+   "nombre": "diciembre"
+  },
+  {
+   "anio": 2027,
+   "mes": 1,
+   "numero": 2,
+   "nombre": "enero"
+  },
+  {
+   "anio": 2027,
+   "mes": 2,
+   "numero": 3,
+   "nombre": "febrero"
+  },
+  {
+   "anio": 2027,
+   "mes": 3,
+   "numero": 4,
+   "nombre": "marzo"
+  },
+  {
+   "anio": 2027,
+   "mes": 4,
+   "numero": 5,
+   "nombre": "abril"
+  },
+  {
+   "anio": 2027,
+   "mes": 5,
+   "numero": 6,
+   "nombre": "mayo"
+  },
+  {
+   "anio": 2027,
+   "mes": 6,
+   "numero": 7,
+   "nombre": "junio"
+  },
+  {
+   "anio": 2027,
+   "mes": 7,
+   "numero": 8,
+   "nombre": "julio"
+  },
+  {
+   "anio": 2027,
+   "mes": 8,
+   "numero": 9,
+   "nombre": "agosto"
+  },
+  {
+   "anio": 2027,
+   "mes": 9,
+   "numero": 1,
+   "nombre": "septiembre"
+  }
+ ],
+ "informe": {
+  "perfil": {
+   "introduccion": "Bienvenida a este espacio íntimo, María, donde tus números y tu esencia se encuentran para mostrarte el mapa de tu momento actual. La combinación de tu Número de Vida 4 con tu alma guiada por el 9 crea un puente fascinante entre la necesidad de construir bases firmes y el profundo deseo de sanar y evolucionar. Aunque a veces sientas el peso de la responsabilidad sobre tus hombros, este momento de tu vida te invita a mirar hacia adelante con esperanza y a confiar en las señales sutiles que el universo te envía constantemente.",
+   "esencia": "Tu Número de Vida 4 te define como una mujer constante, leal y con una gran capacidad para crear estabilidad a tu alrededor. Eres la base sólida sobre la que muchos se apoyan, y tu entorno te reconoce justamente por ser una persona sumamente responsable. Dedicas una gran parte de tu energía al trabajo, cumpliendo siempre con tus compromisos y demostrando afecto a través de hechos concretos más que de palabras. Sin embargo, este exceso de rigor a veces te deja agotada o con la sensación de tener que controlarlo todo. Cuando ves repetirse el número 11:11, el universo te está recordando que hay un propósito más alto guiando tus pasos. Tu gran aprendizaje consiste en equilibrar esa hermosa estructura que sabes levantar con la flexibilidad necesaria para permitir que la vida te sorprenda, aflojando el paso para cuidar de ti misma con la misma entrega con la que cuidas de los demás.",
+   "dones": [
+    "Capacidad de trabajo constante: Tu firmeza te permite materializar proyectos y sostener tu vida con una disciplina admirable que pocos poseen.",
+    "Compasión profunda: Llevas la vibración del 9 en tu interior, lo que te dota de una empatía genuina para entender el dolor y las necesidades ajenas.",
+    "Lealtad inquebrantable: Quienes te rodean saben que nunca fallas, porque tu palabra y tu compromiso son siempre verdaderos y seguros.",
+    "Sentido práctico: Sabes organizar los recursos de forma sensata, planificando el futuro con inteligencia y manteniendo la calma ante las dificultades.",
+    "Intuición conectada: Prestas atención a las señales del universo, lo que te permite sintonizar con mensajes sutiles que guían tus decisiones diarias."
+   ],
+   "sombras": [
+    "Exceso de control: La necesidad de que todo salga perfecto te genera una rigidez innecesaria. La salida práctica es delegar pequeños detalles y permitir que las cosas fluyan a su propio ritmo.",
+    "Agotamiento por responsabilidad: Cargas con demasiadas tareas tú sola pensando que nadie más lo hará bien. La salida es aprender a decir que no y reservar momentos sagrados de descanso.",
+    "Dificultad para confiar en ti: A pesar de ser muy capaz, a veces dudas de tu propio valor. La salida es mirar atrás y reconocer cada logro que has construido con tu esfuerzo.",
+    "Miedo al cambio repentino: Te gusta la seguridad del orden, pero tu número de cumpleaños te pide aventura. La salida es dar pequeños pasos hacia lo nuevo sin temor a equivocarte."
+   ],
+   "alma": "En lo más hondo de tu ser, tu Número del Alma 9 busca la reconciliación, la justicia y un amor verdadero que trascienda lo superficial. Sientes el dolor del mundo y el tuyo propio con una intensidad hermosa, anhelando cerrar capítulos del pasado que ya no te corresponden. Este deseo profundo de sanación interior te impulsa a buscar conexiones auténticas, donde puedas mostrarte vulnerable sin miedo al juicio. Tu alma anhela entregar compasión, pero también aprender a recibirla, abriendo tu corazón a esa pareja que deseas atraer desde un lugar de paz y madurez emocional.",
+   "expresion": "Tu Número de Expresión y tu Personalidad vibran en el número 9, lo que significa que los demás te perciben como una mujer sabia, compasiva y capaz de guiar a otros con su ejemplo. Tienes el talento natural para los cierres sanos, para perdonar y para dejar ir aquello que cumplió su ciclo. Aunque a primera vista parezcas una persona seria y ordenada debido a tu estructura de base, quienes logran conocerte descubren una enorme generosidad y una vocación innata para sanar vínculos. Tu presencia aporta calma y madurez a cualquier espacio donde te encuentres.",
+   "cumpleanos": "Tu Número de Cumpleaños 5 aporta a tu vida un soplo de aire fresco y un deseo vibrante de libertad y movimiento. Este don especial rompe la rigidez de tu base, regalándote una curiosidad insaciable y una capacidad maravillosa para adaptarte cuando decides abrazar el cambio. Es la chispa que te impulsa a buscar nuevas experiencias y a mantener el espíritu joven."
+  },
+  "areas": {
+   "amor": "El amor para ti es una construcción seria y profunda, María. Como Número de Vida 4, buscas una base sólida y una pareja con quien proyectar un futuro real, no aventuras pasajeras. Sin embargo, tu alma y tu expresión vibran en el número 9, lo que crea un hermoso contraste: tu mente busca estructura, pero tu corazón anhela una conexión espiritual y compasiva. Al estar soltera y abierta a una relación, el universo te invita a suavizar esa coraza protectora que a veces levantas por temor a que se desmorone tu estabilidad. Últimamente te ha costado confiar en ti misma, pero tu número de cumpleaños 5 te otorga un don especial de adaptabilidad y magnetismo que debes reclamar. Con las ganas de cambio que sientes y tu sensibilidad hacia el 11:11, abre los ojos a las señales. En mayo de 2027, bajo la influencia de tu mes clave del amor, la energía estará dispuesta para que permitas que alguien cruce tu umbral. Para recibir ese amor que tanto deseas atraer, el primer paso es soltar el exceso de control y entregarte a la posibilidad de ser cuidada, permitiendo que la ternura guíe tus pasos.",
+   "fluyes": "Fluyes con gran naturalidad con personas del Número de Vida 2 y 6. El 2 te ofrece la delicadeza, la empatía y la dulzura que tu estructurado mundo necesita, ayudándote a expresar tus emociones sin sentirte vulnerable. Por otro lado, la vibración 6 comparte tu profundo sentido del compromiso y el hogar, brindándote la seguridad de que estás con alguien que valora la estabilidad tanto como tú. Juntos crean un espacio de paz, ternura y mutuo apoyo.",
+   "aprendes": "Tus grandes maestros del crecimiento son los Números de Vida 3 y 5. Aunque a veces su aparente desorden o constante necesidad de movimiento te pongan a prueba y desafíen tu estructura 4, te enseñan la lección más importante para tu evolución: la flexibilidad. Relacionarte con ellos te invita a soltar el control, a reírte de los imprevistos y a descubrir que la vida también puede ser hermosa cuando no está completamente planificada.",
+   "dinero": "Tu relación con el dinero es madura y planificada. Al dedicar la mayor parte de tu energía al trabajo, tu vibración de constructora te hace destacar por tu impecable sentido de la responsabilidad y la precisión. Quienes te rodean valoran tu capacidad para dar orden al caos. Sin embargo, tu alma y expresión 9 te impulsan a que tus tareas diarias tengan un propósito más noble que el simple deber o el sustento. No te conformas con la rutina si esta carece de sentido humano. Con tu año personal 9 en curso, estás en un periodo ideal para cerrar ciclos laborales que ya no resuenan contigo y limpiar tu camino profesional de viejas dudas. Tu gran desafío actual no es la falta de capacidad, sino recuperar la confianza en tu propio valor. El universo te recuerda que tu estabilidad económica no corre peligro si decides dar un paso hacia actividades donde puedas sanar o ayudar a otros, utilizando ese don especial de libertad que te regala tu número de cumpleaños.",
+   "familia": "En el núcleo familiar, María, eres el pilar indiscutible, esa roca firme en la que todos buscan apoyo y consejo cuando las cosas se complican. Tu sentido del deber es inquebrantable, pero tu tarea sagrada en esta etapa de tu vida es aprender a equilibrar la balanza entre dar y recibir. Tu alma compasiva tiende a cargar con responsabilidades ajenas por puro amor, confundiéndolas a veces con obligaciones personales. El universo te invita a establecer límites amorosos y a recordar que tú también tienes derecho a cansarte, a pedir ayuda y a ser sostenida. Permitir que los tuyos asuman sus propias lecciones no es desamor, sino un acto de confianza en su propio crecimiento y un respiro necesario para tu alma."
+  },
+  "espiritual": {
+   "senales": "El universo te habla de forma directa a través de la frecuencia de tu Número de Vida 4 y la vibración sanadora del 9. Cuando ves repetido el 11:11, recibes un recordatorio sagrado de que es momento de equilibrar tu mente constructora con la apertura del corazón. El color verde, tu tono de poder, no solo representa la estabilidad que tanto valoras en tu trabajo, sino que actúa como un puente hacia la sanación emocional que tu alma de vibración 9 anhela experimentar. Las señales te invitan a confiar en los procesos de cambio que sientes bullir en tu interior, abriéndote a la posibilidad de un amor sincero sin perder tu valiosa estructura personal.",
+   "ritual_titulo": "Ritual de apertura al amor y la confianza",
+   "ritual_materiales": [
+    "Una vela de color verde",
+    "Un papel en blanco y un bolígrafo",
+    "Una ramita de romero o una pizca de canela",
+    "Un pequeño objeto que represente para ti el amor"
+   ],
+   "ritual_pasos": [
+    "Encuentra un espacio tranquilo donde te sientas segura y en paz, preferiblemente al atardecer.",
+    "Enciende la vela verde visualizando cómo su luz sana cualquier desconfianza del pasado.",
+    "Escribe en el papel tres cualidades que deseas manifestar en tu vida amorosa, enfocándote en la reciprocidad.",
+    "Espolvorea un poco de canela sobre el papel para activar la energía del merecimiento.",
+    "Coloca el objeto que representa el amor junto a la vela y repite mentalmente que estás lista para recibir.",
+    "Deja que la vela se consuma por completo en un lugar seguro, guardando el papel en tu espacio personal."
+   ],
+   "afirmaciones": [
+    "Abro mi corazón con seguridad y permito que el amor verdadero entre en mi vida.",
+    "Mi dedicación diaria es un imán para relaciones basadas en el respeto mutuo.",
+    "Confío en mi intuición y en el camino que el universo traza para mí.",
+    "Suelto el control y permito que la vida me sorprenda con hermosas conexiones.",
+    "Merezco un amor tan sólido, sincero y constructivo como el que yo ofrezco.",
+    "Agradezco cada cierre del pasado porque prepara el terreno para un nuevo comienzo.",
+    "Mi valor no depende de mi productividad sino de la luz que comparto.",
+    "Establezco límites sanos que protegen mi paz interior y potencian mi amor propio.",
+    "Recibo los cambios con calma, sabiendo que cada paso me acerca a mi destino.",
+    "La confianza en mí misma crece cada día y se refleja en mi entorno.",
+    "Atraigo a personas que valoran mi lealtad, mi entrega y mi sensibilidad profunda.",
+    "Abrazo mi presente con gratitud y me preparo para un ciclo de amor."
+   ],
+   "carta_final": "Querida María, tu camino numerológico muestra una hermosa combinación entre la fuerza de tu estructura y la inmensa sensibilidad de tu alma. Has sido el pilar de muchos, dedicando gran parte de tu energía a construir bases sólidas con una responsabilidad admirable. Hoy, el universo te invita a suavizar esa armadura para que el amor que tanto deseas atraer pueda encontrar el camino hacia ti. Confía en tu proceso, especialmente en los momentos de transición, pues cada cambio que anhelas es solo el preludio de una etapa más luminosa y alineada con tu verdadero ser. Tienes la capacidad de sostener tu mundo mientras permites que alguien camine a tu lado con la misma entrega. Camina con paso firme y el corazón abierto hacia tu merecida felicidad."
+  },
+  "ciclos": {
+   "anio_actual": "Te encuentras transitando un año gobernado por el 9, un tiempo profundo que te invita de manera natural a los cierres y a soltar lo que ya cumplió su ciclo. Con tu Número de Vida 4 tan enfocado en el trabajo y la estructura, este proceso puede pedirte flexibilidad para dejar ir aquello que te pesa, sobre todo cuando notas esas ganas de cambio que rondan tus días. Es un momento sagrado para perdonar, limpiar tu espacio emocional y vaciar tus manos de lo viejo para prepararte para lo nuevo. Presta atención a las señales del universo que se manifiestan en momentos cotidianos, recordándote que cada final es en realidad el umbral hacia una etapa más ligera. No necesitas tener todo bajo control en este instante, María. Permítete transitar este periodo de recapitulación con la confianza de que cada cabo que atas hoy es un regalo de paz para tu futuro.",
+   "anio_siguiente": "El ciclo que se aproxima traerá la energía vibrante del 1, marcando el inicio absoluto de una nueva etapa llena de posibilidades y siembras. Tras haber soltado lo anterior, este año te empujará a decidir, a tomar las riendas con valentía y a empezar algo propio que resuene con el deseo profundo de tu Número del Alma 9. Tu tendencia natural a construir bases sólidas se unirá a esta chispa de renovación, permitiéndote dar pasos firmes hacia aquello que anhelas atraer, especialmente en el amor y en la confianza en ti misma. Será el momento ideal para definir tus intenciones más sinceras y avanzar con la seguridad de quien sabe que merece lo mejor. Prepárate para darte permiso de empezar de cero, confiando en tu propia voz y en la fuerza transformadora que llevas dentro.",
+   "meses": [
+    "Octubre de 2026 marca el inicio de un nuevo ciclo mensual con la energía del 1, ideal para plantar una semilla de intención enfocada en lo que deseas atraer. Como sugerencia práctica, escribe en un papel una meta clara para tu corazón y colócala en un lugar visible.",
+    "Noviembre de 2026 trae la vibración del 2, un mes para cultivar la paciencia y cuidar los vínculos cercanos. Como sugerencia práctica, dedica tiempo a escuchar a alguien especial sin prisas, permitiendo que la cercanía fluya de manera natural.",
+    "Diciembre de 2026 se ilumina con el número 3, invitándote a la expresión, la alegría y la vida social. Como sugerencia práctica, busca una actividad creativa que te divierta y rompa con la rutina de tus responsabilidades habituales.",
+    "Enero de 2027 repite la energía del 2, pidiéndote calma y atención a las alianzas y a la pareja. Como sugerencia práctica, practica la empatía contigo misma y cede el control en alguna pequeña tarea diaria para descansar.",
+    "Febrero de 2027 se llena de la ligereza del 3, propiciando encuentros y momentos de espontaneidad. Como sugerencia práctica, sal a caminar por un parque y observa los detalles alegres que la naturaleza te regala en el camino.",
+    "Marzo de 2027 resuena con tu esencia 4, siendo un mes excelente para el trabajo, el orden y las bases firmes. Como sugerencia práctica, organiza tu espacio de trabajo para que refleje claridad mental y tranquilidad.",
+    "Abril de 2027 trae el movimiento del 5, abriendo la puerta a cambios y oportunidades inesperadas. Como sugerencia práctica, atrévete a tomar una ruta distinta hacia tus lugares habituales para invitar a la novedad.",
+    "Mayo de 2027 se tiñe de la energía del 6, centrándose en el amor, el hogar y los compromisos afectivos. Como sugerencia práctica, crea un ambiente cálido en tu casa con una luz suave y permítete recibir atenciones.",
+    "Junio de 2027 activa el número 7, invitándote a mirar hacia dentro mediante el descanso y la espiritualidad. Como sugerencia práctica, reserva unos minutos al día para meditar en silencio o prestar atención a las señales que te rodean.",
+    "Julio de 2027 vibra con el 8, señalando una cosecha en el plano material y de reconocimiento. Como sugerencia práctica, celebra tus pequeños logros económicos y laborales con un detalle especial para ti.",
+    "Agosto de 2027 corresponde al número 9, marcando un tiempo de cierres y de soltar cargas emocionales. Como sugerencia práctica, realiza una limpieza profunda de objetos que ya no uses y despídete de ellos con agradecimiento.",
+    "Septiembre de 2027 vuelve a empezar con la fuerza del 1, preparándote para un nuevo renacer personal. Como sugerencia práctica, visualiza con claridad el siguiente paso que deseas dar en tu camino y da el primer movimiento."
+   ],
+   "mes_clave": "Durante mayo de 2027, tu mes clave con energía 6, el foco se alinea directamente con tus deseos más profundos de amor y bienestar emocional. Para aprovechar esta etapa y atraer lo que mereces, comienza por cultivar la aceptación hacia ti misma, soltando la exigencia de que todo deba ser perfecto en tus vínculos. Abre espacio en tu rutina para compartir momentos de calidad sin agendas estrictas, permitiéndote la espontaneidad y la ternura que a veces te cuesta mostrar. Presta especial atención a las señales del universo que aparecerán en forma de sincronicidades o encuentros significativos, y acógelas con el corazón abierto. Finalmente, recuerda que cuidar de ti misma con la misma dedicación con la que cuidas a los demás es el imán más poderoso para atraer una relación sana y equilibrada."
+  },
+  "plan": {
+   "semanas": [
+    {
+     "titulo": "Reconocer el valor de tu esfuerzo",
+     "practica": "María, este mes de cierre te invita a mirar tu entrega diaria con gratitud y sin exigencia excesiva. Dedica unos minutos al despertar a agradecer por el sustento que creas con tu trabajo constante. Durante el día, anota tres logros tuyos, por pequeños que parezcan, para fortalecer tu confianza interior. Al caer la tarde, observa el cielo en busca de una señal del universo que te recuerde que vas por el camino correcto y mereces descansar en paz."
+    },
+    {
+     "titulo": "Abrir espacio al cambio",
+     "practica": "Tu don de cumpleaños te impulsa hacia la libertad y la aventura, recordándote que la vida no siempre requiere un plano rígido. Al iniciar cada mañana, haz una respiración profunda y comprométete a soltar una pequeña rutina innecesaria. Durante la jornada, permite que lo imprevisto te sorprenda con una sonrisa, aceptando que cada pequeña variación es una oportunidad para aprender. Por la noche, visualiza cómo el color verde de tu poder renueva tu energía y suaviza cualquier tensión acumulada."
+    },
+    {
+     "titulo": "Preparar el terreno afectivo",
+     "practica": "Tu alma compasiva anhela conectar desde un lugar puro, pero es momento de cuidarte primero a ti misma. Por la mañana, dedícate unas palabras de afecto frente al espejo, recordando que tu sensibilidad es una fortaleza inmensa. A lo largo del día, practica la escucha consciente cuando hables con otros, permitiendo que la empatía guíe tus pasos. Antes de dormir, escribe en un papel una cualidad que deseas recibir en el amor y entrégala al universo con la certeza de que todo llega a su debido tiempo."
+    },
+    {
+     "titulo": "Sembrar confianza para un nuevo ciclo",
+     "practica": "Estás cerrando una etapa importante para prepararte hacia nuevos comienzos llenos de luz. Cada mañana, repite una afirmación que fortalezca tu seguridad personal y tu valentía para iniciar lo que amas. Durante el día, realiza una caminata al aire libre prestando atención a los detalles de la naturaleza para equilibrar tu mente. Al finalizar la semana, enciende una pequeña intención de gratitud por todo lo aprendido, abriendo tu corazón con esperanza hacia el futuro."
+    }
+   ]
+  }
+ },
+ "generado": "2026-09-28T04:30:00.000Z"
+}

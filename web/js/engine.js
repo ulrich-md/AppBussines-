@@ -112,7 +112,7 @@ export function limpiarNombre(nombre = '') {
     .replace(/[^\p{L}\p{M}' -]/gu, '')
     .replace(/\s+/g, ' ')
     .trim()
-    .slice(0, 30);
+    .slice(0, 60);
   return limpio ? limpio.charAt(0).toLocaleUpperCase('es') + limpio.slice(1) : '';
 }
 
@@ -184,4 +184,107 @@ export function rangoEdad({ dia, mes, anio }, hoy = new Date()) {
   if (edad < 50) return '40-49';
   if (edad < 60) return '50-59';
   return '60+';
+}
+
+// ---------- Carta numerológica completa (numerología pitagórica) ----------
+
+const VALOR_LETRA = {
+  a: 1, b: 2, c: 3, d: 4, e: 5, f: 6, g: 7, h: 8, i: 9,
+  j: 1, k: 2, l: 3, m: 4, n: 5, o: 6, p: 7, q: 8, r: 9,
+  s: 1, t: 2, u: 3, v: 4, w: 5, x: 6, y: 7, z: 8,
+};
+const VOCALES = new Set(['a', 'e', 'i', 'o', 'u']);
+
+// Minúsculas sin acentos (la ñ cuenta como n); solo letras y espacios.
+export function normalizarNombre(nombre = '') {
+  return nombre
+    .normalize('NFD')
+    .replace(/\p{M}/gu, '')
+    .toLowerCase()
+    .replace(/[^a-z ]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function numeroDeLetras(nombre, filtro) {
+  const letras = normalizarNombre(nombre).replace(/ /g, '').split('').filter(filtro);
+  if (!letras.length) return null;
+  return reducir(letras.reduce((total, letra) => total + VALOR_LETRA[letra], 0));
+}
+
+// Expresión (o Destino): todas las letras del nombre completo. Alma: solo vocales. Personalidad: solo consonantes.
+export const numeroExpresion = (nombre) => numeroDeLetras(nombre, () => true);
+export const numeroAlma = (nombre) => numeroDeLetras(nombre, (l) => VOCALES.has(l));
+export const numeroPersonalidad = (nombre) => numeroDeLetras(nombre, (l) => !VOCALES.has(l));
+
+// Cumpleaños: el día de nacimiento reducido (conserva 11 y 22).
+export const numeroCumpleanos = ({ dia }) => reducir(dia);
+
+// Mes personal: año personal + número del mes, reducido a 1-9.
+export function mesPersonal(fecha, anio, mes) {
+  let n = anioPersonal(fecha, anio) + mes;
+  while (n > 9) n = sumaDigitos(n);
+  return n;
+}
+
+// Los 12 meses siguientes al actual, con su número personal.
+export function proximosMeses(fecha, hoy = new Date()) {
+  const meses = [];
+  for (let i = 1; i <= 12; i++) {
+    const d = new Date(hoy.getFullYear(), hoy.getMonth() + i, 1);
+    meses.push({ anio: d.getFullYear(), mes: d.getMonth() + 1, numero: mesPersonal(fecha, d.getFullYear(), d.getMonth() + 1) });
+  }
+  return meses;
+}
+
+// Qué meses personales favorecen cada deseo (convención de la marca, basada en el significado de cada número).
+export const MESES_POR_DESEO = {
+  amor: [6, 2],
+  estabilidad: [8, 4],
+  paz: [7, 9],
+  rumbo: [1, 5],
+  reconciliacion: [2, 9],
+  reconocimiento: [8, 1],
+};
+
+// Primer mes de los próximos 12 cuya energía encaja con lo que la persona quiere atraer.
+export function mesClave(fecha, deseo, hoy = new Date()) {
+  const favorables = MESES_POR_DESEO[deseo];
+  if (!favorables) return null;
+  const meses = proximosMeses(fecha, hoy);
+  for (const numero of favorables) {
+    const encontrado = meses.find((m) => m.numero === numero);
+    if (encontrado) return encontrado;
+  }
+  return null;
+}
+
+export const NOMBRES_MES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+
+// Carta completa. Los números del nombre solo existen si la persona escribió su nombre completo.
+export function cartaNumerologica(fecha, nombreCompleto = '', hoy = new Date()) {
+  const anio = hoy.getFullYear();
+  const tieneNombre = normalizarNombre(nombreCompleto).length > 0;
+  return {
+    vida: numeroDeVida(fecha),
+    cumpleanos: numeroCumpleanos(fecha),
+    expresion: tieneNombre ? numeroExpresion(nombreCompleto) : null,
+    alma: tieneNombre ? numeroAlma(nombreCompleto) : null,
+    personalidad: tieneNombre ? numeroPersonalidad(nombreCompleto) : null,
+    anio_personal: anioPersonal(fecha, anio),
+    anio_personal_siguiente: anioPersonal(fecha, anio + 1),
+    mes_personal: mesPersonal(fecha, anio, hoy.getMonth() + 1),
+  };
+}
+
+// Nombre para saludar: la primera palabra del nombre completo.
+export function primerNombre(nombreCompleto = '') {
+  return limpiarNombre(nombreCompleto.trim().split(/\s+/)[0] ?? '');
+}
+
+// "La Líder con alma de artista": arquetipo combinado de Número de Vida y Número del Alma.
+export function arquetipoCombinado(quiz, carta) {
+  const base = quiz.resultados[String(carta.vida)]?.titulo ?? '';
+  const alma = carta.alma ? quiz.almas?.[String(carta.alma)] : null;
+  return alma ? `${base} con alma de ${alma.nombre}` : base;
 }
