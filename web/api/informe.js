@@ -1,7 +1,7 @@
 // GET /api/informe?s=<id de compra>              → el informe completo (se genera la primera vez)
 // GET /api/informe?s=<id de compra>&pareja=<n>   → compatibilidad con otro Número de Vida (plan con pareja)
 // Solo funciona con compras pagadas en Stripe: la IA nunca trabaja gratis desde aquí.
-import { cargarConfiguracion, responder, origenDe, ipDe } from './_config.js';
+import { cargarConfiguracion, responder, origenDe, ipDe, limpiarVariable } from './_config.js';
 import { validarPeticion, permitido } from './_lectura.js';
 import { decodificarMetadata, esIdSesion, obtenerSesion } from './_stripe.js';
 import { datosFijos, esNumeroPareja, generarSecciones } from './_informe.js';
@@ -15,7 +15,7 @@ export async function GET(request) {
   const url = new URL(request.url);
   const idSesion = url.searchParams.get('s');
   if (!esIdSesion(idSesion)) return responder(400, { error: 'Enlace de informe no válido' });
-  const clave = process.env.STRIPE_SECRET_KEY;
+  const clave = limpiarVariable(process.env.STRIPE_SECRET_KEY);
   const apiKey = process.env.GEMINI_API_KEY;
   if (!clave || !apiKey) return responder(503, { error: 'Informe no configurado' });
   if (!permitido(`informe:${ipDe(request)}`, { maximo: 30 })) return responder(429, { error: 'Demasiadas peticiones. Espera unos minutos.' });

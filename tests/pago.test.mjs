@@ -225,3 +225,20 @@ test('testimonios.json empieza vacío (no hay opiniones inventadas)', () => {
   const t = JSON.parse(readFileSync(new URL('../web/testimonios.json', import.meta.url)));
   assert.deepEqual(t.opiniones, []);
 });
+
+test('config: SITE_URL y clave de Stripe tolerantes a errores al pegarlas', async () => {
+  const { origenDe, limpiarVariable } = await import('../web/api/_config.js');
+  const peticion = new Request('https://proyecto.vercel.app/api/checkout');
+  const anterior = process.env.SITE_URL;
+  try {
+    process.env.SITE_URL = ' tunumero.com/ ';
+    assert.equal(origenDe(peticion), 'https://tunumero.com');
+    process.env.SITE_URL = '"https://tunumero.com/"';
+    assert.equal(origenDe(peticion), 'https://tunumero.com');
+    process.env.SITE_URL = 'no es una url';
+    assert.equal(origenDe(peticion), 'https://proyecto.vercel.app');
+  } finally {
+    if (anterior === undefined) delete process.env.SITE_URL; else process.env.SITE_URL = anterior;
+  }
+  assert.equal(limpiarVariable(' "sk_test_abc" \n'), 'sk_test_abc');
+});

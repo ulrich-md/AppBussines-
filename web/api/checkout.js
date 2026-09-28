@@ -1,6 +1,6 @@
 // POST /api/checkout → crea una sesión de pago de Stripe para el producto elegido y devuelve su URL.
 // El precio sale siempre de productos.json (nunca del navegador).
-import { cargarConfiguracion, responder, origenDe, ipDe } from './_config.js';
+import { cargarConfiguracion, responder, origenDe, ipDe, limpiarVariable } from './_config.js';
 import { validarPeticion, permitido } from './_lectura.js';
 import { codificarMetadata, crearSesion, esIdSesion, obtenerSesion } from './_stripe.js';
 
@@ -11,8 +11,13 @@ export function GET() {
 }
 
 export async function POST(request) {
-  const clave = process.env.STRIPE_SECRET_KEY;
+  const clave = limpiarVariable(process.env.STRIPE_SECRET_KEY);
   if (!clave) return responder(503, { error: 'Pagos no configurados' });
+  // Error frecuente: pegar la clave publicable (pk_…) en lugar de la secreta (sk_… o rk_…).
+  if (!/^(sk|rk)_(test|live)_/.test(clave)) {
+    console.error('Error creando el pago: STRIPE_SECRET_KEY debe empezar por sk_test_ o sk_live_ (¿pegaste la clave publicable pk_?).');
+    return responder(502, { error: 'No se pudo iniciar el pago' });
+  }
   if (!permitido(`checkout:${ipDe(request)}`, { maximo: 10 })) return responder(429, { error: 'Demasiados intentos. Espera unos minutos.' });
 
   const texto = await request.text();

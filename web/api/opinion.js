@@ -1,14 +1,14 @@
 // POST /api/opinion → guarda la opinión de una compradora (compra verificada en Stripe) para revisarla.
 // Nada se publica solo: se aprueba con scripts/opiniones.mjs, que la copia a web/testimonios.json.
 import { createHash } from 'node:crypto';
-import { responder, ipDe } from './_config.js';
+import { responder, ipDe, limpiarVariable } from './_config.js';
 import { permitido } from './_lectura.js';
 import { esIdSesion, obtenerSesion } from './_stripe.js';
 import { guardar } from './_almacen.js';
 import { limpiarTexto } from './_gemini.js';
 
 export async function POST(request) {
-  const clave = process.env.STRIPE_SECRET_KEY;
+  const clave = limpiarVariable(process.env.STRIPE_SECRET_KEY);
   if (!clave || !process.env.BLOB_READ_WRITE_TOKEN) return responder(503, { error: 'Opiniones no disponibles' });
   if (!permitido(`opinion:${ipDe(request)}`, { maximo: 5 })) return responder(429, { error: 'Demasiados intentos' });
   let cuerpo;
