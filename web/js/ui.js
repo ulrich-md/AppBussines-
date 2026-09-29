@@ -34,8 +34,10 @@ export function icono(nombre) {
   return svg;
 }
 
-export function formatearPrecio(centavos, simbolo = 'US$') {
-  return `${simbolo}${(centavos / 100).toFixed(2)}`;
+// "$149 MXN" (sin decimales si el importe es redondo) o "US$9.99".
+export function formatearPrecio(centavos, simbolo = 'US$', sufijo = '') {
+  const importe = centavos / 100;
+  return `${simbolo}${Number.isInteger(importe) ? importe : importe.toFixed(2)}${sufijo}`;
 }
 
 // localStorage puede no existir o fallar (modo privado): nunca debe romper la página.

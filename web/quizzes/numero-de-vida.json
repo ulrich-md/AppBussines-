@@ -15,19 +15,19 @@
         "titulo": "Tu fecha y tu nombre",
         "texto": "Con ellos calculamos tus números: Vida, Alma, Expresión y tu Año Personal.",
         "imagen": "img/pasos/1.webp",
-        "imagen_alt": "Manos de una mujer madura sostienen una pluma sobre un cuaderno con una cuadrícula dibujada a mano."
+        "imagen_alt": "Manos de una mujer escribiendo con una pluma dorada en un cuaderno oscuro a la luz de las velas"
       },
       {
         "titulo": "Unas preguntas sobre tu momento",
         "texto": "Amor, trabajo, familia y lo que más deseas ahora. Solo tocas la respuesta.",
         "imagen": "img/pasos/2.webp",
-        "imagen_alt": "Mujer latina sonríe mientras lee en su celular, sentada en el sofá bajo la luz cálida de una lámpara."
+        "imagen_alt": "Mujer latina madura sonríe mientras mira su celular en un sofá, de noche, con una lámpara violeta y una ventana llena de estrellas"
       },
       {
         "titulo": "Tu lectura, al momento y gratis",
         "texto": "Tu número, tu arquetipo y una lectura escrita para ti. Si quieres ir más allá, puedes pedir tu informe completo.",
         "imagen": "img/pasos/3.webp",
-        "imagen_alt": "Cuadernillo con tapa color ciruela y adorno dorado sobre lino, junto a rosas secas y una vela encendida."
+        "imagen_alt": "Cuadernillo azul índigo con ornamentos dorados de luna y estrellas, junto a velas encendidas y cristales de amatista y cuarzo"
       }
     ],
     "ejemplo": {
@@ -38,7 +38,7 @@
     },
     "titulo_final": "¿Qué dice tu fecha de nacimiento de ti?",
     "texto_final": "Unos 2 minutos. Sin registro y sin pagar nada.",
-    "imagen_alt": "Mujer latina de cabello canoso escribe sonriente en un cuaderno junto a la ventana, con una taza de té, flores secas y una vela."
+    "imagen_alt": "Mujer latina madura con chal morado mira un cielo nocturno lleno de estrellas y una nebulosa violeta, sosteniendo una libreta junto al pecho a la luz de las velas"
   },
   "encabezado_resultado": "tu Número de Vida es el",
   "encabezado_resultado_sin_nombre": "Tu Número de Vida es el",

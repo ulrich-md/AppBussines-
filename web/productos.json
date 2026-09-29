@@ -1,12 +1,12 @@
 {
-  "moneda": "usd",
-  "simbolo": "US$",
+  "moneda": "mxn",
+  "simbolo": "$",
   "garantia_dias": 7,
   "productos": [
     {
       "id": "esencial",
       "nombre": "Informe Personal",
-      "precio": 999,
+      "precio": 17900,
       "resumen": "Tu carta numerológica completa, escrita solo para ti.",
       "incluye": [
         "Tu carta completa: Vida, Alma, Expresión, Personalidad y Cumpleaños",
@@ -24,7 +24,7 @@
     {
       "id": "completo",
       "nombre": "Informe + 12 meses",
-      "precio": 1499,
+      "precio": 26900,
       "recomendado": true,
       "resumen": "Todo tu informe más lo que viene: tus ciclos mes a mes.",
       "incluye": [
@@ -43,7 +43,7 @@
     {
       "id": "premium",
       "nombre": "Informe + 12 meses + Pareja",
-      "precio": 1999,
+      "precio": 34900,
       "resumen": "Todo, más tu compatibilidad de pareja y un plan de 4 semanas.",
       "incluye": [
         "Todo lo del Informe + 12 meses",
@@ -64,23 +64,126 @@
     {
       "desde": "esencial",
       "hacia": "completo",
-      "precio": 599,
+      "precio": 9000,
       "nombre": "Mejora a Informe + 12 meses",
       "texto": "Añade tus dos Años Personales, tus próximos 12 meses uno a uno y qué hacer en tu mes clave."
     },
     {
       "desde": "esencial",
       "hacia": "premium",
-      "precio": 1099,
+      "precio": 17000,
       "nombre": "Mejora a Informe + 12 meses + Pareja",
       "texto": "Añade tus 12 meses, tu compatibilidad de pareja y tu plan personal de 4 semanas."
     },
     {
       "desde": "completo",
       "hacia": "premium",
-      "precio": 599,
+      "precio": 8000,
       "nombre": "Mejora a Informe + 12 meses + Pareja",
       "texto": "Añade tu compatibilidad de pareja (o con quien quieras) y tu plan personal de 4 semanas."
     }
-  ]
+  ],
+  "sufijo": " MXN",
+  "tienda": [
+    {
+      "id": "manifestacion",
+      "nombre": "Guía de Manifestación",
+      "tipo": "eBook en PDF",
+      "precio": 14900,
+      "imagen": "img/productos/manifestacion",
+      "resumen": "Un método claro de 21 días para definir lo que deseas, soltar lo que te frena y reconocer las señales de avance.",
+      "incluye": [
+        "7 capítulos con ejercicios",
+        "Guion de 21 días",
+        "Ritual de luna nueva"
+      ],
+      "imagen_alt": "Libro antiguo de cuero con adornos dorados abierto sobre una mesa oscura, rodeado de velas encendidas y destellos dorados"
+    },
+    {
+      "id": "tarot-guia",
+      "nombre": "Guía rápida del Tarot",
+      "tipo": "Descargable en PDF",
+      "precio": 7900,
+      "imagen": "img/productos/tarot-guia",
+      "resumen": "Los 22 Arcanos Mayores explicados en una ficha cada uno: palabras clave, al derecho, invertida, amor y consejo.",
+      "incluye": [
+        "22 fichas de Arcanos Mayores",
+        "Los 4 palos en una página",
+        "3 tiradas sencillas"
+      ],
+      "imagen_alt": "Abanico de siete cartas de tarot ilustradas con sol, luna, estrella, ojo, rosa, torre y planeta sobre terciopelo azul oscuro"
+    },
+    {
+      "id": "diario-lunar",
+      "nombre": "Diario de Magia Lunar",
+      "tipo": "Diario imprimible",
+      "precio": 17900,
+      "imagen": "img/productos/diario-lunar",
+      "resumen": "Las 8 fases de la Luna con su ritual y sus preguntas, más páginas para escribir tu diario mes a mes.",
+      "incluye": [
+        "8 fases lunares con ritual",
+        "Preguntas para escribir",
+        "12 páginas de diario"
+      ],
+      "imagen_alt": "Diario azul profundo con una luna creciente y estrellas doradas en relieve, entre velas encendidas y bruma violeta"
+    },
+    {
+      "id": "cristales",
+      "nombre": "Guía de Cristales",
+      "tipo": "eBook en PDF",
+      "precio": 13900,
+      "imagen": "img/productos/cristales",
+      "resumen": "Cómo elegir, limpiar y usar tus cristales, con 12 fichas de las piedras más queridas.",
+      "incluye": [
+        "12 fichas de cristales",
+        "Limpieza y carga",
+        "Rituales sencillos"
+      ],
+      "imagen_alt": "Cristales de amatista y cuarzo transparente entre velas encendidas con un resplandor violeta"
+    },
+    {
+      "id": "tarot-diario",
+      "nombre": "Guía diaria del Tarot",
+      "tipo": "eBook en PDF",
+      "precio": 9900,
+      "imagen": "img/productos/tarot-diario",
+      "resumen": "Tu ritual de la carta del día en 5 minutos: cómo sacarla, interpretarla y escribirla, con tiradas para cada situación.",
+      "incluye": [
+        "Ritual de 5 minutos",
+        "Tiradas por tema",
+        "Páginas de registro"
+      ],
+      "imagen_alt": "Caja de tarot azul con diseño celeste dorado de sol y luna sobre una superficie de madera, junto a una vela encendida"
+    },
+    {
+      "id": "proteccion",
+      "nombre": "Rituales de Protección",
+      "tipo": "Libro digital",
+      "precio": 12900,
+      "imagen": "img/productos/proteccion",
+      "resumen": "Rituales sencillos y seguros para limpiar tu casa y tu energía y poner límites con amor.",
+      "incluye": [
+        "9 rituales paso a paso",
+        "Limpieza del hogar",
+        "Protección de la energía"
+      ],
+      "imagen_alt": "Libro de tapa morada con símbolos protectores dorados, junto a una vela encendida y un atado de hierbas secas"
+    }
+  ],
+  "pack": {
+    "id": "pack",
+    "nombre": "Biblioteca Mística completa",
+    "precio": 44900,
+    "imagen": "img/productos/pack",
+    "resumen": "Las 6 guías juntas: manifestación, tarot, diario lunar, cristales, tarot diario y protección.",
+    "productos": [
+      "manifestacion",
+      "tarot-guia",
+      "diario-lunar",
+      "cristales",
+      "tarot-diario",
+      "proteccion"
+    ],
+    "imagen_alt": "Composición vista desde arriba con libros, diario lunar, cartas de tarot, cristales y velas sobre terciopelo índigo con estrellas doradas"
+  }
 }

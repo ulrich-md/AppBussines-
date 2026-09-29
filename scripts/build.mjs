@@ -48,7 +48,7 @@ function paginaCompartida(quiz, id, r) {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>${esc(`${r.titulo} · ${nombreQuiz} ${id}`)}</title>
   <meta name="description" content="${esc(descripcion)}">
-  <meta name="theme-color" content="#FBF6EF">
+  <meta name="theme-color" content="#120E2B">
   <meta property="og:type" content="website">
   <meta property="og:title" content="${esc(`Me salió el ${id}: ${r.titulo}. ¿Y a ti?`)}">
   <meta property="og:description" content="${esc(descripcion)}">

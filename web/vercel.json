@@ -22,6 +22,10 @@
     "api/pdf.js": {
       "maxDuration": 30,
       "includeFiles": "{fonts/pdf/**,img/pdf/**,quizzes/**,site.json,productos.json}"
+    },
+    "api/descarga.js": {
+      "maxDuration": 90,
+      "includeFiles": "{fonts/pdf/**,img/pdf/**,quizzes/**,site.json,productos.json}"
     }
   }
 }

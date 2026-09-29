@@ -27,6 +27,8 @@ export async function GET(request) {
   } catch (e) {
     return responder(e.estado === 404 ? 404 : 502, { error: 'No encontramos esta compra' });
   }
+  // Las compras de la tienda (guías en PDF) se descargan en descarga.html, no aquí.
+  if (sesion.metadata?.t) return responder(404, { error: 'Esta compra es de una guía: descárgala desde el enlace de tu compra.' });
   // Pagos en efectivo (p. ej. OXXO) quedan pendientes hasta que se abonan.
   if (sesion.payment_status !== 'paid') return responder(202, { estado: 'pendiente' });
 

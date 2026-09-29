@@ -2,7 +2,7 @@
 // si Claude falla por algo temporal y también hay GEMINI_API_KEY, se reintenta con Gemini dentro del
 // mismo tiempo total. Sin clave de Claude, todo funciona como antes, solo con Gemini.
 import { generarConClaude } from './_claude.js';
-import { generarJSON as generarConGemini } from './_gemini.js';
+import { generarJSON as generarConGemini, modelosConfigurados } from './_gemini.js';
 import { limpiarVariable } from './_config.js';
 
 export const claveClaude = () => limpiarVariable(process.env.ANTHROPIC_API_KEY);
@@ -11,7 +11,7 @@ export const hayIA = () => Boolean(claveClaude() || claveGemini());
 
 // `apiKey` y `modelos` son los de Gemini (se mantienen por compatibilidad con los llamadores).
 export async function generarJSON(prompt, opciones) {
-  const { apiKey, claudeKey = claveClaude(), esquema, normalizar, tiempoTotalMs = 36000, tiempoPorModeloMs = 22000, fetchImpl } = opciones;
+  const { apiKey = claveGemini(), modelos = modelosConfigurados(), claudeKey = claveClaude(), esquema, normalizar, tiempoTotalMs = 36000, tiempoPorModeloMs = 22000, fetchImpl } = opciones;
   const inicio = Date.now();
   let errorClaude;
   if (claudeKey) {
@@ -23,13 +23,14 @@ export async function generarJSON(prompt, opciones) {
       console.warn(`Fallo con Claude: ${error.message}`);
       errorClaude = error;
       if (!apiKey) {
+        // Sin Gemini de respaldo no hay a quién más pedirlo.
         error.codigo = `claude:${error.codigo}`;
         throw error;
       }
     }
   }
   try {
-    return await generarConGemini(prompt, { ...opciones, tiempoTotalMs: tiempoTotalMs - (Date.now() - inicio) });
+    return await generarConGemini(prompt, { ...opciones, apiKey, modelos, tiempoTotalMs: tiempoTotalMs - (Date.now() - inicio) });
   } catch (error) {
     if (errorClaude) error.codigo = `claude:${errorClaude.codigo} ${error.codigo ?? ''}`.trim();
     throw error;

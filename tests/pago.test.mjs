@@ -89,7 +89,7 @@ test('checkout: crea la sesión con el precio del catálogo (nunca el del navega
   assert.equal(respuesta.status, 200);
   assert.match((await respuesta.json()).url, /^https:\/\/checkout\.stripe\.com/);
   const enviado = llamadas.stripe[0].cuerpo;
-  assert.equal(enviado.get('line_items[0][price_data][unit_amount]'), '1499');
+  assert.equal(enviado.get('line_items[0][price_data][unit_amount]'), '26900');
   assert.equal(enviado.get('mode'), 'payment');
   assert.equal(enviado.get('metadata[p]'), 'completo');
   assert.match(enviado.get('success_url'), /\/informe\.html\?s=\{CHECKOUT_SESSION_ID\}$/);
@@ -161,7 +161,7 @@ test('mejora: se paga la diferencia y se reutilizan los datos de la compra origi
   const respuesta = await checkout(peticionCheckout({ producto: 'completo', mejora_de: 'cs_test_compraOriginal00001' }));
   assert.equal(respuesta.status, 200);
   const creada = llamadas.stripe.find((l) => l.cuerpo)?.cuerpo;
-  assert.equal(creada.get('line_items[0][price_data][unit_amount]'), '599');
+  assert.equal(creada.get('line_items[0][price_data][unit_amount]'), '9000');
   assert.equal(creada.get('metadata[p]'), 'completo');
   assert.equal(creada.get('metadata[o]'), 'cs_test_compraOriginal00001');
   assert.equal(creada.get('metadata[c]'), sesionSimulada.metadata.c);
@@ -276,4 +276,48 @@ test('pdf: el informe real de ejemplo produce un PDF de varias páginas', async 
   assert.ok(paginas >= 10, `solo ${paginas} páginas`);
   assert.equal(nombreArchivo('María José Núñez'), 'Informe-Maria-Jose-Nunez.pdf');
   assert.equal(nombreArchivo(''), 'Informe-Numero-de-Vida.pdf');
+});
+
+test('tienda: checkout con precio fijo del catálogo y descarga solo de lo comprado', async () => {
+  const { GET: descarga } = await import('../web/api/descarga.js');
+  const catalogoTienda = JSON.parse(readFileSync(new URL('../web/productos.json', import.meta.url)));
+  const respuesta = await checkout(peticionCheckout({ tienda: 'cristales' }));
+  assert.equal(respuesta.status, 200);
+  const enviado = llamadas.stripe.at(-1).cuerpo;
+  assert.equal(enviado.get('line_items[0][price_data][currency]'), 'mxn');
+  assert.equal(enviado.get('line_items[0][price_data][unit_amount]'), String(catalogoTienda.tienda.find((t) => t.id === 'cristales').precio));
+  assert.equal(enviado.get('metadata[t]'), 'cristales');
+  assert.match(enviado.get('success_url'), /\/descarga\.html\?s=\{CHECKOUT_SESSION_ID\}$/);
+  assert.equal((await checkout(peticionCheckout({ tienda: 'regalo' }))).status, 400);
+
+  // Una compra del paquete incluye las 6 guías; una suelta, solo la suya.
+  const pedir = (q) => descarga(new Request(`https://sitio.test/api/descarga?${q}`, { headers: { 'x-forwarded-for': `10.3.0.${Math.floor(Math.random() * 250)}` } }));
+  sesionSimulada = { payment_status: 'paid', metadata: { t: 'pack' } };
+  const lista = await (await pedir('s=cs_test_compraTienda0001')).json();
+  assert.equal(lista.guias.length, 6);
+  sesionSimulada = { payment_status: 'paid', metadata: { t: 'cristales' } };
+  assert.equal((await pedir('s=cs_test_compraTienda0002&p=proteccion')).status, 403);
+  sesionSimulada = { payment_status: 'unpaid', metadata: { t: 'cristales' } };
+  assert.equal((await pedir('s=cs_test_compraTienda0003')).status, 202);
+  // Preparar una guía exige la clave secreta de la dueña.
+  process.env.INFORME_SECRETO = 'secreto-de-prueba';
+  assert.equal((await pedir('preparar=cristales&clave=otra')).status, 403);
+});
+
+test('tienda: la guía se escribe una sola vez y se entrega como PDF', async () => {
+  const { GET: descarga } = await import('../web/api/descarga.js');
+  process.env.BLOB_READ_WRITE_TOKEN = 'memoria-pruebas';
+  sesionSimulada = { payment_status: 'paid', metadata: { t: 'tarot-guia' } };
+  const pedir = () => descarga(new Request('https://sitio.test/api/descarga?s=cs_test_compraTienda0004&p=tarot-guia', { headers: { 'x-forwarded-for': `10.4.0.${Math.floor(Math.random() * 250)}` } }));
+  const primera = await pedir();
+  assert.equal(primera.status, 200);
+  assert.equal(primera.headers.get('content-type'), 'application/pdf');
+  assert.match(primera.headers.get('content-disposition'), /filename="Guia-Guia-rapida-del-Tarot\.pdf"/);
+  const bytes = Buffer.from(await primera.arrayBuffer());
+  assert.equal(bytes.subarray(0, 5).toString(), '%PDF-');
+  const llamadasIA = llamadas.gemini;
+  assert.ok(llamadasIA >= 4, 'escribe introducción, capítulos y fichas');
+  assert.equal((await pedir()).status, 200);
+  assert.equal(llamadas.gemini, llamadasIA, 'la segunda compra no vuelve a llamar a la IA');
+  delete process.env.BLOB_READ_WRITE_TOKEN;
 });

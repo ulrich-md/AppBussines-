@@ -220,7 +220,7 @@ function ofertaMejora(datos) {
             boton.removeAttribute('aria-disabled');
           }
         },
-      }, `Añadir por ${formatearPrecio(m.precio, catalogo.simbolo)}`);
+      }, `Añadir por ${formatearPrecio(m.precio, catalogo.simbolo, catalogo.sufijo)}`);
       return el('div', { class: 'mejora-opcion' }, el('h3', {}, m.nombre), el('p', {}, m.texto), boton);
     }),
     error,

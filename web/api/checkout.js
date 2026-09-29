@@ -3,6 +3,7 @@
 import { cargarConfiguracion, responder, origenDe, ipDe, limpiarVariable } from './_config.js';
 import { validarPeticion, permitido } from './_lectura.js';
 import { codificarMetadata, crearSesion, esIdSesion, obtenerSesion } from './_stripe.js';
+import { articuloTienda } from './_tienda.js';
 
 // GET /api/checkout → qué incentivos están activos (para mostrarlos solo si existen de verdad).
 export function GET() {
@@ -31,6 +32,7 @@ export async function POST(request) {
 
   const { quiz, catalogo } = await cargarConfiguracion();
   if (cuerpo.mejora_de !== undefined) return mejorar(cuerpo, { quiz, catalogo, clave, origen: origenDe(request) });
+  if (cuerpo.tienda !== undefined) return comprarTienda(cuerpo.tienda, { catalogo, clave, origen: origenDe(request) });
   const producto = catalogo.productos.find((p) => p.id === cuerpo.producto);
   if (!producto) return responder(400, { error: 'Producto no válido' });
   const { datos, error } = validarPeticion(cuerpo, quiz);
@@ -47,6 +49,27 @@ export async function POST(request) {
     return responder(200, { url: sesion.url });
   } catch (e) {
     console.error('Error creando el pago:', e.message);
+    return responder(502, { error: 'No se pudo iniciar el pago', codigo: e.codigo ?? 'desconocido' });
+  }
+}
+
+// Productos digitales de la tienda (guías en PDF, iguales para todas): precio fijo de productos.json.
+async function comprarTienda(id, { catalogo, clave, origen }) {
+  const producto = articuloTienda(catalogo, id);
+  if (!producto) return responder(400, { error: 'Producto no válido' });
+  try {
+    const sesion = await crearSesion({
+      producto: { ...producto, resumen: producto.resumen.slice(0, 250) },
+      catalogo,
+      metadata: { t: producto.id },
+      origen,
+      clave,
+      exito: 'descarga.html',
+      cancelado: '#tienda',
+    });
+    return responder(200, { url: sesion.url });
+  } catch (e) {
+    console.error('Error creando el pago de la tienda:', e.message);
     return responder(502, { error: 'No se pudo iniciar el pago', codigo: e.codigo ?? 'desconocido' });
   }
 }

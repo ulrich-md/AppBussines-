@@ -122,7 +122,7 @@ for (const dispositivo of ['iPhone 13', 'Pixel 7']) {
     // Oferta: 3 planes, el recomendado preseleccionado y el precio en el botón.
     assert.equal(await pagina.locator('.plan').count(), 3);
     assert.equal(await pagina.locator('.plan input:checked').getAttribute('value'), 'completo');
-    assert.match(await pagina.locator('.boton-compra').innerText(), /US\$14\.99/);
+    assert.match(await pagina.locator('.boton-compra').innerText(), /\$269 MXN/);
     assert.match(await pagina.locator('.portada-viva').innerText(), /El informe de María/);
     const whatsapp = await pagina.getByRole('link', { name: 'Enviar por WhatsApp' }).getAttribute('href');
     assert.match(decodeURIComponent(whatsapp), /La Constructora con alma de sanadora .*r\/numero-de-vida\/4\.html/);
@@ -169,7 +169,7 @@ test('número maestro sin nombre, elegir plan y pagar', async () => {
   // Sin nombre, la portada del informe no inventa uno.
   assert.match(await pagina.locator('.portada-viva').innerText(), /Tu informe personal/);
   await pagina.getByText('Informe + 12 meses + Pareja', { exact: true }).click();
-  assert.match(await pagina.locator('.boton-compra').innerText(), /US\$19\.99/);
+  assert.match(await pagina.locator('.boton-compra').innerText(), /\$349 MXN/);
   await pagina.locator('.boton-compra').click();
   await pagina.waitForURL('https://tienda.ejemplo/checkout/cs_test_1');
   assert.equal(compras[0].producto, 'premium');
@@ -317,7 +317,7 @@ test('página del informe de pago: resumen, secciones, 12 meses, compatibilidad 
     assert.match(await pagina.locator('h1').innerText(), /La Constructora con alma de sanadora/);
     assert.match(texto, /El informe personal de María/);
     for (const titulo of ['Una carta para ti', 'Tu perfil', 'Amor y pareja', 'Dinero y vocación', 'Tus ciclos', 'Tu lado espiritual', 'Tu plan de 4 semanas', 'Compatibilidad', 'Para terminar']) {
-      assert.ok(texto.includes(titulo), titulo);
+      assert.ok(texto.toLowerCase().includes(titulo.toLowerCase()), titulo);
     }
     assert.equal(await pagina.locator('.mes').count(), 12);
     assert.match(await pagina.locator('#perfil .bloque-imagen').getAttribute('src'), /almas\/9\.webp$/);
@@ -396,7 +396,7 @@ test('informe básico: ofrece mejorar pagando la diferencia', async () => {
   await pagina.locator('.mejora').waitFor();
   assert.equal(await pagina.locator('.mejora-opcion').count(), 2);
   assert.equal(await pagina.locator('#ciclos').count(), 0, 'el básico no incluye los ciclos');
-  await pagina.getByRole('button', { name: 'Añadir por US$5.99' }).click();
+  await pagina.getByRole('button', { name: 'Añadir por $90 MXN' }).click();
   await pagina.waitForURL('https://tienda.ejemplo/mejora');
   assert.deepEqual(pedidas[0], { producto: 'completo', mejora_de: 'cs_test_informeBasico000001' });
   await pagina.close();

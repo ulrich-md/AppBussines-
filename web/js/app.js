@@ -65,6 +65,7 @@ function pantallaInicio() {
           (portada.confianza ?? ['Gratis', 'Sin registro']).map((t) => el('li', {}, icono('check'), el('span', {}, t)))),
       ),
     ),
+    seccionTienda(),
     portada.pasos && el('section', { class: 'inicio-seccion', 'aria-labelledby': 'titulo-pasos' },
       el('h2', { id: 'titulo-pasos' }, portada.titulo_pasos ?? 'Así funciona'),
       el('ol', { class: 'pasos' }, portada.pasos.map((p, i) => el('li', {},
@@ -83,6 +84,62 @@ function pantallaInicio() {
     ),
   );
   app.classList.add('ancho');
+}
+
+// Tienda: guías digitales iguales para todas (PDF), con precio fijo en pesos y descarga inmediata.
+function seccionTienda() {
+  const tienda = catalogo?.tienda;
+  if (!tienda?.length) return null;
+  const precio = (centavos) => formatearPrecio(centavos, catalogo.simbolo, catalogo.sufijo);
+  const error = el('p', { class: 'error error-producto', role: 'alert' });
+  const boton = (id, texto, clase) => {
+    const b = el('button', { class: clase, type: 'button', onclick: () => comprarTienda(id, b, error) }, texto);
+    return b;
+  };
+  const pack = catalogo.pack;
+  const suma = pack ? tienda.filter((t) => pack.productos.includes(t.id)).reduce((s, t) => s + t.precio, 0) : 0;
+  return el('section', { class: 'productos', id: 'tienda', 'aria-labelledby': 'titulo-tienda' },
+    el('h2', { id: 'titulo-tienda', class: 'productos-titulo' }, 'Guías y rituales'),
+    el('p', { class: 'productos-intro' }, 'Guías digitales para leer en tu celular o imprimir. Pago único y descarga al momento.'),
+    el('ul', { class: 'productos-lista' }, tienda.map((t) => el('li', {},
+      el('article', { class: 'producto' },
+        el('img', { src: `${t.imagen}-640.webp`, alt: t.imagen_alt ?? '', width: 640, height: 640, loading: 'lazy', decoding: 'async' }),
+        el('h3', {}, t.nombre),
+        el('p', { class: 'producto-tipo' }, t.tipo),
+        el('p', { class: 'producto-detalle' }, t.incluye?.[0] ?? ''),
+        el('p', { class: 'producto-precio' }, precio(t.precio)),
+        boton(t.id, 'Comprar', 'boton boton-contorno'),
+      )))),
+    pack && el('article', { class: 'productos-pack' },
+      el('img', { src: `${pack.imagen}-640.webp`, alt: pack.imagen_alt ?? '', width: 640, height: 640, loading: 'lazy', decoding: 'async' }),
+      el('div', {},
+        el('h3', {}, pack.nombre),
+        el('p', {}, pack.resumen),
+        el('p', { class: 'pack-precio' }, el('strong', {}, precio(pack.precio)), suma > pack.precio && el('s', {}, precio(suma)),
+          suma > pack.precio && el('span', {}, `Ahorras ${precio(suma - pack.precio)}`)),
+        boton('pack', 'Quiero las 6 guías', 'boton'),
+      )),
+    error,
+    el('p', { class: 'productos-nota' }, 'Pago seguro con tarjeta. Recibes tus guías en PDF al momento. Contenido de entretenimiento y bienestar.'),
+  );
+}
+
+async function comprarTienda(id, boton, error) {
+  registrar('tienda_comprar_clic', { producto: id, origen });
+  error.textContent = '';
+  const original = [...boton.childNodes];
+  boton.setAttribute('aria-disabled', 'true');
+  boton.textContent = 'Un momento…';
+  try {
+    const respuesta = await fetch('api/checkout', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ tienda: id }) });
+    const cuerpo = await respuesta.json().catch(() => ({}));
+    if (respuesta.ok && cuerpo.url) { location.href = cuerpo.url; return; }
+    throw new Error(respuesta.status === 503 ? 'Los pagos se están activando. Vuelve a intentarlo en unas horas.' : (cuerpo.error ?? 'No se pudo iniciar el pago.'));
+  } catch (e) {
+    error.textContent = e.message.startsWith('Failed') ? 'Sin conexión. Revisa tu internet e inténtalo de nuevo.' : e.message;
+    boton.removeAttribute('aria-disabled');
+    boton.replaceChildren(...original);
+  }
 }
 
 // Ejemplo de lo que se recibe (un resultado real del cuestionario, con datos inventados y así indicado).
@@ -554,7 +611,7 @@ function descubrimientos(resultado) {
 function ofertaPlanes(id, resultado) {
   const productos = catalogo?.productos ?? [];
   let elegido = productos.find((p) => p.recomendado)?.id ?? productos[0]?.id;
-  const precioDe = (pid) => formatearPrecio(productos.find((p) => p.id === pid)?.precio ?? 0, catalogo?.simbolo);
+  const precioDe = (pid) => formatearPrecio(productos.find((p) => p.id === pid)?.precio ?? 0, catalogo?.simbolo, catalogo?.sufijo);
   const error = el('p', { class: 'error', role: 'alert' });
   const boton = el('button', { class: 'boton boton-compra', type: 'button', onclick: () => comprar(elegido, id, resultado, boton, error) });
   const textoBoton = (pid) => boton.replaceChildren(el('span', {}, 'Quiero mi informe'), el('span', { class: 'boton-sub' }, `${precioDe(pid)} · pago único`));
@@ -761,7 +818,7 @@ function barraCompra() {
   if (!oferta || !('IntersectionObserver' in window)) return;
   const minimo = Math.min(...(catalogo?.productos ?? []).map((p) => p.precio));
   const barra = el('div', { class: 'barra-compra', hidden: true },
-    el('p', {}, el('strong', {}, 'Tu informe completo'), el('span', {}, `desde ${formatearPrecio(minimo, catalogo?.simbolo)}`)),
+    el('p', {}, el('strong', {}, 'Tu informe completo'), el('span', {}, `desde ${formatearPrecio(minimo, catalogo?.simbolo, catalogo?.sufijo)}`)),
     el('button', {
       class: 'boton', type: 'button',
       onclick: () => { registrar('barra_compra_clic'); (document.querySelector('.planes') ?? oferta).scrollIntoView({ behavior: 'smooth', block: 'start' }); },
