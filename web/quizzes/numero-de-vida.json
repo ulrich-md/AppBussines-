@@ -36,9 +36,11 @@
       "etiqueta": "Ejemplo de resultado",
       "nota": "Es la descripción del Número de Vida 6. Tu resultado incluye además una lectura escrita para ti con tu carta y tus respuestas."
     },
-    "titulo_final": "¿Qué dice tu fecha de nacimiento de ti?",
-    "texto_final": "Unos 2 minutos. Sin registro y sin pagar nada.",
-    "imagen_alt": "Mujer latina madura con chal morado mira un cielo nocturno lleno de estrellas y una nebulosa violeta, sosteniendo una libreta junto al pecho a la luz de las velas"
+    "titulo_final": "Tu número te está esperando",
+    "texto_final": "Solo necesitas tu fecha de nacimiento y tu nombre. Sin registro y sin pagar nada.",
+    "imagen_alt": "Mujer latina madura con chal morado mira un cielo nocturno lleno de estrellas y una nebulosa violeta, sosteniendo una libreta junto al pecho a la luz de las velas",
+    "titulo": "Lo que tu fecha de nacimiento dice de ti",
+    "subtitulo": "Tu Número de Vida y una lectura escrita solo para ti. Gratis, en unos 2 minutos."
   },
   "encabezado_resultado": "tu Número de Vida es el",
   "encabezado_resultado_sin_nombre": "Tu Número de Vida es el",

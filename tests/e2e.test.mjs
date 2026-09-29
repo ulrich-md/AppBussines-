@@ -44,7 +44,7 @@ const OPCIONES = [
 ];
 
 async function recorrer(pagina, { dia, mes, anio, nombre }) {
-  await pagina.getByRole('button', { name: 'Descubrir mi número' }).click();
+  await pagina.getByRole('button', { name: 'Descubrir mi número' }).first().click();
   await pagina.getByLabel('Día').selectOption(String(dia));
   await pagina.getByLabel('Mes').selectOption(String(mes));
   await pagina.getByLabel('Año').selectOption(String(anio));
@@ -139,7 +139,7 @@ for (const dispositivo of ['iPhone 13', 'Pixel 7']) {
 test('fecha imposible muestra un error', async () => {
   const pagina = await navegador.newPage({ ...devices['Pixel 7'] });
   await pagina.goto(base);
-  await pagina.getByRole('button', { name: 'Descubrir mi número' }).click();
+  await pagina.getByRole('button', { name: 'Descubrir mi número' }).first().click();
   await pagina.getByRole('button', { name: 'Continuar' }).click();
   assert.match(await pagina.getByRole('alert').innerText(), /Elige tu día/);
   await pagina.getByLabel('Día').selectOption('31');
@@ -185,7 +185,7 @@ test('página para compartir lleva al cuestionario', async () => {
   assert.match(await pagina.locator('h1').innerText(), /La Sabia/);
   assert.equal(await pagina.locator('meta[property="og:image"]').getAttribute('content') !== null, true);
   await pagina.getByRole('link', { name: 'Descubrir mi número' }).click();
-  await pagina.getByRole('button', { name: 'Descubrir mi número' }).waitFor();
+  await pagina.getByRole('button', { name: 'Descubrir mi número' }).first().waitFor();
   assert.match(pagina.url(), /ref=compartido-7/);
   await pagina.close();
 });
@@ -206,7 +206,7 @@ test('si la IA falla, se muestra el resultado escrito de antemano', async () => 
 test('las preguntas usan el nombre', async () => {
   const pagina = await navegador.newPage({ ...devices['Pixel 7'] });
   await pagina.goto(base);
-  await pagina.getByRole('button', { name: 'Descubrir mi número' }).click();
+  await pagina.getByRole('button', { name: 'Descubrir mi número' }).first().click();
   await pagina.getByLabel('Día').selectOption('1');
   await pagina.getByLabel('Mes').selectOption('1');
   await pagina.getByLabel('Año').selectOption('1980');
@@ -232,7 +232,7 @@ for (const esquema of ['light', 'dark']) {
     await pagina.screenshot({ path: `${CAPTURAS}${esquema}-1-inicio.png` });
     const textos = [await pagina.locator('body').innerText()];
 
-    await pagina.getByRole('button', { name: 'Descubrir mi número' }).click();
+    await pagina.getByRole('button', { name: 'Descubrir mi número' }).first().click();
     await pagina.getByLabel('Día').selectOption('14');
     await pagina.getByLabel('Mes').selectOption('3');
     await pagina.getByLabel('Año').selectOption('1985');
@@ -409,7 +409,7 @@ test('incentivos de compra en el móvil (iPhone SE)', async () => {
   await simularIA(pagina);
   await pagina.goto(base);
   // Portada: el botón principal se ve sin hacer scroll incluso en una pantalla pequeña.
-  const botonInicio = pagina.getByRole('button', { name: 'Descubrir mi número' });
+  const botonInicio = pagina.getByRole('button', { name: 'Descubrir mi número' }).first();
   await pagina.waitForTimeout(500);
   const caja = await botonInicio.boundingBox();
   assert.ok(caja.y + caja.height <= 667, `el botón de la portada queda bajo el pliegue (${caja.y + caja.height}px)`);

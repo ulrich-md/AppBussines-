@@ -47,47 +47,69 @@ function aplicarMarca() {
 
 function pantallaInicio() {
   const empezar = (lugar) => () => { registrar('quiz_inicio', { quiz: quiz.id, origen, lugar }); irAPaso(0); };
-  const botonEmpezar = (lugar, texto = quiz.boton_empezar ?? 'Empezar') => el('button', { class: 'boton', type: 'button', onclick: empezar(lugar) },
-    texto, icono('arrow-right'));
+  // Una sola etiqueta para la misma intención en toda la página (arriba y al final).
+  const botonEmpezar = (lugar) => el('button', { class: 'boton', type: 'button', onclick: empezar(lugar) },
+    quiz.boton_empezar ?? 'Empezar', icono('arrow-right'));
   const portada = quiz.portada ?? {};
   mostrar(
+    // Hero: imagen a sangre, texto alineado a la izquierda y un solo botón.
     el('section', { class: 'inicio pantalla' },
       el('img', {
         class: 'inicio-imagen',
         src: 'img/portada-896.webp',
         srcset: 'img/portada-640.webp 640w, img/portada-896.webp 896w',
-        sizes: '(min-width: 900px) 50vw, 100vw',
+        sizes: '(min-width: 900px) 55vw, 100vw',
         width: 896, height: 1120,
-        alt: portada.imagen_alt ?? 'Cielo nocturno sobre un lago en calma, con una constelación y la luna creciente',
+        alt: portada.imagen_alt ?? '',
         fetchpriority: 'high',
       }),
       el('div', { class: 'inicio-texto' },
-        el('h1', {}, quiz.titulo),
-        el('p', { class: 'subtitulo' }, quiz.subtitulo),
+        el('h1', {}, portada.titulo ?? quiz.titulo),
+        el('p', { class: 'subtitulo' }, portada.subtitulo ?? quiz.subtitulo),
         botonEmpezar('portada'),
-        el('ul', { class: 'inicio-confianza' },
-          (portada.confianza ?? ['Gratis', 'Sin registro']).map((t) => el('li', {}, icono('check'), el('span', {}, t)))),
       ),
     ),
-    seccionTienda(),
-    portada.pasos && el('section', { class: 'inicio-seccion', 'aria-labelledby': 'titulo-pasos' },
+    // Confianza: franja propia justo debajo del hero (no dentro).
+    el('section', { class: 'franja-confianza revelar', 'aria-label': 'Por qué es seguro' },
+      el('ul', {}, (portada.confianza ?? ['Gratis', 'Sin registro']).map((t) => el('li', {}, icono('check'), el('span', {}, t))))),
+    portada.pasos && el('section', { class: 'inicio-seccion revelar', 'aria-labelledby': 'titulo-pasos' },
       el('h2', { id: 'titulo-pasos' }, portada.titulo_pasos ?? 'Así funciona'),
-      el('ol', { class: 'pasos' }, portada.pasos.map((p, i) => el('li', {},
-        p.imagen
-          ? el('img', { class: 'paso-imagen', src: p.imagen, alt: p.imagen_alt ?? '', width: 640, height: 480, loading: 'lazy', decoding: 'async' })
-          : el('span', { class: 'paso-numero', 'aria-hidden': 'true' }, i + 1),
-        el('div', {}, el('h3', {}, `${i + 1}. ${p.titulo}`), el('p', {}, p.texto)),
+      el('ol', { class: 'pasos', tabindex: 0, 'aria-label': 'Pasos' }, portada.pasos.map((p, i) => el('li', {},
+        p.imagen && el('img', { class: 'paso-imagen', src: p.imagen, alt: p.imagen_alt ?? '', width: 640, height: 480, loading: 'lazy', decoding: 'async' }),
+        el('div', { class: 'paso-texto' },
+          el('span', { class: 'paso-numero', 'aria-hidden': 'true' }, i + 1),
+          el('h3', {}, p.titulo),
+          el('p', {}, p.texto)),
       ))),
     ),
     portada.ejemplo && ejemploResultado(portada.ejemplo),
+    seccionTienda(),
     seccionTestimonios(),
-    portada.pasos && el('section', { class: 'inicio-seccion inicio-final' },
+    portada.pasos && el('section', { class: 'inicio-final revelar' },
       el('h2', {}, portada.titulo_final ?? 'Descubre tu número'),
       portada.texto_final && el('p', {}, portada.texto_final),
-      botonEmpezar('final', portada.boton_final ?? 'Empezar mi lectura gratis'),
+      botonEmpezar('final'),
     ),
   );
   app.classList.add('ancho');
+  revelarAlBajar();
+}
+
+// Las secciones aparecen suavemente al llegar a ellas (una sola vez; sin animación si se pide menos movimiento).
+function revelarAlBajar() {
+  const nodos = app.querySelectorAll('.revelar');
+  if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    nodos.forEach((n) => n.classList.add('visible'));
+    return;
+  }
+  const observador = new IntersectionObserver((entradas) => {
+    for (const e of entradas) {
+      if (!e.isIntersecting) continue;
+      e.target.classList.add('visible');
+      observador.unobserve(e.target);
+    }
+  }, { rootMargin: '0px 0px -8% 0px' });
+  nodos.forEach((n) => observador.observe(n));
 }
 
 // Tienda: guías digitales iguales para todas (PDF), con precio fijo en pesos y descarga inmediata.
@@ -103,7 +125,7 @@ function seccionTienda() {
   const suma = pack ? tienda.filter((t) => pack.productos.includes(t.id)).reduce((s, t) => s + precioEn(t, moneda), 0) : 0;
   const precioPack = pack ? precioEn(pack, moneda) : 0;
   const precio = (centavos) => textoPrecio(centavos, catalogo, moneda);
-  return el('section', { class: 'productos', id: 'tienda', 'aria-labelledby': 'titulo-tienda' },
+  return el('section', { class: 'productos revelar', id: 'tienda', 'aria-labelledby': 'titulo-tienda' },
     el('h2', { id: 'titulo-tienda', class: 'productos-titulo' }, 'Guías y rituales'),
     el('p', { class: 'productos-intro' }, 'Guías digitales para leer en tu celular o imprimir. Pago único y descarga al momento.'),
     el('ul', { class: 'productos-lista' }, tienda.map((t) => el('li', {},
@@ -153,7 +175,7 @@ async function comprarTienda(id, boton, error) {
 function ejemploResultado(ejemplo) {
   const resultado = quiz.resultados[ejemplo.numero];
   if (!resultado) return null;
-  return el('section', { class: 'inicio-seccion', 'aria-labelledby': 'titulo-ejemplo' },
+  return el('section', { class: 'inicio-seccion revelar', 'aria-labelledby': 'titulo-ejemplo' },
     el('h2', { id: 'titulo-ejemplo' }, ejemplo.titulo ?? 'Lo que vas a recibir'),
     el('article', { class: 'ejemplo-resultado' },
       el('img', { src: `${resultado.imagen}-640.webp`, alt: resultado.imagen_alt ?? '', width: 640, height: 800, loading: 'lazy', decoding: 'async' }),
@@ -170,7 +192,7 @@ function ejemploResultado(ejemplo) {
 // Opiniones reales (web/testimonios.json). Si no hay ninguna aprobada, no se muestra la sección.
 function seccionTestimonios() {
   if (!testimonios.length) return null;
-  return el('section', { class: 'inicio-seccion testimonios', 'aria-labelledby': 'titulo-testimonios' },
+  return el('section', { class: 'inicio-seccion testimonios revelar', 'aria-labelledby': 'titulo-testimonios' },
     el('h2', { id: 'titulo-testimonios' }, 'Lo que dicen quienes ya tienen su informe'),
     el('ul', {}, testimonios.slice(-3).reverse().map((o) => el('li', {},
       el('figure', {},
@@ -351,7 +373,7 @@ function pantallaResultado() {
 
   const zonaLectura = el('div', { class: 'zona-lectura', 'aria-live': 'polite', 'aria-busy': 'true' });
   const zonaFinal = el('div', { class: 'zona-final' });
-  mostrar(imagenArquetipo(resultado, 'resultado-imagen'), cabeceraResultado(id, resultado), zonaLectura, zonaFinal);
+  mostrar(imagenArquetipo(resultado, 'resultado-imagen'), cabeceraResultado(id, resultado), bloqueCompartir(id), zonaLectura, zonaFinal);
 
   if (!quiz.ia || ultimaLectura) {
     pintarLectura(zonaLectura, zonaFinal, compuesto, ultimaLectura);
@@ -383,6 +405,23 @@ function pantallaResultado() {
       clearInterval(rotar);
       pintarLectura(zonaLectura, zonaFinal, compuesto, lectura);
     });
+}
+
+// Compartir, justo debajo del resultado: es cuando más ganas hay de enseñarlo (y trae visitas gratis).
+function bloqueCompartir(id) {
+  const url = new URL(`r/${quiz.id}/${id}.html`, location.href).href;
+  return el('section', { class: 'compartir compartir-arriba', 'aria-labelledby': 'titulo-compartir' },
+    el('p', { id: 'titulo-compartir', class: 'compartir-titulo' }, '¿Te describe? Compártelo con tus amigas'),
+    el('div', { class: 'acciones' },
+      el('a', {
+        class: 'boton boton-secundario',
+        href: `https://wa.me/?text=${encodeURIComponent(`${textoCompartir(id)} ${url}`)}`,
+        target: '_blank', rel: 'noopener',
+        onclick: () => registrar('compartir', { quiz: quiz.id, resultado: id, canal: 'whatsapp', lugar: 'arriba' }),
+      }, icono('whatsapp-logo'), 'Enviar por WhatsApp'),
+      botonCopiar(id, url),
+    ),
+  );
 }
 
 function cabeceraResultado(id, resultado) {
@@ -457,7 +496,6 @@ function pintarLectura(zonaLectura, zonaFinal, compuesto, lectura) {
     informeBloqueado(resultado),
   );
 
-  const urlCompartir = new URL(`r/${quiz.id}/${id}.html`, location.href).href;
   zonaFinal.replaceChildren(
     ofertaPlanes(id, resultado),
     resto.length && el('section', { class: 'lectura-resto', 'aria-labelledby': 'titulo-resto' },
@@ -469,19 +507,8 @@ function pintarLectura(zonaLectura, zonaFinal, compuesto, lectura) {
       ),
       lectura && quiz.ia.nota && el('p', { class: 'nota-ia' }, quiz.ia.nota),
     ),
-    el('section', { class: 'compartir' },
-      el('h2', {}, '¿Quién de tus amigas querría saber su número?'),
-      el('div', { class: 'acciones' },
-        el('a', {
-          class: 'boton boton-secundario',
-          href: `https://wa.me/?text=${encodeURIComponent(`${textoCompartir(id)} ${urlCompartir}`)}`,
-          target: '_blank', rel: 'noopener',
-          onclick: () => registrar('compartir', { quiz: quiz.id, resultado: id, canal: 'whatsapp' }),
-        }, icono('whatsapp-logo'), 'Enviar por WhatsApp'),
-        botonCopiar(id, urlCompartir),
-      ),
-      el('button', { class: 'enlace', type: 'button', onclick: reiniciar }, icono('arrow-counter-clockwise'), 'Hacer el cuestionario otra vez'),
-    ),
+    el('p', { class: 'reiniciar' },
+      el('button', { class: 'enlace', type: 'button', onclick: reiniciar }, icono('arrow-counter-clockwise'), 'Hacer el cuestionario otra vez')),
     formularioSuscripcion(id),
   );
   barraCompra();

@@ -15,6 +15,27 @@ Este documento es la referencia para cualquier pantalla, imagen o PDF nuevo.
 - **Límite de alcance:** taste-skill no cubre los formularios de varios pasos (§13). Sus reglas se aplican a la portada y al resultado. Las preguntas siguen las pautas de UX de ui-ux-pro-max: pantallas táctiles, formularios y accesibilidad.
 - **Base técnica:** taste-skill propone React, Tailwind y Motion por defecto. No se adoptan porque el proyecto ya existe como HTML estático y cambiar de base técnica no aporta nada al usuario final (§11.C: preservar).
 
+## Tema actual: cósmico (septiembre de 2026)
+
+Por decisión de la dueña, a partir de una referencia visual (tienda mística en índigo con dorado), todo el sitio usa ahora:
+
+- **Fondo:** índigo profundo `#120E2B` con brillo violeta y un cielo de estrellas (`img/estrellas.svg`).
+- **Superficies:** `#1C1640` y `#261E52`, con borde fino `#3A3170`.
+- **Acento:** oro `#E2B25A` (botones con degradado dorado y texto `#1A1236`).
+- **Texto:** `#F4EFFF`. **Texto suave:** `#C9C0E6`.
+- **Contraste:** todos los pares cumplen AAA (texto 16,6:1, suave 10,8:1, dorado 9,6:1, botón 9,1:1).
+- **Títulos de sección:** Cinzel en versalitas doradas con líneas a los lados. Lora para titulares y Nunito Sans para texto.
+- **Home:**
+  - hero con texto a la izquierda sobre la imagen (en escritorio, en dos columnas asimétricas) y un solo botón;
+  - franja de confianza propia debajo;
+  - pasos deslizables;
+  - ejemplo de resultado;
+  - tienda y banda final.
+- **Movimiento:** una aparición suave por sección, desactivada con `prefers-reduced-motion`.
+- **PDF:** mismo lenguaje. Portada índigo con estrellas, cabeceras oscuras por parte y páginas interiores claras para imprimir.
+
+Lo que sigue en este documento describe la paleta anterior (crema y ciruela) y se conserva como historial.
+
 ## Color: crema cálido, un acento ciruela y dorado para detalles
 
 Revisión de septiembre de 2026, pensada para un público de 45 a 65 años. Se basa en tres fuentes:

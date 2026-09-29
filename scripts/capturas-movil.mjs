@@ -60,7 +60,7 @@ for (const [nombre, dispositivo] of Object.entries(DISPOSITIVOS)) {
 
     await pagina.goto(base);
     await foto('01-inicio');
-    await pagina.getByRole('button', { name: 'Descubrir mi número' }).click();
+    await pagina.getByRole('button', { name: 'Descubrir mi número' }).first().click();
     await foto('02-fecha');
     await pagina.getByLabel('Día').selectOption('14');
     await pagina.getByLabel('Mes').selectOption('3');
