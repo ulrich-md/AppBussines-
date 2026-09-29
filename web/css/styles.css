@@ -716,3 +716,22 @@ textarea {
 .lectura-resto-titulo { font-size: clamp(1.5rem, 5vw, 1.8rem); margin-bottom: 4px; }
 /* Imagen del alma más contenida: acompaña, no empuja el texto hacia abajo. */
 .lectura-resto .bloque-imagen { aspect-ratio: 16 / 9; max-height: 220px; }
+
+/* ---------- Informe de pago: lectura cómoda, resumen y meses destacados ---------- */
+.informe-seccion p { font-size: 1.06rem; line-height: 1.75; max-width: 64ch; }
+.volver-indice { display: inline-block; margin: 6px 0 4px; min-height: 44px; padding: 10px 0; color: var(--texto-suave); font-weight: 600; font-size: 0.95rem; text-underline-offset: 3px; }
+.vistazo { margin: 4px 0 24px; padding: 22px 20px; border-radius: var(--radio-contenedor); background: var(--acento-suave); border: 1.5px solid var(--acento); }
+.vistazo h2 { font-size: 1.35rem; margin-bottom: 12px; }
+.vistazo-claves { list-style: none; padding: 0; margin: 0 0 16px; display: grid; gap: 10px; }
+.vistazo-claves li { display: flex; gap: 10px; align-items: flex-start; font-weight: 600; }
+.vistazo-claves .icono { color: var(--acento); margin-top: 0.25em; }
+.vistazo-datos { display: grid; gap: 8px; margin: 0; }
+.vistazo-datos div { display: grid; gap: 1px; padding: 10px 14px; border-radius: var(--radio-control); background: var(--superficie); }
+.vistazo-datos dt { font-size: 0.9rem; font-weight: 700; color: var(--acento); }
+.vistazo-datos dd { margin: 0; font-weight: 600; }
+.vistazo-datos dd::first-letter { text-transform: uppercase; }
+.vistazo-afirmacion { margin: 14px 0 0; font-family: var(--fuente-titulos); font-style: italic; font-size: 1.2rem; line-height: 1.4; padding-bottom: 2px; }
+.vistazo-afirmacion span { display: block; font-family: var(--fuente-texto); font-style: normal; font-size: 0.9rem; font-weight: 700; color: var(--acento); margin-bottom: 2px; }
+.mes-etiqueta { display: inline-block; margin: 0 0 6px !important; padding: 1px 10px; border-radius: 999px; background: var(--acento); color: var(--acento-texto); font-size: 0.9rem !important; font-weight: 700; }
+.mes.mes-actual, .mes.mes-es-clave { border: 2px solid var(--acento); background: var(--acento-suave); }
+@media print { .volver-indice, .vistazo-afirmacion span { display: none; } }

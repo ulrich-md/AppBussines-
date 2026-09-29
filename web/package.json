@@ -3,6 +3,7 @@
   "type": "module",
   "dependencies": {
     "@vercel/blob": "^2.8.0",
-    "@anthropic-ai/sdk": "^0.129.0"
+    "@anthropic-ai/sdk": "^0.129.0",
+    "pdfkit": "^0.20.2"
   }
 }

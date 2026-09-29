@@ -18,6 +18,10 @@
     },
     "api/opinion.js": {
       "maxDuration": 15
+    },
+    "api/pdf.js": {
+      "maxDuration": 30,
+      "includeFiles": "{fonts/pdf/**,img/pdf/**,quizzes/**,site.json,productos.json}"
     }
   }
 }

@@ -304,7 +304,7 @@ async function simularInforme(pagina, { producto } = {}) {
   });
 }
 
-test('página del informe de pago: secciones, 12 meses, compatibilidad y PDF', async () => {
+test('página del informe de pago: resumen, secciones, 12 meses, compatibilidad y PDF', async () => {
   for (const esquema of ['light', 'dark']) {
     const contexto = await navegador.newContext({ ...devices['iPhone 13'], colorScheme: esquema });
     const pagina = await contexto.newPage();
@@ -343,7 +343,20 @@ test('página del informe de pago: secciones, 12 meses, compatibilidad y PDF', a
     await pagina.reload();
     await pagina.locator('#bienvenida').waitFor();
     assert.equal(pedidasInforme, 0);
-    // El PDF se hace imprimiendo: la versión impresa oculta botones y formularios.
+    // Resumen arriba, textos en párrafos cortos y mes clave destacado.
+    await pagina.locator('.vistazo').waitFor();
+    assert.match(await pagina.locator('.vistazo').innerText(), /Tu mes clave para el amor[\s\S]*Mayo de 2027/i);
+    assert.ok(await pagina.locator('#amor p').count() >= 3, 'el texto del amor se divide en párrafos');
+    assert.equal(await pagina.locator('.mes.mes-es-clave').count(), 1);
+    // Descargar PDF: baja un archivo (no abre el diálogo de imprimir).
+    await pagina.route('**/api/pdf?*', (ruta) => ruta.fulfill({ status: 200, contentType: 'application/pdf', body: Buffer.from('%PDF-1.3\n%prueba\n') }));
+    const [descarga] = await Promise.all([
+      pagina.waitForEvent('download'),
+      pagina.getByRole('button', { name: 'Descargar mi informe en PDF' }).click(),
+    ]);
+    assert.equal(descarga.suggestedFilename(), 'Informe-Maria.pdf');
+    await pagina.locator('.informe-acciones [role="status"]', { hasText: 'se ha descargado' }).waitFor();
+    // Al imprimir, la versión impresa oculta botones y formularios.
     await pagina.emulateMedia({ media: 'print' });
     assert.equal(await pagina.locator('.informe-acciones').isVisible(), false);
     assert.equal(await pagina.locator('form').first().isVisible(), false);

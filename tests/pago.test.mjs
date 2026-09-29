@@ -8,6 +8,8 @@ import { SECCIONES, normalizarSeccion } from '../web/api/_informe.js';
 import { mesesDesdeCarta } from '../web/api/_numerologia.js';
 import { POST as checkout } from '../web/api/checkout.js';
 import { GET as informe } from '../web/api/informe.js';
+import { GET as pdf } from '../web/api/pdf.js';
+import { crearPdf, nombreArchivo } from '../web/api/_pdf.js';
 
 const quiz = JSON.parse(readFileSync(new URL('../web/quizzes/numero-de-vida.json', import.meta.url)));
 const carta = { vida: 4, cumpleanos: 5, expresion: 9, alma: 9, personalidad: 9, anio_personal: 9, anio_personal_siguiente: 1, mes_personal: 9 };
@@ -32,6 +34,7 @@ beforeEach(() => {
   llamadas = { stripe: [], gemini: 0 };
   process.env.STRIPE_SECRET_KEY = 'sk_test_simulada';
   process.env.GEMINI_API_KEY = 'clave-simulada';
+  delete process.env.ANTHROPIC_API_KEY;
   delete process.env.BLOB_READ_WRITE_TOKEN;
   delete process.env.RESEND_API_KEY;
   sesionSimulada = { payment_status: 'paid', metadata: codificarMetadata({ ...cuerpoCompra('premium'), producto: 'premium', quiz, mesClave: cuerpoCompra().mes_clave }), customer_details: { email: 'maria@ejemplo.com' } };
@@ -241,4 +244,36 @@ test('config: SITE_URL y clave de Stripe tolerantes a errores al pegarlas', asyn
     if (anterior === undefined) delete process.env.SITE_URL; else process.env.SITE_URL = anterior;
   }
   assert.equal(limpiarVariable(' "sk_test_abc" \n'), 'sk_test_abc');
+});
+
+const peticionPdf = (query) => new Request(`https://sitio.test/api/pdf?${query}`, { headers: { 'x-forwarded-for': `10.2.0.${Math.floor(Math.random() * 250)}` } });
+
+test('pdf: se descarga como archivo a partir del informe guardado, sin volver a llamar a la IA', async () => {
+  const id = 'cs_test_informeParaPdf0001';
+  // Sin informe escrito todavía: pide abrirlo primero.
+  assert.equal((await pdf(peticionPdf(`s=${id}`))).status, 404);
+  assert.equal((await informe(peticionInforme(`s=${id}`))).status, 200);
+  const llamadasIA = llamadas.gemini;
+  const respuesta = await pdf(peticionPdf(`s=${id}`));
+  assert.equal(respuesta.status, 200);
+  assert.equal(respuesta.headers.get('content-type'), 'application/pdf');
+  assert.match(respuesta.headers.get('content-disposition'), /attachment; filename="Informe-Maria\.pdf"/);
+  const bytes = Buffer.from(await respuesta.arrayBuffer());
+  assert.equal(bytes.subarray(0, 5).toString(), '%PDF-');
+  assert.ok(bytes.length > 50000, `PDF demasiado pequeño (${bytes.length} bytes)`);
+  assert.equal(llamadas.gemini, llamadasIA, 'el PDF no llama a la IA');
+  // Sin pago confirmado, no hay PDF.
+  sesionSimulada.payment_status = 'unpaid';
+  assert.equal((await pdf(peticionPdf(`s=${id}`))).status, 409);
+  assert.equal((await pdf(peticionPdf('s=otra-cosa'))).status, 400);
+});
+
+test('pdf: el informe real de ejemplo produce un PDF de varias páginas', async () => {
+  const datos = JSON.parse(readFileSync(new URL('./fixtures/informe-premium.json', import.meta.url)));
+  const bytes = await crearPdf(datos, { marca: 'Tu Número Sagrado' });
+  assert.equal(bytes.subarray(0, 5).toString(), '%PDF-');
+  const paginas = (bytes.toString('latin1').match(/\/Type \/Page\b/g) ?? []).length;
+  assert.ok(paginas >= 10, `solo ${paginas} páginas`);
+  assert.equal(nombreArchivo('María José Núñez'), 'Informe-Maria-Jose-Nunez.pdf');
+  assert.equal(nombreArchivo(''), 'Informe-Numero-de-Vida.pdf');
 });

@@ -288,3 +288,29 @@ export function arquetipoCombinado(quiz, carta) {
   const alma = carta.alma ? quiz.almas?.[String(carta.alma)] : null;
   return alma ? `${base} con alma de ${alma.nombre}` : base;
 }
+
+// Divide un texto largo en párrafos cortos, más fáciles de leer en el móvil y en el PDF.
+// Respeta los saltos de párrafo que ya traiga (línea en blanco); si no hay, agrupa frases
+// (unas 3 por párrafo, sin pasar de ~420 caracteres).
+export function dividirParrafos(texto, { maximo = 420 } = {}) {
+  if (typeof texto !== 'string' || !texto.trim()) return [];
+  const bloques = texto.split(/\n\s*\n/).map((t) => t.replace(/\s+/g, ' ').trim()).filter(Boolean);
+  const salida = [];
+  for (const bloque of bloques) {
+    if (bloque.length <= maximo) { salida.push(bloque); continue; }
+    const frases = bloque.match(/[^.!?…]+[.!?…]+["”»)]*\s*|[^.!?…]+$/g) ?? [bloque];
+    let actual = '';
+    let cuenta = 0;
+    for (const frase of frases) {
+      if (actual && (cuenta >= 3 || (actual + frase).length > maximo)) {
+        salida.push(actual.trim());
+        actual = '';
+        cuenta = 0;
+      }
+      actual += frase;
+      cuenta += 1;
+    }
+    if (actual.trim()) salida.push(actual.trim());
+  }
+  return salida;
+}

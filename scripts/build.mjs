@@ -223,6 +223,27 @@ for (const quiz of quizzes) {
 
 if (hayErrores) process.exit(1);
 console.log(`✓ sprite con ${construirSprite(iconos)} iconos`);
+
+// Copias en JPG de las imágenes de arquetipos y almas para el PDF del informe (PDF no admite WebP).
+if (!sinImagenes) {
+  const sharp = (await import('sharp')).default;
+  const dirPdf = join(WEB, 'img', 'pdf');
+  mkdirSync(dirPdf, { recursive: true });
+  let hechas = 0;
+  for (const quiz of quizzes) {
+    for (const [id, r] of Object.entries(quiz.resultados)) {
+      if (!r.imagen) continue;
+      await sharp(join(WEB, `${r.imagen}-896.webp`)).resize(720, 900, { fit: 'cover' }).jpeg({ quality: 78, mozjpeg: true }).toFile(join(dirPdf, `arquetipo-${id}.jpg`));
+      hechas += 1;
+    }
+    for (const [id, a] of Object.entries(quiz.almas ?? {})) {
+      if (!a.imagen) continue;
+      await sharp(join(WEB, a.imagen)).resize(800, 450, { fit: 'cover' }).jpeg({ quality: 76, mozjpeg: true }).toFile(join(dirPdf, `alma-${id}.jpg`));
+      hechas += 1;
+    }
+  }
+  console.log(`✓ ${hechas} imágenes JPG para el PDF`);
+}
 if (trabajos.length) {
   await generarImagenes(trabajos);
   console.log(`✓ ${trabajos.length} imágenes generadas`);

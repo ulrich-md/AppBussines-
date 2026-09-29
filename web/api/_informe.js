@@ -1,4 +1,4 @@
-// Informe de pago personalizado: se genera con Gemini por secciones (en paralelo) a partir de la
+// Informe de pago personalizado: se genera con IA (Claude o Gemini) por secciones (en paralelo) a partir de la
 // carta numerológica y las respuestas del cuestionario. Qué secciones lleva depende del producto.
 import { ponerNombre } from '../js/engine.js';
 import { CLAVES, NOMBRES_MES, TEMA_CICLO, describirCarta, mesesDesdeCarta, NUMEROS_VALIDOS } from './_numerologia.js';
@@ -13,6 +13,7 @@ const OBJ = (properties) => ({ type: 'OBJECT', properties, required: Object.keys
 // Esquema de cada sección. Todas las longitudes son orientativas para la IA.
 export const SECCIONES = {
   perfil: OBJ({
+    resumen: LISTA('Exactamente 3 claves de todo su informe para leer en un minuto: una frase cada una de 12-22 palabras, en segunda persona, concreta y apoyada en sus números (su fuerza principal, su reto de este momento y lo que la espera en su mes clave).'),
     introduccion: T('Carta de bienvenida: cómo se combinan sus números y su arquetipo combinado. 90-120 palabras.'),
     esencia: T('Su esencia según el Número de Vida, conectada con cómo la describen. 160-200 palabras.'),
     dones: LISTA('5 dones concretos, cada uno de 20-35 palabras, empezando por el nombre del don y dos puntos.'),
@@ -57,7 +58,7 @@ export const SECCIONES = {
 };
 
 // Comprueba que la IA devolvió todo lo pedido (con las cantidades exactas donde importan).
-const CANTIDADES = { dones: 4, sombras: 3, ritual_pasos: 4, ritual_materiales: 2, afirmaciones: 12, meses: 12, semanas: 4, fortalezas: 3, retos: 3 };
+const CANTIDADES = { resumen: 3, dones: 4, sombras: 3, ritual_pasos: 4, ritual_materiales: 2, afirmaciones: 12, meses: 12, semanas: 4, fortalezas: 3, retos: 3 };
 export function normalizarSeccion(nombre) {
   return (datos) => {
     const limpio = limpiarProfundo(datos, 2500);
@@ -67,6 +68,7 @@ export function normalizarSeccion(nombre) {
         const minimo = CANTIDADES[campo] ?? 1;
         if (valor.length < minimo) throw new Error(`Sección ${nombre}: "${campo}" incompleto`);
         if (campo === 'afirmaciones' || campo === 'meses') limpio[campo] = valor.slice(0, 12);
+        if (campo === 'resumen') limpio[campo] = valor.slice(0, 3);
       } else if (!valor || (typeof valor === 'string' && valor.length < 5)) {
         throw new Error(`Sección ${nombre}: falta "${campo}"`);
       }
@@ -76,9 +78,12 @@ export function normalizarSeccion(nombre) {
 }
 
 function sistema(marca) {
-  return `Eres la voz de "${marca}", una marca de numerología de entretenimiento y autoconocimiento para mujeres hispanohablantes de 30 a 55 años.
+  return `Eres la voz de "${marca}", una marca de numerología de entretenimiento y autoconocimiento para mujeres hispanohablantes de 40 a 65 años.
 Estás escribiendo una parte de su INFORME COMPLETO DE PAGO: debe ser profundo, concreto, práctico y muy personal, claramente más rico que una lectura gratuita.
 Evita frases genéricas que valdrían para cualquiera: cada párrafo debe apoyarse en sus números y en sus respuestas.
+Se leerá sobre todo en el celular: en los textos de más de 80 palabras, separa 2 o 3 párrafos cortos con una línea en blanco.
+Usa ejemplos cotidianos y concretos (una conversación, una rutina, una decisión de esta semana). No abuses de fórmulas como "el universo te invita", "vibración" o "energía": dilo con palabras sencillas y variadas.
+Nombra cada número solo cuando aporte algo; no repitas en cada párrafo "tu Número de Vida 4".
 No hables de productos, precios ni compras.
 
 ${REGLAS_ESTILO}`;
@@ -167,6 +172,8 @@ export function datosFijos(datos, quiz, hoy = new Date()) {
     imagen_alt: r.imagen_alt,
     alma: alma ? { nombre: alma.nombre, imagen: alma.imagen, imagen_alt: alma.imagen_alt } : null,
     carta: datos.carta,
+    tema_anio: TEMA_CICLO[datos.carta.anio_personal] ?? '',
+    tema_anio_siguiente: TEMA_CICLO[datos.carta.anio_personal_siguiente] ?? '',
     mes_clave: datos.mesClave,
     deseo: datos.respuestas.deseo?.etiqueta ?? '',
     meses: mesesDesdeCarta(datos.carta, hoy).map((m) => ({ ...m, nombre: NOMBRES_MES[m.mes - 1] })),

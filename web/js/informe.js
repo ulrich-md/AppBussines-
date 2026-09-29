@@ -1,7 +1,7 @@
 // Página del informe de pago: lo pide al servidor (que lo genera la primera vez), lo guarda en el
-// teléfono para volver a abrirlo sin esperar y permite descargarlo en PDF (imprimir → Guardar como PDF).
+// teléfono para volver a abrirlo sin esperar y permite descargarlo como archivo PDF (api/pdf).
 import { almacen, el, formatearPrecio, icono } from './ui.js';
-import { esFechaValida, numeroDeVida } from './engine.js';
+import { dividirParrafos, esFechaValida, numeroDeVida } from './engine.js';
 import { iniciarAnalitica, registrar } from './analytics.js';
 
 const raiz = document.getElementById('informe');
@@ -86,8 +86,11 @@ async function cargar(intento = 1) {
 
 // ---------- Presentación ----------
 
-const seccion = (id, titulo, ...contenido) => el('section', { class: 'informe-seccion', id }, el('h2', {}, titulo), ...contenido);
-const parrafo = (texto) => texto && el('p', {}, texto);
+const seccion = (id, titulo, ...contenido) => el('section', { class: 'informe-seccion', id },
+  el('h2', {}, titulo), ...contenido,
+  el('a', { class: 'volver-indice no-imprimir', href: '#indice' }, 'Volver al índice'));
+// Textos largos en párrafos cortos: se leen mucho mejor en el móvil.
+const parrafo = (texto) => dividirParrafos(texto).map((p) => el('p', {}, p));
 const lista = (items, clase = 'informe-lista') => items?.length && el('ul', { class: clase }, items.map((t) => el('li', {}, t)));
 
 // "Comunicación: sabes…" → nombre del don en negrita.
@@ -132,9 +135,10 @@ function pintar(datos) {
       ),
       carta(datos),
     ),
-    acciones(),
+    acciones(datos),
+    vistazo(datos),
     ofertaMejora(datos),
-    el('nav', { class: 'indice', 'aria-label': 'Índice del informe' },
+    el('nav', { class: 'indice', id: 'indice', 'aria-label': 'Índice del informe' },
       el('h2', {}, 'En tu informe'),
       el('ol', {}, indice.map(([id, texto]) => el('li', {}, el('a', { href: `#${id}` }, texto)))),
     ),
@@ -172,7 +176,7 @@ function pintar(datos) {
     ),
     tiene('plan') && seccion('plan', 'Tu plan de 4 semanas',
       el('div', { class: 'semanas' }, inf.plan.semanas.map((s, i) =>
-        el('article', { class: 'semana' }, el('p', { class: 'semana-numero' }, `Semana ${i + 1}`), el('h3', {}, s.titulo), el('p', {}, s.practica)))),
+        el('article', { class: 'semana' }, el('p', { class: 'semana-numero' }, `Semana ${i + 1}`), el('h3', {}, s.titulo), parrafo(s.practica)))),
     ),
     tiene('pareja') && seccionPareja(),
     seccion('despedida', 'Para terminar', parrafo(inf.espiritual.carta_final)),
@@ -287,7 +291,56 @@ function carta(datos) {
   return el('dl', { class: 'carta', 'aria-label': 'Tu carta numerológica' }, celdas.map(([k, v]) => el('div', {}, el('dt', {}, k), el('dd', {}, v))));
 }
 
-function acciones() {
+// "Tu informe en un minuto": lo esencial arriba, para quien no va a leerlo todo de una vez.
+function vistazo(datos) {
+  const inf = datos.informe;
+  const hoy = new Date();
+  const indiceActual = datos.meses?.findIndex((m) => m.mes === hoy.getMonth() + 1 && m.anio === hoy.getFullYear()) ?? -1;
+  const mesActual = indiceActual >= 0 ? datos.meses[indiceActual] : null;
+  const afirmacion = indiceActual >= 0 ? inf.espiritual?.afirmaciones?.[indiceActual] : null;
+  const anio = hoy.getFullYear();
+  const claves = [
+    datos.carta?.anio_personal && [`Tu año ${anio}`, `Año Personal ${datos.carta.anio_personal}${datos.tema_anio ? `: ${datos.tema_anio}` : ''}`],
+    datos.mes_clave && [`Tu mes clave${datos.deseo ? ` para ${datos.deseo}` : ''}`, `${MESES[datos.mes_clave.mes - 1]} de ${datos.mes_clave.anio}`],
+    mesActual && ['Este mes', `${mayuscula(mesActual.nombre)}: Mes Personal ${mesActual.numero}`],
+  ].filter(Boolean);
+  return el('section', { class: 'vistazo', 'aria-labelledby': 'titulo-vistazo' },
+    el('h2', { id: 'titulo-vistazo' }, 'Tu informe en un minuto'),
+    inf.perfil?.resumen?.length && el('ul', { class: 'vistazo-claves' }, inf.perfil.resumen.map((t) => el('li', {}, icono('sparkle'), el('span', {}, t)))),
+    el('dl', { class: 'vistazo-datos' }, claves.map(([k, v]) => el('div', {}, el('dt', {}, k), el('dd', {}, v)))),
+    afirmacion && el('p', { class: 'vistazo-afirmacion' }, el('span', {}, 'Tu frase para este mes'), afirmacion),
+  );
+}
+
+// Descarga el PDF como archivo (sin pasar por el diálogo de imprimir).
+async function descargarPdf(boton, aviso, datos) {
+  registrar('informe_pdf');
+  const original = [...boton.childNodes];
+  boton.setAttribute('aria-disabled', 'true');
+  boton.textContent = 'Preparando tu PDF…';
+  aviso.textContent = '';
+  try {
+    const respuesta = await fetch(`api/pdf?s=${encodeURIComponent(idSesion)}`, { cache: 'no-store' });
+    if (!respuesta.ok) {
+      const cuerpo = await respuesta.json().catch(() => ({}));
+      throw new Error(cuerpo.error ?? 'No pudimos crear el PDF. Inténtalo de nuevo.');
+    }
+    const archivo = URL.createObjectURL(await respuesta.blob());
+    const enlace = el('a', { href: archivo, download: `Informe-${(datos.nombre || 'Numero-de-Vida').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^A-Za-z0-9]+/g, '-')}.pdf` });
+    document.body.append(enlace);
+    enlace.click();
+    enlace.remove();
+    setTimeout(() => URL.revokeObjectURL(archivo), 60000);
+    aviso.textContent = 'Listo: tu PDF se ha descargado. Búscalo en tus descargas o en la app Archivos.';
+  } catch (e) {
+    aviso.textContent = e.message.startsWith('Failed') ? 'Sin conexión. Revisa tu internet e inténtalo de nuevo.' : e.message;
+  } finally {
+    boton.removeAttribute('aria-disabled');
+    boton.replaceChildren(...original);
+  }
+}
+
+function acciones(datos) {
   const copiar = el('button', {
     class: 'enlace', type: 'button',
     onclick: async () => {
@@ -299,13 +352,14 @@ function acciones() {
       }
     },
   }, icono('link'), el('span', {}, 'Copiar el enlace de mi informe'));
-  return el('div', { class: 'informe-acciones' },
-    el('button', {
-      class: 'boton', type: 'button',
-      onclick: () => { registrar('informe_pdf'); window.print(); },
-    }, icono('download-simple'), 'Descargar en PDF'),
+  const aviso = el('p', { class: 'nota-ia', role: 'status' });
+  const boton = el('button', { class: 'boton', type: 'button', onclick: () => descargarPdf(boton, aviso, datos) },
+    icono('download-simple'), 'Descargar mi informe en PDF');
+  return el('div', { class: 'informe-acciones no-imprimir' },
+    boton,
+    aviso,
     copiar,
-    el('p', { class: 'nota-ia' }, 'Para descargarlo: pulsa el botón y elige "Guardar como PDF". Guarda también el enlace: es tu acceso personal.'),
+    el('p', { class: 'nota-ia' }, 'El PDF es un archivo para guardar, enviar o imprimir. Guarda también el enlace de esta página: es tu acceso personal.'),
   );
 }
 
@@ -319,12 +373,16 @@ function seccionCiclos(datos) {
     mesClave && el('aside', { class: 'mes-clave' },
       el('p', { class: 'mes-clave-etiqueta' }, `Tu mes clave para ${datos.deseo}`),
       el('p', { class: 'mes-clave-fecha' }, `${MESES[mesClave.mes - 1]} de ${mesClave.anio}`),
-      el('p', {}, inf.mes_clave),
+      parrafo(inf.mes_clave),
     ),
     el('h3', {}, 'Tus próximos 12 meses'),
     el('div', { class: 'meses' }, inf.meses.map((texto, i) => {
       const m = datos.meses?.[i];
-      return el('article', { class: 'mes' },
+      const hoy = new Date();
+      const esActual = m && m.mes === hoy.getMonth() + 1 && m.anio === hoy.getFullYear();
+      const esClave = m && mesClave && m.mes === mesClave.mes && m.anio === mesClave.anio;
+      return el('article', { class: `mes${esActual ? ' mes-actual' : ''}${esClave ? ' mes-es-clave' : ''}` },
+        (esActual || esClave) && el('p', { class: 'mes-etiqueta' }, esClave ? 'Tu mes clave' : 'Este mes'),
         el('p', { class: 'mes-cabecera' }, el('span', {}, m ? `${mayuscula(m.nombre)} ${m.anio}` : `Mes ${i + 1}`), m && el('span', { class: 'mes-numero' }, m.numero)),
         el('p', {}, texto));
     })),

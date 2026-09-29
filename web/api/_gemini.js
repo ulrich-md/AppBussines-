@@ -10,14 +10,16 @@ export function modelosConfigurados() {
 }
 
 // Texto limpio: sin HTML, sin guiones largos (regla de estilo de la marca) y sin espacios de más.
+// Conserva los saltos de párrafo (línea en blanco) para poder mostrar el texto en párrafos cortos.
 export function limpiarTexto(valor, maximo = 2000) {
   if (typeof valor !== 'string') return '';
   return valor
     .replace(/<[^>]*>/g, '')
     .replace(/\s*[—–]\s*/g, ', ')
-    .replace(/\s+/g, ' ')
-    .replace(/^,\s*/, '')
-    .trim()
+    .split(/\n\s*\n/)
+    .map((parrafo) => parrafo.replace(/\s+/g, ' ').replace(/^,\s*/, '').trim())
+    .filter(Boolean)
+    .join('\n\n')
     .slice(0, maximo);
 }
 
