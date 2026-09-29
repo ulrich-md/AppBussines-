@@ -696,3 +696,23 @@ textarea {
 .glosario dl { margin: 4px 0 0; display: grid; gap: 10px; }
 .glosario dt { font-weight: 700; }
 .glosario dd { margin: 0; color: var(--texto-suave); }
+
+/* ---------- Resultado: lectura corta, informe bloqueado y resto de la lectura bajo la oferta ---------- */
+.informe-bloqueado {
+  margin: 24px 0 8px; padding: 22px 18px 18px; border-radius: var(--radio-contenedor);
+  background: var(--superficie); border: 2px solid var(--acento); box-shadow: var(--sombra);
+}
+.informe-bloqueado > h2 { font-size: clamp(1.4rem, 5vw, 1.7rem); margin-bottom: 14px; }
+.bloqueado-etiqueta { display: inline-flex; align-items: center; gap: 6px; margin: 0 0 6px; font-weight: 700; color: var(--acento); }
+.bloqueado-lista { list-style: none; padding: 0; margin: 0 0 16px; display: grid; gap: 14px; }
+.bloqueado-lista h3 { font-size: 1.1rem; margin: 0 0 8px; }
+.bloqueado-texto { display: grid; gap: 7px; filter: blur(1.5px); opacity: 0.8; }
+.bloqueado-texto span { display: block; height: 11px; border-radius: 999px; background: var(--superficie-2); }
+.bloqueado-texto span:nth-child(2) { width: 92%; }
+.bloqueado-texto span:nth-child(3) { width: 64%; }
+.boton-desbloquear { margin-top: 4px; }
+.bloqueado-nota { margin: 8px 0 0; text-align: center; font-size: 0.95rem; color: var(--texto-suave); }
+.lectura-resto { margin-top: 32px; }
+.lectura-resto-titulo { font-size: clamp(1.5rem, 5vw, 1.8rem); margin-bottom: 4px; }
+/* Imagen del alma más contenida: acompaña, no empuja el texto hacia abajo. */
+.lectura-resto .bloque-imagen { aspect-ratio: 16 / 9; max-height: 220px; }

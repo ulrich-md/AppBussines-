@@ -415,15 +415,20 @@ test('incentivos de compra en el móvil (iPhone SE)', async () => {
   // La portada personalizada usa la imagen del arquetipo (URL absoluta, no relativa a css/).
   const fondo = await pagina.locator('.portada-viva').evaluate((n) => getComputedStyle(n).backgroundImage);
   assert.match(fondo, /url\("http:\/\/127\.0\.0\.1:\d+\/img\/arquetipos\/4-640\.webp"\)/);
-  // Barra fija: aparece al bajar por la lectura y se esconde al llegar a la oferta.
+  // Barra fija: visible desde el principio del resultado y escondida mientras se ve la oferta.
   await pagina.evaluate(() => window.scrollTo(0, 0));
-  await pagina.locator('.lectura-bloque').nth(2).scrollIntoViewIfNeeded();
   await pagina.locator('.barra-compra:not([hidden])').waitFor();
   await pagina.locator('.planes').scrollIntoViewIfNeeded();
   await pagina.locator('.barra-compra[hidden]').waitFor({ state: 'attached' });
-  // El botón del mes clave lleva a los planes.
-  await pagina.locator('.mes-clave-boton').scrollIntoViewIfNeeded();
-  await pagina.locator('.mes-clave-boton').click();
+  // Lectura corta arriba: el informe bloqueado llega antes que el resto de la lectura gratis.
+  const orden = await pagina.evaluate(() => {
+    const y = (sel) => document.querySelector(sel).getBoundingClientRect().top + window.scrollY;
+    return [y('.informe-bloqueado'), y('#oferta'), y('.lectura-resto')];
+  });
+  assert.ok(orden[0] < orden[1] && orden[1] < orden[2], `orden inesperado: ${orden}`);
+  // El botón "Desbloquear mi informe completo" lleva a los planes.
+  await pagina.locator('.boton-desbloquear').scrollIntoViewIfNeeded();
+  await pagina.locator('.boton-desbloquear').click();
   await pagina.waitForTimeout(900);
   const planes = await pagina.locator('.planes').boundingBox();
   assert.ok(planes.y < 200, 'los planes quedan arriba de la pantalla');
@@ -441,7 +446,7 @@ test('ningún botón ni texto se sale de la pantalla (iPhone SE)', async () => {
   await pagina.goto(base);
   await recorrer(pagina, { dia: 14, mes: 3, anio: 1985, nombre: 'María José Núñez Peña' });
   await pagina.locator('.oferta').waitFor();
-  await pagina.locator('.lectura-bloque').nth(2).scrollIntoViewIfNeeded();
+  await pagina.evaluate(() => window.scrollTo(0, 0));
   await pagina.locator('.barra-compra:not([hidden])').waitFor();
   const fuera = await pagina.evaluate(() => [...document.querySelectorAll('.boton, h1, h2, h3, .plan, .carta div, .meses-mini li')]
     .filter((n) => n.offsetParent !== null && !n.closest('.ejemplos-carrusel'))

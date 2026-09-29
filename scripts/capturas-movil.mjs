@@ -82,6 +82,8 @@ for (const [nombre, dispositivo] of Object.entries(DISPOSITIVOS)) {
     await foto('07-lectura-con-barra');
     await pagina.locator('.mes-clave').scrollIntoViewIfNeeded();
     await foto('08-mes-clave');
+    await pagina.locator('.informe-bloqueado').evaluate((n) => n.scrollIntoView({ block: 'start' }));
+    await foto('08b-informe-bloqueado');
     await pagina.locator('#oferta').evaluate((n) => n.scrollIntoView({ block: 'start' }));
     await foto('09-oferta');
     await pagina.locator('.linea-meses').evaluate((n) => n.scrollIntoView({ block: 'start' }));

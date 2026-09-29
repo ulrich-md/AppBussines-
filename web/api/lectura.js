@@ -33,8 +33,8 @@ export async function POST(request) {
 
   try {
     const prompt = construirPrompt(datos, quiz, { marca: sitio.marca, anio: new Date().getFullYear() });
-    const { lectura } = await generarLectura(prompt, { apiKey, modelos: modelosConfigurados() });
-    return responder(200, { lectura });
+    const { lectura, modelo } = await generarLectura(prompt, { apiKey, modelos: modelosConfigurados() });
+    return responder(200, { lectura, modelo });
   } catch (e) {
     console.error('Error generando la lectura:', e.message);
     return responder(502, { error: 'No se pudo generar la lectura', codigo: e.codigo });

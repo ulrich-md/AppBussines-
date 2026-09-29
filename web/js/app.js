@@ -330,7 +330,6 @@ function cabeceraResultado(id, resultado) {
       el('p', { class: 'saludo' }, nombre ? `${nombre}, ${quiz.encabezado_resultado}` : quiz.encabezado_resultado_sin_nombre),
       el('h1', {}, el('span', { class: 'visualmente-oculto' }, `${id}: `), arquetipoCombinado(quiz, carta)),
       resultado.maestro && el('span', { class: 'sello' }, 'Número maestro'),
-      resultado.color && el('p', { class: 'color-poder' }, el('i', { 'aria-hidden': 'true' }), `Tu color de poder: ${resultado.color}`),
     ),
     cartaResumen(carta),
   );
@@ -376,24 +375,36 @@ function pintarLectura(zonaLectura, zonaFinal, compuesto, lectura) {
   ultimaLectura = lectura;
   registrar('quiz_completado', { quiz: quiz.id, resultado: id, origen, ia: Boolean(lectura) });
 
+  // Arriba solo lo que más engancha (esencia y momento); el resto de la lectura gratis va después
+  // de la oferta, para que el informe aparezca en las primeras pantallas del móvil.
+  const primeros = bloques.filter((b) => BLOQUES_PRINCIPALES.includes(b.campo));
+  const principales = primeros.length ? primeros : bloques.slice(0, 2);
+  const resto = bloques.filter((b) => !principales.includes(b));
+  const pintarBloque = (b) => el('section', { class: 'lectura-bloque' },
+    el('h2', {}, b.titulo),
+    b.imagen && el('img', { class: 'bloque-imagen', src: b.imagen, alt: b.alt ?? '', width: 800, height: 600, loading: 'lazy', decoding: 'async' }),
+    el('p', {}, b.texto));
+
   zonaLectura.setAttribute('aria-busy', 'false');
   zonaLectura.replaceChildren(
     lectura?.titular && el('p', { class: 'titular' }, ponerNombre(lectura.titular, nombre, '')),
-    ...bloques.map((b, i) => el('section', { class: 'lectura-bloque', style: { '--i': i } },
-      el('h2', {}, b.titulo),
-      b.imagen && el('img', { class: 'bloque-imagen', src: b.imagen, alt: b.alt ?? '', width: 800, height: 600, loading: 'lazy', decoding: 'async' }),
-      el('p', {}, b.texto))),
+    ...principales.map(pintarBloque),
     tarjetaMesClave(lectura),
-    lectura?.frase && el('aside', { class: 'afirmacion' },
-      el('p', { class: 'afirmacion-etiqueta' }, 'Tu frase para repetir'),
-      el('p', { class: 'afirmacion-texto' }, ponerNombre(lectura.frase, nombre, '')),
-    ),
-    lectura && quiz.ia.nota && el('p', { class: 'nota-ia' }, quiz.ia.nota),
+    informeBloqueado(resultado),
   );
 
   const urlCompartir = new URL(`r/${quiz.id}/${id}.html`, location.href).href;
   zonaFinal.replaceChildren(
     ofertaPlanes(id, resultado),
+    resto.length && el('section', { class: 'lectura-resto', 'aria-labelledby': 'titulo-resto' },
+      el('h2', { id: 'titulo-resto', class: 'lectura-resto-titulo' }, 'Sigue tu lectura gratis'),
+      ...resto.map(pintarBloque),
+      lectura?.frase && el('aside', { class: 'afirmacion' },
+        el('p', { class: 'afirmacion-etiqueta' }, 'Tu frase para repetir'),
+        el('p', { class: 'afirmacion-texto' }, ponerNombre(lectura.frase, nombre, '')),
+      ),
+      lectura && quiz.ia.nota && el('p', { class: 'nota-ia' }, quiz.ia.nota),
+    ),
     el('section', { class: 'compartir' },
       el('h2', {}, '¿Quién de tus amigas querría saber su número?'),
       el('div', { class: 'acciones' },
@@ -410,6 +421,35 @@ function pintarLectura(zonaLectura, zonaFinal, compuesto, lectura) {
     formularioSuscripcion(id),
   );
   barraCompra();
+}
+
+const BLOQUES_PRINCIPALES = ['esencia', 'momento'];
+
+// Vista previa del informe completo: títulos reales de lo que contiene, con el texto difuminado.
+// Todo lo que se muestra aquí está de verdad en el informe (plan Informe + 12 meses o superior).
+function informeBloqueado(resultado) {
+  const { carta, mesClave: mes } = datosCarta();
+  const deseo = opcionTexto(quiz, 'deseo', respuestas.deseo);
+  const titulos = [
+    `Tus dones y tus sombras como ${resultado.titulo}`,
+    mes ? `Qué hacer en ${NOMBRES_MES[mes.mes - 1]} de ${mes.anio}, tu mes clave para ${deseo}` : 'Tus próximos 12 meses, uno a uno',
+    carta.alma ? `Qué desea tu alma (Número del Alma ${carta.alma}) y cómo escucharla` : 'Tu ritual personal y 12 afirmaciones',
+  ];
+  return el('section', { class: 'informe-bloqueado', 'aria-labelledby': 'titulo-bloqueado' },
+    el('p', { class: 'bloqueado-etiqueta' }, icono('lock-simple'), 'Tu informe completo continúa'),
+    el('h2', { id: 'titulo-bloqueado' }, 'Esto es lo que tu carta dice después'),
+    el('ol', { class: 'bloqueado-lista' }, titulos.map((t) => el('li', {},
+      el('h3', {}, t),
+      el('div', { class: 'bloqueado-texto', 'aria-hidden': 'true' }, el('span'), el('span'), el('span'))))),
+    el('button', {
+      class: 'boton boton-desbloquear', type: 'button',
+      onclick: () => {
+        registrar('desbloquear_clic', { quiz: quiz.id });
+        (document.querySelector('.planes') ?? document.getElementById('oferta'))?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      },
+    }, icono('lock-simple'), 'Desbloquear mi informe completo'),
+    el('p', { class: 'bloqueado-nota' }, 'Pago único, sin suscripción. Lo recibes al momento.'),
+  );
 }
 
 // Al servidor solo se envían el número, la edad aproximada y las respuestas de opción múltiple.
@@ -464,13 +504,6 @@ function tarjetaMesClave(lectura) {
     el('p', { class: 'mes-clave-fecha' }, `${NOMBRES_MES[mes.mes - 1]} de ${mes.anio}`),
     el('p', {}, texto),
     el('p', { class: 'mes-clave-puente' }, 'En tu informe completo: qué hacer ese mes y tus 12 meses, uno a uno.'),
-    el('button', {
-      class: 'boton boton-secundario mes-clave-boton', type: 'button',
-      onclick: () => {
-        registrar('mes_clave_clic', { quiz: quiz.id });
-        (document.querySelector('.planes') ?? document.getElementById('oferta'))?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      },
-    }, `Descubrir qué hacer en ${NOMBRES_MES[mes.mes - 1]}`, icono('arrow-right')),
   );
 }
 
@@ -483,7 +516,7 @@ function bloquesDeLectura(lectura) {
   return quiz.ia.bloques
     .filter((b) => lectura[b.campo])
     .map((b) => {
-      const bloque = { titulo: interpolar(b.titulo, { opcion }), texto: ponerNombre(lectura[b.campo], nombre, porDefecto) };
+      const bloque = { campo: b.campo, titulo: interpolar(b.titulo, { opcion }), texto: ponerNombre(lectura[b.campo], nombre, porDefecto) };
       if (b.campo === 'interior' && alma) Object.assign(bloque, { titulo: `Tu mundo interior: alma de ${alma.nombre}`, imagen: alma.imagen, alt: alma.imagen_alt });
       return bloque;
     });
@@ -735,17 +768,21 @@ function barraCompra() {
     }, 'Ver mi informe'),
   );
   document.body.append(barra);
-  let lecturaVista = false;
-  let ofertaVisible = false;
-  let mesVisible = false;
-  // Se esconde también sobre la tarjeta del mes clave, que ya tiene su propio botón.
-  const actualizar = () => { barra.hidden = !lecturaVista || ofertaVisible || mesVisible; };
-  new IntersectionObserver(([e]) => { ofertaVisible = e.isIntersecting || e.boundingClientRect.top < 0; actualizar(); }).observe(oferta);
-  const mes = document.querySelector('.mes-clave');
-  if (mes) new IntersectionObserver(([e]) => { mesVisible = e.isIntersecting; actualizar(); }).observe(mes);
-  // Aparece en cuanto la cabecera del resultado sale de la pantalla (aunque se haga scroll rápido).
-  const cabecera = document.querySelector('.resultado-cabecera');
-  if (cabecera) new IntersectionObserver(([e]) => { lecturaVista = !e.isIntersecting && e.boundingClientRect.top < 0; actualizar(); }).observe(cabecera);
+  // Visible desde el principio del resultado; se esconde solo mientras se ve la oferta o el bloque de
+  // "Desbloquear mi informe", que ya tienen su propio botón. Vuelve a aparecer debajo de la oferta.
+  const visibles = new Set();
+  const actualizar = () => { barra.hidden = visibles.size > 0; };
+  const observador = new IntersectionObserver((entradas) => {
+    for (const e of entradas) {
+      if (e.isIntersecting) visibles.add(e.target);
+      else visibles.delete(e.target);
+    }
+    actualizar();
+  });
+  observador.observe(oferta);
+  const bloqueado = document.querySelector('.informe-bloqueado');
+  if (bloqueado) observador.observe(bloqueado);
+  actualizar();
 }
 
 // Si vuelve del pago sin completarlo, recupera su resultado en lugar de empezar de cero.
