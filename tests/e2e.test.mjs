@@ -217,6 +217,21 @@ test('las preguntas usan el nombre', async () => {
   await pagina.close();
 });
 
+test('un doble toque en una respuesta no se salta la pregunta siguiente', async () => {
+  const pagina = await navegador.newPage({ ...devices['Pixel 7'] });
+  await pagina.goto(base);
+  await pagina.getByRole('button', { name: 'Descubrir mi número' }).first().click();
+  await pagina.getByLabel('Día').selectOption('1');
+  await pagina.getByLabel('Mes').selectOption('1');
+  await pagina.getByLabel('Año').selectOption('1980');
+  await pagina.getByRole('button', { name: 'Continuar' }).click();
+  await pagina.getByRole('button', { name: 'Prefiero solo usar mi fecha' }).click();
+  await pagina.getByRole('button', { name: OPCIONES[0] }).dblclick();
+  await pagina.waitForTimeout(900);
+  assert.match(await pagina.locator('h2').innerText(), /qué área de tu vida/i);
+  await pagina.close();
+});
+
 // Reglas de diseño (taste-skill / ui-ux-pro-max): sin emojis como iconos y sin guiones largos visibles.
 const EMOJI = /\p{Extended_Pictographic}/u;
 const GUION_LARGO = /[—–]/;

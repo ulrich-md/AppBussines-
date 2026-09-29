@@ -49,6 +49,8 @@ export function validarPeticion(cuerpo, quiz) {
   const respuestas = {};
   for (const pregunta of quiz.preguntas.filter((p) => p.tipo === 'opciones')) {
     const valor = cuerpo.respuestas?.[pregunta.id];
+    // Una pregunta sin responder no impide la lectura ni el pago; una respuesta inventada sí se rechaza.
+    if (valor === undefined || valor === null || valor === '') continue;
     const opcion = pregunta.opciones.find((o) => o.id === valor);
     if (!opcion) return { error: `Falta o no es válida la respuesta "${pregunta.id}"` };
     respuestas[pregunta.id] = opcion;
@@ -85,7 +87,7 @@ export const REGLAS_ESTILO = `REGLAS OBLIGATORIAS:
 
 export function construirPrompt({ carta, mesClave, edad, respuestas }, quiz, { marca, anio }) {
   const lineasRespuestas = quiz.preguntas
-    .filter((p) => p.tipo === 'opciones')
+    .filter((p) => p.tipo === 'opciones' && respuestas[p.id])
     .map((p) => `- ${p.texto_ia ?? p.texto} → ${respuestas[p.id].texto}`)
     .join('\n');
   const deseo = respuestas.deseo?.etiqueta ?? respuestas.deseo?.texto ?? '';

@@ -91,7 +91,7 @@ ${REGLAS_ESTILO}`;
 
 function contexto(datos, quiz, anio) {
   const respuestas = quiz.preguntas
-    .filter((p) => p.tipo === 'opciones')
+    .filter((p) => p.tipo === 'opciones' && datos.respuestas[p.id])
     .map((p) => `- ${p.texto_ia ?? p.texto} → ${datos.respuestas[p.id].texto}`)
     .join('\n');
   const deseo = datos.respuestas.deseo?.etiqueta ?? '';

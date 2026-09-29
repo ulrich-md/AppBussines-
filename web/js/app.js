@@ -258,7 +258,9 @@ function preguntaOpciones(pregunta) {
           onclick: (evento) => {
             respuestas[pregunta.id] = opcion.id;
             evento.currentTarget.setAttribute('aria-pressed', 'true');
-            setTimeout(siguiente, 450);
+            // Un doble toque programa dos avances: solo cuenta el primero, para no saltarse una pregunta.
+            const desde = paso;
+            setTimeout(() => { if (paso === desde) siguiente(); }, 450);
           },
         },
         opcion.icono && el('span', { class: 'opcion-icono' }, icono(opcion.icono)),
