@@ -33,4 +33,7 @@ export function origenDe(request) {
 
 export const limpiarVariable = (valor) => String(valor ?? '').trim().replace(/^["']|["']$/g, '').trim();
 
+// País de la visita según Vercel (código ISO de 2 letras, p. ej. "MX"). Vacío en local.
+export const paisDe = (request) => (request?.headers?.get('x-vercel-ip-country') ?? '').trim().toUpperCase().slice(0, 2);
+
 export const ipDe = (request) => (request.headers.get('x-forwarded-for') ?? '').split(',')[0].trim() || 'desconocida';

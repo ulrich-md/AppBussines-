@@ -56,8 +56,9 @@ beforeEach(() => {
 
 afterEach(() => { globalThis.fetch = fetchOriginal; });
 
-const peticionCheckout = (cuerpo) => new Request('https://sitio.test/api/checkout', {
-  method: 'POST', body: JSON.stringify(cuerpo), headers: { 'x-forwarded-for': `10.0.0.${Math.floor(Math.random() * 250)}` },
+const peticionCheckout = (cuerpo, pais) => new Request('https://sitio.test/api/checkout', {
+  method: 'POST', body: JSON.stringify(cuerpo),
+  headers: { 'x-forwarded-for': `10.0.0.${Math.floor(Math.random() * 250)}`, ...(pais ? { 'x-vercel-ip-country': pais } : {}) },
 });
 const peticionInforme = (query) => new Request(`https://sitio.test/api/informe?${query}`, { headers: { 'x-forwarded-for': `10.1.0.${Math.floor(Math.random() * 250)}` } });
 
@@ -89,7 +90,9 @@ test('checkout: crea la sesión con el precio del catálogo (nunca el del navega
   assert.equal(respuesta.status, 200);
   assert.match((await respuesta.json()).url, /^https:\/\/checkout\.stripe\.com/);
   const enviado = llamadas.stripe[0].cuerpo;
-  assert.equal(enviado.get('line_items[0][price_data][unit_amount]'), '26900');
+  assert.equal(enviado.get('line_items[0][price_data][unit_amount]'), '1499');
+  assert.equal(enviado.get('line_items[0][price_data][currency]'), 'usd');
+  assert.equal(enviado.get('payment_method_types[0]'), null, 'fuera de México no se fuerza OXXO');
   assert.equal(enviado.get('mode'), 'payment');
   assert.equal(enviado.get('metadata[p]'), 'completo');
   assert.match(enviado.get('success_url'), /\/informe\.html\?s=\{CHECKOUT_SESSION_ID\}$/);
@@ -161,7 +164,7 @@ test('mejora: se paga la diferencia y se reutilizan los datos de la compra origi
   const respuesta = await checkout(peticionCheckout({ producto: 'completo', mejora_de: 'cs_test_compraOriginal00001' }));
   assert.equal(respuesta.status, 200);
   const creada = llamadas.stripe.find((l) => l.cuerpo)?.cuerpo;
-  assert.equal(creada.get('line_items[0][price_data][unit_amount]'), '9000');
+  assert.equal(creada.get('line_items[0][price_data][unit_amount]'), '599');
   assert.equal(creada.get('metadata[p]'), 'completo');
   assert.equal(creada.get('metadata[o]'), 'cs_test_compraOriginal00001');
   assert.equal(creada.get('metadata[c]'), sesionSimulada.metadata.c);
@@ -281,12 +284,14 @@ test('pdf: el informe real de ejemplo produce un PDF de varias páginas', async 
 test('tienda: checkout con precio fijo del catálogo y descarga solo de lo comprado', async () => {
   const { GET: descarga } = await import('../web/api/descarga.js');
   const catalogoTienda = JSON.parse(readFileSync(new URL('../web/productos.json', import.meta.url)));
-  const respuesta = await checkout(peticionCheckout({ tienda: 'cristales' }));
+  const respuesta = await checkout(peticionCheckout({ tienda: 'cristales' }, 'MX'));
   assert.equal(respuesta.status, 200);
   const enviado = llamadas.stripe.at(-1).cuerpo;
   assert.equal(enviado.get('line_items[0][price_data][currency]'), 'mxn');
   assert.equal(enviado.get('line_items[0][price_data][unit_amount]'), String(catalogoTienda.tienda.find((t) => t.id === 'cristales').precio));
   assert.equal(enviado.get('metadata[t]'), 'cristales');
+  assert.equal(enviado.get('payment_method_types[1]'), 'oxxo');
+  assert.equal(enviado.get('payment_method_options[oxxo][expires_after_days]'), '3');
   assert.match(enviado.get('success_url'), /\/descarga\.html\?s=\{CHECKOUT_SESSION_ID\}$/);
   assert.equal((await checkout(peticionCheckout({ tienda: 'regalo' }))).status, 400);
 
@@ -320,4 +325,34 @@ test('tienda: la guía se escribe una sola vez y se entrega como PDF', async () 
   assert.equal((await pedir()).status, 200);
   assert.equal(llamadas.gemini, llamadasIA, 'la segunda compra no vuelve a llamar a la IA');
   delete process.env.BLOB_READ_WRITE_TOKEN;
+});
+
+test('checkout: en México cobra en pesos con OXXO; si la cuenta no tiene OXXO, sigue solo con tarjeta', async () => {
+  const catalogo = JSON.parse(readFileSync(new URL('../web/productos.json', import.meta.url)));
+  let intentos = 0;
+  const fetchPrevio = globalThis.fetch;
+  globalThis.fetch = async (url, opciones = {}) => {
+    if (String(url).startsWith('https://api.stripe.com') && opciones.method === 'POST') {
+      intentos += 1;
+      const cuerpo = new URLSearchParams(opciones.body);
+      llamadas.stripe.push({ url: String(url), cuerpo });
+      if (cuerpo.get('payment_method_types[1]') === 'oxxo') {
+        return Response.json({ error: { message: 'The payment method type "oxxo" is invalid.' } }, { status: 400 });
+      }
+      return Response.json({ id: 'cs_test_sinOxxo000001', url: 'https://checkout.stripe.com/c/pay/cs_test_sinOxxo000001' });
+    }
+    return fetchPrevio(url, opciones);
+  };
+  const respuesta = await checkout(peticionCheckout(cuerpoCompra('completo'), 'MX'));
+  assert.equal(respuesta.status, 200);
+  assert.equal(intentos, 2);
+  const final = llamadas.stripe.at(-1).cuerpo;
+  assert.equal(final.get('line_items[0][price_data][currency]'), 'mxn');
+  assert.equal(final.get('line_items[0][price_data][unit_amount]'), String(catalogo.productos.find((p) => p.id === 'completo').precio));
+  assert.equal(final.get('payment_method_types[0]'), null);
+  globalThis.fetch = fetchPrevio;
+
+  const { GET } = await import('../web/api/checkout.js');
+  assert.equal((await (await GET(new Request('https://sitio.test/api/checkout', { headers: { 'x-vercel-ip-country': 'MX' } }))).json()).moneda, 'mxn');
+  assert.equal((await (await GET(new Request('https://sitio.test/api/checkout', { headers: { 'x-vercel-ip-country': 'CO' } }))).json()).moneda, 'usd');
 });

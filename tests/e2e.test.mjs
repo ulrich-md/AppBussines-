@@ -122,7 +122,7 @@ for (const dispositivo of ['iPhone 13', 'Pixel 7']) {
     // Oferta: 3 planes, el recomendado preseleccionado y el precio en el botón.
     assert.equal(await pagina.locator('.plan').count(), 3);
     assert.equal(await pagina.locator('.plan input:checked').getAttribute('value'), 'completo');
-    assert.match(await pagina.locator('.boton-compra').innerText(), /\$269 MXN/);
+    assert.match(await pagina.locator('.boton-compra').innerText(), /US\$14\.99/);
     assert.match(await pagina.locator('.portada-viva').innerText(), /El informe de María/);
     const whatsapp = await pagina.getByRole('link', { name: 'Enviar por WhatsApp' }).getAttribute('href');
     assert.match(decodeURIComponent(whatsapp), /La Constructora con alma de sanadora .*r\/numero-de-vida\/4\.html/);
@@ -155,6 +155,7 @@ test('número maestro sin nombre, elegir plan y pagar', async () => {
   await simularIA(pagina);
   const compras = [];
   await pagina.route('**/api/checkout', async (ruta) => {
+    if (ruta.request().method() === 'GET') return ruta.fulfill({ json: { moneda: 'usd' } });
     compras.push(JSON.parse(ruta.request().postData()));
     await ruta.fulfill({ json: { url: 'https://tienda.ejemplo/checkout/cs_test_1' } });
   });
@@ -169,7 +170,7 @@ test('número maestro sin nombre, elegir plan y pagar', async () => {
   // Sin nombre, la portada del informe no inventa uno.
   assert.match(await pagina.locator('.portada-viva').innerText(), /Tu informe personal/);
   await pagina.getByText('Informe + 12 meses + Pareja', { exact: true }).click();
-  assert.match(await pagina.locator('.boton-compra').innerText(), /\$349 MXN/);
+  assert.match(await pagina.locator('.boton-compra').innerText(), /US\$19\.99/);
   await pagina.locator('.boton-compra').click();
   await pagina.waitForURL('https://tienda.ejemplo/checkout/cs_test_1');
   assert.equal(compras[0].producto, 'premium');
@@ -388,6 +389,7 @@ test('informe básico: ofrece mejorar pagando la diferencia', async () => {
   await simularInforme(pagina, { producto: 'esencial' });
   const pedidas = [];
   await pagina.route('**/api/checkout', async (ruta) => {
+    if (ruta.request().method() === 'GET') return ruta.fulfill({ json: { moneda: 'usd' } });
     pedidas.push(JSON.parse(ruta.request().postData()));
     await ruta.fulfill({ json: { url: 'https://tienda.ejemplo/mejora' } });
   });
@@ -396,7 +398,7 @@ test('informe básico: ofrece mejorar pagando la diferencia', async () => {
   await pagina.locator('.mejora').waitFor();
   assert.equal(await pagina.locator('.mejora-opcion').count(), 2);
   assert.equal(await pagina.locator('#ciclos').count(), 0, 'el básico no incluye los ciclos');
-  await pagina.getByRole('button', { name: 'Añadir por $90 MXN' }).click();
+  await pagina.getByRole('button', { name: 'Añadir por US$5.99' }).click();
   await pagina.waitForURL('https://tienda.ejemplo/mejora');
   assert.deepEqual(pedidas[0], { producto: 'completo', mejora_de: 'cs_test_informeBasico000001' });
   await pagina.close();
@@ -467,4 +469,27 @@ test('ningún botón ni texto se sale de la pantalla (iPhone SE)', async () => {
     .map((n) => `${n.className || n.tagName}: ${n.textContent.trim().slice(0, 40)}`));
   assert.deepEqual(fuera, []);
   await pagina.close();
+});
+
+test('tienda en la portada: pesos y OXXO en México, dólares fuera', async () => {
+  for (const [zona, esperado, oxxo] of [['America/Mexico_City', /\$149 MXN/, true], ['America/Bogota', /US\$7\.99/, false]]) {
+    const contexto = await navegador.newContext({ ...devices['iPhone 13'], timezoneId: zona });
+    const pagina = await contexto.newPage();
+    await pagina.goto(base);
+    const tienda = pagina.locator('#tienda');
+    await tienda.waitFor();
+    assert.equal(await tienda.locator('.producto').count(), 6);
+    assert.match(await tienda.locator('.producto').first().innerText(), esperado);
+    assert.equal((await tienda.innerText()).includes('OXXO'), oxxo);
+    // Comprar lleva a Stripe con el producto elegido.
+    const pedidas = [];
+    await pagina.route('**/api/checkout', (ruta) => {
+      if (ruta.request().method() === 'POST') pedidas.push(ruta.request().postDataJSON());
+      return ruta.request().method() === 'POST' ? ruta.fulfill({ json: { url: `${base}?stripe=simulado` } }) : ruta.fulfill({ status: 404, body: '' });
+    });
+    await tienda.getByRole('button', { name: 'Comprar' }).first().click();
+    await pagina.waitForURL(/stripe=simulado/);
+    assert.deepEqual(pedidas[0], { tienda: 'manifestacion' });
+    await contexto.close();
+  }
 });

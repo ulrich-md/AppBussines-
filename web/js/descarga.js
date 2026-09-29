@@ -46,7 +46,8 @@ async function cargar() {
     const cuerpo = await respuesta.json().catch(() => ({}));
     if (respuesta.status === 202) {
       mostrar(el('h1', {}, 'Tu pago está pendiente'),
-        el('p', {}, 'Si pagaste en efectivo, tus guías aparecerán aquí en cuanto se confirme el pago. Esta página se actualiza sola.'));
+        el('p', {}, 'Si elegiste pagar en OXXO: paga tu ficha en cualquier tienda (también te llegó por email). En cuanto se confirme, normalmente al día hábil siguiente, tus guías aparecerán aquí para descargar.'),
+        el('p', { class: 'ayuda' }, 'Guarda el enlace de esta página para volver. Se actualiza sola.'));
       setTimeout(cargar, 30000);
       return;
     }

@@ -1,6 +1,14 @@
 {
-  "moneda": "mxn",
-  "simbolo": "$",
+  "monedas": {
+    "mxn": {
+      "simbolo": "$",
+      "sufijo": " MXN"
+    },
+    "usd": {
+      "simbolo": "US$",
+      "sufijo": ""
+    }
+  },
   "garantia_dias": 7,
   "productos": [
     {
@@ -19,7 +27,8 @@
         "perfil",
         "areas",
         "espiritual"
-      ]
+      ],
+      "precio_usd": 999
     },
     {
       "id": "completo",
@@ -38,7 +47,8 @@
         "areas",
         "espiritual",
         "ciclos"
-      ]
+      ],
+      "precio_usd": 1499
     },
     {
       "id": "premium",
@@ -57,7 +67,8 @@
         "ciclos",
         "plan",
         "pareja"
-      ]
+      ],
+      "precio_usd": 1999
     }
   ],
   "mejoras": [
@@ -66,24 +77,26 @@
       "hacia": "completo",
       "precio": 9000,
       "nombre": "Mejora a Informe + 12 meses",
-      "texto": "Añade tus dos Años Personales, tus próximos 12 meses uno a uno y qué hacer en tu mes clave."
+      "texto": "Añade tus dos Años Personales, tus próximos 12 meses uno a uno y qué hacer en tu mes clave.",
+      "precio_usd": 599
     },
     {
       "desde": "esencial",
       "hacia": "premium",
       "precio": 17000,
       "nombre": "Mejora a Informe + 12 meses + Pareja",
-      "texto": "Añade tus 12 meses, tu compatibilidad de pareja y tu plan personal de 4 semanas."
+      "texto": "Añade tus 12 meses, tu compatibilidad de pareja y tu plan personal de 4 semanas.",
+      "precio_usd": 1099
     },
     {
       "desde": "completo",
       "hacia": "premium",
       "precio": 8000,
       "nombre": "Mejora a Informe + 12 meses + Pareja",
-      "texto": "Añade tu compatibilidad de pareja (o con quien quieras) y tu plan personal de 4 semanas."
+      "texto": "Añade tu compatibilidad de pareja (o con quien quieras) y tu plan personal de 4 semanas.",
+      "precio_usd": 599
     }
   ],
-  "sufijo": " MXN",
   "tienda": [
     {
       "id": "manifestacion",
@@ -97,7 +110,8 @@
         "Guion de 21 días",
         "Ritual de luna nueva"
       ],
-      "imagen_alt": "Libro antiguo de cuero con adornos dorados abierto sobre una mesa oscura, rodeado de velas encendidas y destellos dorados"
+      "imagen_alt": "Libro antiguo de cuero con adornos dorados abierto sobre una mesa oscura, rodeado de velas encendidas y destellos dorados",
+      "precio_usd": 799
     },
     {
       "id": "tarot-guia",
@@ -111,7 +125,8 @@
         "Los 4 palos en una página",
         "3 tiradas sencillas"
       ],
-      "imagen_alt": "Abanico de siete cartas de tarot ilustradas con sol, luna, estrella, ojo, rosa, torre y planeta sobre terciopelo azul oscuro"
+      "imagen_alt": "Abanico de siete cartas de tarot ilustradas con sol, luna, estrella, ojo, rosa, torre y planeta sobre terciopelo azul oscuro",
+      "precio_usd": 399
     },
     {
       "id": "diario-lunar",
@@ -125,7 +140,8 @@
         "Preguntas para escribir",
         "12 páginas de diario"
       ],
-      "imagen_alt": "Diario azul profundo con una luna creciente y estrellas doradas en relieve, entre velas encendidas y bruma violeta"
+      "imagen_alt": "Diario azul profundo con una luna creciente y estrellas doradas en relieve, entre velas encendidas y bruma violeta",
+      "precio_usd": 899
     },
     {
       "id": "cristales",
@@ -139,7 +155,8 @@
         "Limpieza y carga",
         "Rituales sencillos"
       ],
-      "imagen_alt": "Cristales de amatista y cuarzo transparente entre velas encendidas con un resplandor violeta"
+      "imagen_alt": "Cristales de amatista y cuarzo transparente entre velas encendidas con un resplandor violeta",
+      "precio_usd": 699
     },
     {
       "id": "tarot-diario",
@@ -153,7 +170,8 @@
         "Tiradas por tema",
         "Páginas de registro"
       ],
-      "imagen_alt": "Caja de tarot azul con diseño celeste dorado de sol y luna sobre una superficie de madera, junto a una vela encendida"
+      "imagen_alt": "Caja de tarot azul con diseño celeste dorado de sol y luna sobre una superficie de madera, junto a una vela encendida",
+      "precio_usd": 499
     },
     {
       "id": "proteccion",
@@ -167,7 +185,8 @@
         "Limpieza del hogar",
         "Protección de la energía"
       ],
-      "imagen_alt": "Libro de tapa morada con símbolos protectores dorados, junto a una vela encendida y un atado de hierbas secas"
+      "imagen_alt": "Libro de tapa morada con símbolos protectores dorados, junto a una vela encendida y un atado de hierbas secas",
+      "precio_usd": 699
     }
   ],
   "pack": {
@@ -184,6 +203,7 @@
       "tarot-diario",
       "proteccion"
     ],
-    "imagen_alt": "Composición vista desde arriba con libros, diario lunar, cartas de tarot, cristales y velas sobre terciopelo índigo con estrellas doradas"
+    "imagen_alt": "Composición vista desde arriba con libros, diario lunar, cartas de tarot, cristales y velas sobre terciopelo índigo con estrellas doradas",
+    "precio_usd": 2299
   }
 }

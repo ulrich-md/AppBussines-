@@ -1,6 +1,7 @@
 // Página del informe de pago: lo pide al servidor (que lo genera la primera vez), lo guarda en el
 // teléfono para volver a abrirlo sin esperar y permite descargarlo como archivo PDF (api/pdf).
-import { almacen, el, formatearPrecio, icono } from './ui.js';
+import { almacen, el, icono } from './ui.js';
+import { monedaEstimada, precioEn, textoPrecio } from './precios.js';
 import { dividirParrafos, esFechaValida, numeroDeVida } from './engine.js';
 import { iniciarAnalitica, registrar } from './analytics.js';
 
@@ -19,6 +20,7 @@ const MENSAJES = [
 
 const mayuscula = (t = '') => t.charAt(0).toLocaleUpperCase('es') + t.slice(1);
 let catalogo = null;
+let moneda = monedaEstimada();
 
 function mostrar(...nodos) {
   raiz.replaceChildren(...nodos.flat().filter(Boolean));
@@ -35,6 +37,17 @@ function pantallaEspera() {
   let i = 0;
   const intervalo = setInterval(() => { i = Math.min(i + 1, MENSAJES.length - 1); estado.textContent = MENSAJES[i]; }, 7000);
   return () => clearInterval(intervalo);
+}
+
+// Copia el enlace de esta página (para volver cuando se confirme un pago en OXXO).
+function botonGuardarEnlace() {
+  const boton = el('button', {
+    class: 'boton boton-secundario', type: 'button',
+    onclick: async () => {
+      try { await navigator.clipboard.writeText(location.href); boton.lastChild.textContent = 'Enlace copiado'; } catch { boton.lastChild.textContent = location.href; }
+    },
+  }, icono('link'), el('span', {}, 'Copiar el enlace'));
+  return boton;
 }
 
 function pantallaMensaje(titulo, texto, accion) {
@@ -67,8 +80,8 @@ async function cargar(intento = 1) {
       pintar(cuerpo);
     } else if (estado === 202) {
       pantallaMensaje('Tu pago está pendiente',
-        'Si pagaste en efectivo o por transferencia, tu informe aparecerá aquí en cuanto se confirme el pago. Esta página se actualiza sola.',
-        el('button', { class: 'boton', type: 'button', onclick: () => cargar() }, 'Comprobar ahora'));
+        'Si elegiste pagar en OXXO: paga tu ficha en cualquier tienda (también te llegó por email). En cuanto se confirme, normalmente al día hábil siguiente, tu informe aparecerá aquí. Guarda este enlace para volver: esta página se actualiza sola.',
+        [el('button', { class: 'boton', type: 'button', onclick: () => cargar() }, 'Comprobar ahora'), botonGuardarEnlace()]);
       setTimeout(() => cargar(), 30000);
     } else if (estado === 502 && intento < 3) {
       setTimeout(() => cargar(intento + 1), 4000);
@@ -220,7 +233,7 @@ function ofertaMejora(datos) {
             boton.removeAttribute('aria-disabled');
           }
         },
-      }, `Añadir por ${formatearPrecio(m.precio, catalogo.simbolo, catalogo.sufijo)}`);
+      }, `Añadir por ${textoPrecio(precioEn(m, moneda), catalogo, moneda)}`);
       return el('div', { class: 'mejora-opcion' }, el('h3', {}, m.nombre), el('p', {}, m.texto), boton);
     }),
     error,
@@ -444,7 +457,10 @@ function tarjetaPareja(p) {
   );
 }
 
-const catalogoListo = fetch('productos.json').then((r) => r.json()).then((c) => { catalogo = c; }).catch(() => {});
+const catalogoListo = Promise.all([
+  fetch('productos.json').then((r) => r.json()).then((c) => { catalogo = c; }).catch(() => {}),
+  fetch('api/checkout').then((r) => (r.ok ? r.json() : null)).then((d) => { if (d?.moneda) moneda = d.moneda; }).catch(() => {}),
+]);
 fetch('site.json').then((r) => r.json()).then((sitio) => {
   document.querySelectorAll('[data-marca]').forEach((n) => (n.textContent = sitio.marca));
   iniciarAnalitica(sitio.analitica);

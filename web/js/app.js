@@ -5,7 +5,8 @@ import {
   NOMBRES_MES, opcionTexto, ponerNombre, primerNombre, proximosMeses, rangoEdad,
 } from './engine.js';
 import { iniciarAnalitica, registrar } from './analytics.js';
-import { almacen, el, formatearPrecio, icono } from './ui.js';
+import { almacen, el, icono } from './ui.js';
+import { monedaEstimada, precioEn, textoPrecio } from './precios.js';
 
 const MESES = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
 const app = document.getElementById('app');
@@ -16,6 +17,9 @@ let sitio;
 let quiz;
 let catalogo;
 let testimonios = [];
+// Pesos en México, dólares en el resto: primero se estima por la zona horaria y luego manda el servidor.
+let moneda = monedaEstimada();
+const precioTexto = (articulo) => textoPrecio(precioEn(articulo, moneda), catalogo, moneda);
 let ultimaLectura = null;
 let volvioDelPago = false;
 let descuentoRecuperacion = null;
@@ -90,14 +94,15 @@ function pantallaInicio() {
 function seccionTienda() {
   const tienda = catalogo?.tienda;
   if (!tienda?.length) return null;
-  const precio = (centavos) => formatearPrecio(centavos, catalogo.simbolo, catalogo.sufijo);
   const error = el('p', { class: 'error error-producto', role: 'alert' });
   const boton = (id, texto, clase) => {
     const b = el('button', { class: clase, type: 'button', onclick: () => comprarTienda(id, b, error) }, texto);
     return b;
   };
   const pack = catalogo.pack;
-  const suma = pack ? tienda.filter((t) => pack.productos.includes(t.id)).reduce((s, t) => s + t.precio, 0) : 0;
+  const suma = pack ? tienda.filter((t) => pack.productos.includes(t.id)).reduce((s, t) => s + precioEn(t, moneda), 0) : 0;
+  const precioPack = pack ? precioEn(pack, moneda) : 0;
+  const precio = (centavos) => textoPrecio(centavos, catalogo, moneda);
   return el('section', { class: 'productos', id: 'tienda', 'aria-labelledby': 'titulo-tienda' },
     el('h2', { id: 'titulo-tienda', class: 'productos-titulo' }, 'Guías y rituales'),
     el('p', { class: 'productos-intro' }, 'Guías digitales para leer en tu celular o imprimir. Pago único y descarga al momento.'),
@@ -107,7 +112,7 @@ function seccionTienda() {
         el('h3', {}, t.nombre),
         el('p', { class: 'producto-tipo' }, t.tipo),
         el('p', { class: 'producto-detalle' }, t.incluye?.[0] ?? ''),
-        el('p', { class: 'producto-precio' }, precio(t.precio)),
+        el('p', { class: 'producto-precio' }, precioTexto(t)),
         boton(t.id, 'Comprar', 'boton boton-contorno'),
       )))),
     pack && el('article', { class: 'productos-pack' },
@@ -115,12 +120,14 @@ function seccionTienda() {
       el('div', {},
         el('h3', {}, pack.nombre),
         el('p', {}, pack.resumen),
-        el('p', { class: 'pack-precio' }, el('strong', {}, precio(pack.precio)), suma > pack.precio && el('s', {}, precio(suma)),
-          suma > pack.precio && el('span', {}, `Ahorras ${precio(suma - pack.precio)}`)),
+        el('p', { class: 'pack-precio' }, el('strong', {}, precio(precioPack)), suma > precioPack && el('s', {}, precio(suma)),
+          suma > precioPack && el('span', {}, `Ahorras ${precio(suma - precioPack)}`)),
         boton('pack', 'Quiero las 6 guías', 'boton'),
       )),
     error,
-    el('p', { class: 'productos-nota' }, 'Pago seguro con tarjeta. Recibes tus guías en PDF al momento. Contenido de entretenimiento y bienestar.'),
+    el('p', { class: 'productos-nota' }, moneda === 'mxn'
+      ? 'Paga con tarjeta o en efectivo en OXXO. Recibes tus guías en PDF al momento (con OXXO, en cuanto se confirme tu pago).'
+      : 'Pago seguro con tarjeta. Recibes tus guías en PDF al momento.'),
   );
 }
 
@@ -611,7 +618,7 @@ function descubrimientos(resultado) {
 function ofertaPlanes(id, resultado) {
   const productos = catalogo?.productos ?? [];
   let elegido = productos.find((p) => p.recomendado)?.id ?? productos[0]?.id;
-  const precioDe = (pid) => formatearPrecio(productos.find((p) => p.id === pid)?.precio ?? 0, catalogo?.simbolo, catalogo?.sufijo);
+  const precioDe = (pid) => precioTexto(productos.find((p) => p.id === pid));
   const error = el('p', { class: 'error', role: 'alert' });
   const boton = el('button', { class: 'boton boton-compra', type: 'button', onclick: () => comprar(elegido, id, resultado, boton, error) });
   const textoBoton = (pid) => boton.replaceChildren(el('span', {}, 'Quiero mi informe'), el('span', { class: 'boton-sub' }, `${precioDe(pid)} · pago único`));
@@ -654,7 +661,9 @@ function ofertaPlanes(id, resultado) {
     error,
     el('ul', { class: 'confianza' },
       el('li', {}, icono('shield-check'), el('span', {}, `Garantía de ${garantia} días: si no te gusta, te devolvemos el dinero`)),
-      el('li', {}, icono('credit-card'), el('span', {}, 'Pagas una sola vez con tarjeta (Visa, Mastercard y más), en una página de pago segura. Sin cobros mensuales')),
+      el('li', {}, icono('credit-card'), el('span', {}, moneda === 'mxn'
+        ? 'Pagas una sola vez con tarjeta o en efectivo en OXXO, en una página de pago segura. Sin cobros mensuales'
+        : 'Pagas una sola vez con tarjeta (Visa, Mastercard y más), en una página de pago segura. Sin cobros mensuales')),
       el('li', {}, icono('download-simple'), el('span', {}, 'Lo recibes al momento, por email y para descargar en PDF')),
       sitio.contacto && el('li', {}, icono('envelope-simple'), el('span', {}, `¿Dudas? Escríbenos a ${sitio.contacto}`)),
     ),
@@ -724,8 +733,12 @@ function preguntasFrecuentes(garantia) {
     ['¿Es una suscripción?', 'No. Pagas una sola vez y el informe es tuyo para siempre.'],
     ['¿Y si no me gusta?', `Tienes ${garantia} días de garantía. Escríbenos y te devolvemos el dinero.`],
     ['¿Qué datos guardan?', 'Para escribir tu informe guardamos junto a tu compra tu nombre de pila, tus números y tus respuestas. Nunca tu fecha de nacimiento completa.'],
-    ['¿Cómo puedo pagar?', 'Con tarjeta de crédito o débito (Visa, Mastercard, American Express) y, según tu país, otros métodos locales que verás al pagar. El pago lo procesa Stripe, una empresa de pagos segura: nosotros nunca vemos los datos de tu tarjeta.'],
-    ['¿En qué moneda pago?', 'El precio está en dólares estadounidenses. En la página de pago ves el importe final antes de confirmar y, si tu tarjeta es de otra moneda, tu banco hace el cambio.'],
+    moneda === 'mxn'
+      ? ['¿Cómo puedo pagar?', 'Con tarjeta de crédito o débito (Visa, Mastercard, American Express) o en efectivo en cualquier OXXO. Si eliges OXXO, recibes una ficha con código de barras y tienes 3 días para pagarla; tu informe se abre en cuanto se confirma el pago (normalmente al día hábil siguiente). El pago lo procesa Stripe: nosotros nunca vemos los datos de tu tarjeta.']
+      : ['¿Cómo puedo pagar?', 'Con tarjeta de crédito o débito (Visa, Mastercard, American Express) y, según tu país, otros métodos locales que verás al pagar. El pago lo procesa Stripe, una empresa de pagos segura: nosotros nunca vemos los datos de tu tarjeta.'],
+    moneda === 'mxn'
+      ? ['¿En qué moneda pago?', 'En pesos mexicanos. El precio que ves es el precio final.']
+      : ['¿En qué moneda pago?', 'El precio está en dólares estadounidenses. En la página de pago ves el importe final antes de confirmar y, si tu tarjeta es de otra moneda, tu banco hace el cambio.'],
     ['¿Predice mi futuro?', 'No. Es contenido de entretenimiento y autoconocimiento basado en la tradición de la numerología, para reflexionar sobre tu vida.'],
   ];
   return el('div', { class: 'faq' },
@@ -816,9 +829,9 @@ function barraCompra() {
   document.querySelector('.barra-compra')?.remove();
   const oferta = document.getElementById('oferta');
   if (!oferta || !('IntersectionObserver' in window)) return;
-  const minimo = Math.min(...(catalogo?.productos ?? []).map((p) => p.precio));
+  const minimo = Math.min(...(catalogo?.productos ?? []).map((p) => precioEn(p, moneda)));
   const barra = el('div', { class: 'barra-compra', hidden: true },
-    el('p', {}, el('strong', {}, 'Tu informe completo'), el('span', {}, `desde ${formatearPrecio(minimo, catalogo?.simbolo, catalogo?.sufijo)}`)),
+    el('p', {}, el('strong', {}, 'Tu informe completo'), el('span', {}, `desde ${textoPrecio(minimo, catalogo, moneda)}`)),
     el('button', {
       class: 'boton', type: 'button',
       onclick: () => { registrar('barra_compra_clic'); (document.querySelector('.planes') ?? oferta).scrollIntoView({ behavior: 'smooth', block: 'start' }); },
@@ -896,8 +909,16 @@ async function cargarJSON(ruta) {
   return respuesta.json();
 }
 
+// Moneda y cupón de recuperación según el servidor (máximo 2 segundos de espera; si no, la estimación).
+function pedirPagos() {
+  const limite = new Promise((ok) => setTimeout(() => ok(null), 2000));
+  const peticion = fetch('api/checkout').then((r) => (r.ok ? r.json() : null)).catch(() => null);
+  return Promise.race([peticion, limite]);
+}
+
 async function iniciar() {
   try {
+    const pagos = pedirPagos();
     sitio = await cargarJSON('site.json');
     const pedido = params.get('q');
     const id = pedido && /^[a-z0-9-]{1,60}$/.test(pedido) ? pedido : sitio.quiz_principal;
@@ -905,12 +926,14 @@ async function iniciar() {
     catalogo = await cargarJSON('productos.json').catch(() => null);
     // Solo opiniones reales de compradoras verificadas (ver scripts/opiniones.mjs). Vacío = no se muestra nada.
     testimonios = (await cargarJSON('testimonios.json').catch(() => null))?.opiniones?.filter((o) => o.verificada && o.texto) ?? [];
+    const infoPagos = await pagos;
+    if (infoPagos?.moneda) moneda = infoPagos.moneda;
     aplicarMarca();
     iniciarAnalitica(sitio.analitica);
     if (params.get('compra') === 'cancelada' && recuperarSesion()) {
       registrar('compra_cancelada', { quiz: quiz.id });
       volvioDelPago = true;
-      descuentoRecuperacion = await fetch('api/checkout').then((r) => (r.ok ? r.json() : null)).then((d) => d?.recuperacion ?? null).catch(() => null);
+      descuentoRecuperacion = infoPagos?.recuperacion ?? null;
       pantallaResultado();
       return;
     }

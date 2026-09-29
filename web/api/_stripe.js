@@ -2,6 +2,7 @@
 // En los metadatos de la compra se guarda solo lo necesario para escribir el informe:
 // los números de la carta, las respuestas (identificadores), el nombre de pila y la edad aproximada.
 import { limpiarNombre } from '../js/engine.js';
+import { precioEn } from '../js/precios.js';
 
 const API = 'https://api.stripe.com/v1';
 
@@ -65,7 +66,20 @@ export function decodificarMetadata(meta, quiz) {
   };
 }
 
-export function crearSesion({ producto, catalogo, metadata, origen, clave, fetchImpl, cupon, exito, cancelado }) {
+// En pesos se ofrece también OXXO (efectivo). Si la cuenta de Stripe no lo tiene activado,
+// se repite la sesión sin él para que el pago con tarjeta funcione siempre.
+export async function crearSesion(opciones) {
+  if (opciones.moneda !== 'mxn') return crearSesionCon(opciones, false);
+  try {
+    return await crearSesionCon(opciones, true);
+  } catch (error) {
+    if (error.estado !== 400 || !/oxxo|payment_method/i.test(error.message)) throw error;
+    console.warn('OXXO no disponible en esta cuenta de Stripe; se ofrece solo tarjeta:', error.message);
+    return crearSesionCon(opciones, false);
+  }
+}
+
+function crearSesionCon({ producto, moneda = 'usd', metadata, origen, clave, fetchImpl, cupon, exito, cancelado }, conOxxo) {
   return llamarStripe('/checkout/sessions', {
     metodo: 'POST',
     clave,
@@ -73,11 +87,12 @@ export function crearSesion({ producto, catalogo, metadata, origen, clave, fetch
     datos: {
       mode: 'payment',
       locale: 'es-419',
+      ...(conOxxo ? { payment_method_types: ['card', 'oxxo'], payment_method_options: { oxxo: { expires_after_days: 3 } } } : {}),
       line_items: [{
         quantity: 1,
         price_data: {
-          currency: catalogo.moneda,
-          unit_amount: producto.precio,
+          currency: moneda,
+          unit_amount: precioEn(producto, moneda),
           product_data: { name: producto.nombre, description: producto.resumen },
         },
       }],
