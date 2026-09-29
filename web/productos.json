@@ -101,6 +101,7 @@
     {
       "id": "manifestacion",
       "nombre": "Guía de Manifestación",
+      "nombre_corto": "Manifestación",
       "tipo": "eBook en PDF",
       "precio": 14900,
       "imagen": "img/productos/manifestacion",
@@ -116,6 +117,7 @@
     {
       "id": "tarot-guia",
       "nombre": "Guía rápida del Tarot",
+      "nombre_corto": "Tarot rápido",
       "tipo": "Descargable en PDF",
       "precio": 7900,
       "imagen": "img/productos/tarot-guia",
@@ -131,6 +133,7 @@
     {
       "id": "diario-lunar",
       "nombre": "Diario de Magia Lunar",
+      "nombre_corto": "Diario lunar",
       "tipo": "Diario imprimible",
       "precio": 17900,
       "imagen": "img/productos/diario-lunar",
@@ -146,6 +149,7 @@
     {
       "id": "cristales",
       "nombre": "Guía de Cristales",
+      "nombre_corto": "Cristales",
       "tipo": "eBook en PDF",
       "precio": 13900,
       "imagen": "img/productos/cristales",
@@ -161,6 +165,7 @@
     {
       "id": "tarot-diario",
       "nombre": "Guía diaria del Tarot",
+      "nombre_corto": "Tarot diario",
       "tipo": "eBook en PDF",
       "precio": 9900,
       "imagen": "img/productos/tarot-diario",
@@ -176,6 +181,7 @@
     {
       "id": "proteccion",
       "nombre": "Rituales de Protección",
+      "nombre_corto": "Protección",
       "tipo": "Libro digital",
       "precio": 12900,
       "imagen": "img/productos/proteccion",
@@ -192,6 +198,7 @@
   "pack": {
     "id": "pack",
     "nombre": "Biblioteca Mística completa",
+    "nombre_corto": "Las 6 guías",
     "precio": 44900,
     "imagen": "img/productos/pack",
     "resumen": "Las 6 guías juntas: manifestación, tarot, diario lunar, cristales, tarot diario y protección.",

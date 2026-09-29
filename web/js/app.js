@@ -67,6 +67,7 @@ function pantallaInicio() {
         el('h1', {}, portada.titulo ?? quiz.titulo),
         el('p', { class: 'subtitulo' }, portada.subtitulo ?? quiz.subtitulo),
         botonEmpezar('portada'),
+        tiendaEnPortada(),
       ),
     ),
     // Confianza: franja propia justo debajo del hero (no dentro).
@@ -113,6 +114,35 @@ function revelarAlBajar() {
 }
 
 // Tienda: guías digitales iguales para todas (PDF), con precio fijo en pesos y descarga inmediata.
+// En el hero, debajo del test: las guías en una fila deslizable. Cada una lleva a su ficha en la tienda.
+function tiendaEnPortada() {
+  const tienda = catalogo?.tienda;
+  if (!tienda?.length) return null;
+  const articulos = catalogo.pack ? [...tienda, { ...catalogo.pack, id: 'pack' }] : tienda;
+  const ir = (id) => (evento) => {
+    evento.preventDefault();
+    registrar('tienda_portada_clic', { producto: id, origen });
+    const destino = document.getElementById(`producto-${id}`);
+    if (!destino) return;
+    const suave = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+    destino.closest('.revelar')?.classList.add('visible');
+    destino.scrollIntoView({ behavior: suave ? 'smooth' : 'auto', block: 'center' });
+    destino.classList.remove('resaltado');
+    void destino.offsetWidth;
+    destino.classList.add('resaltado');
+  };
+  return el('nav', { class: 'portada-tienda', 'aria-label': 'Guías de la tienda' },
+    el('p', { class: 'portada-tienda-titulo' }, el('span', {}, 'También en la tienda'),
+      el('a', { href: '#tienda', onclick: (e) => { e.preventDefault(); document.getElementById('tienda')?.scrollIntoView({ behavior: 'smooth' }); } }, 'Ver todas', icono('arrow-right'))),
+    el('ul', {}, articulos.map((t) => el('li', {},
+      el('a', { href: `#producto-${t.id}`, onclick: ir(t.id), 'aria-label': `${t.nombre}, ${precioTexto(t)}` },
+        el('img', { src: `${t.imagen}-640.webp`, alt: '', width: 52, height: 52, loading: 'lazy', decoding: 'async' }),
+        el('span', { class: 'portada-tienda-nombre' }, t.nombre_corto ?? t.nombre),
+        el('span', { class: 'portada-tienda-precio' }, precioTexto(t)),
+      )))),
+  );
+}
+
 function seccionTienda() {
   const tienda = catalogo?.tienda;
   if (!tienda?.length) return null;
@@ -129,7 +159,7 @@ function seccionTienda() {
     el('h2', { id: 'titulo-tienda', class: 'productos-titulo' }, 'Guías y rituales'),
     el('p', { class: 'productos-intro' }, 'Guías digitales para leer en tu celular o imprimir. Pago único y descarga al momento.'),
     el('ul', { class: 'productos-lista' }, tienda.map((t) => el('li', {},
-      el('article', { class: 'producto' },
+      el('article', { class: 'producto', id: `producto-${t.id}` },
         el('img', { src: `${t.imagen}-640.webp`, alt: t.imagen_alt ?? '', width: 640, height: 640, loading: 'lazy', decoding: 'async' }),
         el('h3', {}, t.nombre),
         el('p', { class: 'producto-tipo' }, t.tipo),
@@ -137,7 +167,7 @@ function seccionTienda() {
         el('p', { class: 'producto-precio' }, precioTexto(t)),
         boton(t.id, 'Comprar', 'boton boton-contorno'),
       )))),
-    pack && el('article', { class: 'productos-pack' },
+    pack && el('article', { class: 'productos-pack', id: 'producto-pack' },
       el('img', { src: `${pack.imagen}-640.webp`, alt: pack.imagen_alt ?? '', width: 640, height: 640, loading: 'lazy', decoding: 'async' }),
       el('div', {},
         el('h3', {}, pack.nombre),

@@ -217,6 +217,21 @@ test('las preguntas usan el nombre', async () => {
   await pagina.close();
 });
 
+test('el hero muestra las guías de la tienda y cada una lleva a su ficha', async () => {
+  const pagina = await navegador.newPage({ ...devices['iPhone 13'] });
+  await pagina.route('**/api/checkout', (r) => r.fulfill({ json: { pagos: true, moneda: 'usd' } }));
+  await pagina.goto(base);
+  const fila = pagina.locator('.inicio .portada-tienda a[href^="#producto-"]');
+  await fila.first().waitFor();
+  assert.equal(await fila.count(), 7);
+  assert.match(await fila.first().getAttribute('aria-label'), /Guía de Manifestación, US\$7\.99/);
+  await pagina.locator('.portada-tienda a[href="#producto-cristales"]').click();
+  await pagina.waitForTimeout(900);
+  assert.ok(await pagina.locator('#producto-cristales').isVisible());
+  assert.ok(await pagina.locator('#producto-cristales').evaluate((n) => n.classList.contains('resaltado')));
+  await pagina.close();
+});
+
 test('un doble toque en una respuesta no se salta la pregunta siguiente', async () => {
   const pagina = await navegador.newPage({ ...devices['Pixel 7'] });
   await pagina.goto(base);
