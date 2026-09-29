@@ -8,6 +8,7 @@ import { datosFijos, esNumeroPareja, generarSecciones } from './_informe.js';
 import { leer, guardar, rutaInforme } from './_almacen.js';
 import { enviarEnlaceInforme } from './_email.js';
 import { modelosConfigurados } from './_gemini.js';
+import { claveGemini, hayIA } from './_ia.js';
 
 const MAX_PAREJAS = 5;
 
@@ -16,8 +17,8 @@ export async function GET(request) {
   const idSesion = url.searchParams.get('s');
   if (!esIdSesion(idSesion)) return responder(400, { error: 'Enlace de informe no válido' });
   const clave = limpiarVariable(process.env.STRIPE_SECRET_KEY);
-  const apiKey = limpiarVariable(process.env.GEMINI_API_KEY);
-  if (!clave || !apiKey) return responder(503, { error: 'Informe no configurado' });
+  const apiKey = claveGemini();
+  if (!clave || !hayIA()) return responder(503, { error: 'Informe no configurado' });
   if (!permitido(`informe:${ipDe(request)}`, { maximo: 30 })) return responder(429, { error: 'Demasiadas peticiones. Espera unos minutos.' });
 
   let sesion;

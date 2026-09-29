@@ -1,15 +1,18 @@
-// Función de Vercel: POST /api/lectura → lectura personalizada generada con Gemini.
-// Variables de entorno (configurarlas en Vercel, nunca en el código):
-//   GEMINI_API_KEY  clave de la API de Gemini (obligatoria)
-//   GEMINI_MODEL    modelos a usar, separados por comas, en orden de preferencia (opcional)
+// Función de Vercel: POST /api/lectura → lectura personalizada generada con IA.
+// Variables de entorno (configurarlas en Vercel, nunca en el código); hace falta al menos una clave:
+//   ANTHROPIC_API_KEY  clave de Claude (proveedor principal si existe)
+//   CLAUDE_MODEL       modelo de Claude (opcional, por defecto claude-haiku-4-5)
+//   GEMINI_API_KEY     clave de Gemini (respaldo, o proveedor único si no hay clave de Claude)
+//   GEMINI_MODEL       modelos de Gemini, separados por comas, en orden de preferencia (opcional)
 import { validarPeticion, construirPrompt, generarLectura, permitido } from './_lectura.js';
 import { modelosConfigurados } from './_gemini.js';
-import { cargarConfiguracion, responder, limpiarVariable } from './_config.js';
+import { cargarConfiguracion, responder } from './_config.js';
+import { claveGemini, hayIA } from './_ia.js';
 
 
 export async function POST(request) {
-  const apiKey = limpiarVariable(process.env.GEMINI_API_KEY);
-  if (!apiKey) return responder(503, { error: 'Lectura con IA no configurada' });
+  const apiKey = claveGemini();
+  if (!hayIA()) return responder(503, { error: 'Lectura con IA no configurada' });
 
   const ip = (request.headers.get('x-forwarded-for') ?? '').split(',')[0].trim() || 'desconocida';
   if (!permitido(ip)) return responder(429, { error: 'Demasiadas lecturas seguidas. Inténtalo en unos minutos.' });

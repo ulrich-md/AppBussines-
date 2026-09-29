@@ -12,7 +12,9 @@ Todo el código ya está listo. Lo que falta son **tus cuentas y tus claves**. N
 
 | Variable | Obligatoria | Para qué |
 |---|---|---|
-| `GEMINI_API_KEY` | Sí | Lectura gratis e informe de pago. **Cambia la clave que compartiste en el chat.** |
+| `ANTHROPIC_API_KEY` | Sí (esta o la de Gemini) | IA principal: Claude escribe la lectura gratis y el informe de pago. Se crea en console.anthropic.com → API Keys (antes, compra créditos en Billing). |
+| `CLAUDE_MODEL` | Opcional | Modelo de Claude. Por defecto `claude-haiku-4-5` (el más barato). |
+| `GEMINI_API_KEY` | Opcional (respaldo) | Si Claude falla por saturación, se reintenta con Gemini. Sin clave de Claude, Gemini es la única IA. **Cambia la clave que compartiste en el chat.** |
 | `STRIPE_SECRET_KEY` | Sí, para cobrar | Empieza con `sk_test_…` para probar y cambia a `sk_live_…` para vender. |
 | `SITE_URL` | Recomendada | Tu dirección pública (p. ej. `https://tunumerosagrado.com`). Se usa en los enlaces de pago. |
 | `BLOB_STORE_ID` (o `BLOB_READ_WRITE_TOKEN`) | Sí, para vender | Las crea Vercel al conectar el almacén Blob; no se escriben a mano. Guarda cada informe (privado) para que la compradora pueda volver a abrirlo sin volver a pagar a la IA. También guarda la lista de emails. |
@@ -38,7 +40,13 @@ Después de añadir o cambiar variables: **Redeploy**.
 
 **Reembolsos:** desde Stripe → Payments → la compra → *Refund*. La garantía de 7 días está en `productos.json` → `garantia_dias`.
 
-## 4. Gemini (la IA)
+## 4. La IA (Claude, con Gemini de respaldo)
+
+- **Claude (principal):** en console.anthropic.com → **Billing** compra créditos (no se devuelven y caducan al año: empieza con poco), luego **API Keys → Create Key** y pégala en Vercel como `ANTHROPIC_API_KEY`. Pon un límite de gasto en **Limits**.
+- Con Claude Haiku 4.5, cada informe cuesta unos céntimos de dólar y cada lectura gratis, menos de un céntimo. Revisa el gasto real en la consola con las primeras ventas.
+
+### Gemini (respaldo opcional)
+
 
 - Tu clave actual es del **plan gratuito**: tiene límites bajos, errores de "alta demanda" frecuentes y Google puede usar los datos para mejorar sus productos. **Para vender, activa la facturación** en Google AI Studio / Google Cloud (proyecto `gen-lang-client-0977239778`).
 - **Pon un presupuesto** con alertas en Google Cloud → Billing → Budgets.
@@ -50,7 +58,7 @@ Después de añadir o cambiar variables: **Redeploy**.
 ## 5. Comprobación final antes de anunciarlo en TikTok
 
 - [ ] Cuestionario completo en tu móvil, en modo claro y oscuro.
-- [ ] La lectura gratis se genera con IA (si ves el texto fijo, revisa `GEMINI_API_KEY` en Vercel → Logs).
+- [ ] La lectura gratis se genera con IA (si ves el texto fijo, revisa `ANTHROPIC_API_KEY` en Vercel → Logs).
 - [ ] Compra de prueba de cada plan y una mejora desde el informe básico.
 - [ ] Compatibilidad de pareja en el plan Informe + 12 meses + Pareja.
 - [ ] Descargar en PDF desde el móvil (Compartir → Imprimir → Guardar como PDF).

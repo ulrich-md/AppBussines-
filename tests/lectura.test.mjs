@@ -135,3 +135,45 @@ test('rangoEdad', () => {
   assert.equal(rangoEdad({ dia: 28, mes: 9, anio: 1996 }, hoy), '30-39');
   assert.equal(rangoEdad({ dia: 1, mes: 1, anio: 1950 }, hoy), '60+');
 });
+
+// Respuesta simulada de la API de mensajes de Claude.
+const respuestaClaude = (datos, estado = 200) => new Response(
+  JSON.stringify(estado === 200
+    ? { id: 'msg_1', type: 'message', role: 'assistant', model: 'claude-haiku-4-5', stop_reason: 'end_turn', content: [{ type: 'text', text: JSON.stringify(datos) }], usage: { input_tokens: 10, output_tokens: 10 } }
+    : { type: 'error', error: { type: 'overloaded_error', message: 'Overloaded' } }),
+  { status: estado, headers: { 'content-type': 'application/json' } },
+);
+
+test('generarLectura usa Claude con JSON Schema estricto cuando hay clave de Claude', async () => {
+  let cuerpo;
+  const fetchImpl = async (url, opciones) => {
+    assert.match(String(url), /api\.anthropic\.com\/v1\/messages/);
+    cuerpo = JSON.parse(opciones.body);
+    return respuestaClaude(lecturaValida);
+  };
+  const { lectura, modelo } = await generarLectura({ sistema: 's', usuario: 'u' }, { claudeKey: 'sk-ant-prueba', fetchImpl });
+  assert.equal(modelo, 'claude-haiku-4-5');
+  assert.equal(lectura.frase, 'Me permito recibir.');
+  assert.equal(cuerpo.model, 'claude-haiku-4-5');
+  assert.equal(cuerpo.system, 's');
+  const esquema = cuerpo.output_config.format.schema;
+  assert.equal(cuerpo.output_config.format.type, 'json_schema');
+  assert.equal(esquema.type, 'object');
+  assert.equal(esquema.additionalProperties, false);
+  assert.ok(esquema.required.includes('frase'));
+  assert.equal(esquema.properties.frase.type, 'string');
+});
+
+test('si Claude está saturado, la lectura sigue con Gemini', async () => {
+  const destinos = [];
+  const fetchImpl = async (url) => {
+    const destino = String(url).includes('anthropic') ? 'claude' : 'gemini';
+    destinos.push(destino);
+    return destino === 'claude' ? respuestaClaude(null, 529) : respuestaGemini(lecturaValida);
+  };
+  const { lectura, modelo } = await generarLectura({ sistema: 's', usuario: 'u' }, { claudeKey: 'sk-ant-prueba', apiKey: 'k', modelos: ['gemini-x'], fetchImpl });
+  assert.equal(modelo, 'gemini-x');
+  assert.ok(lectura.esencia);
+  assert.equal(destinos.at(-1), 'gemini');
+  assert.ok(destinos.includes('claude'));
+});

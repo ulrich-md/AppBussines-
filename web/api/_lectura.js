@@ -6,7 +6,8 @@
 // aproximada y las respuestas de opción múltiple. Ni el nombre ni la fecha de nacimiento salen del
 // teléfono: la IA escribe el marcador {{nombre}} y el navegador lo sustituye.
 import { NOMBRES_MES, TEMA_CICLO, describirCarta, validarCarta, validarMesClave } from './_numerologia.js';
-import { generarJSON, limpiarTexto } from './_gemini.js';
+import { limpiarTexto } from './_gemini.js';
+import { generarJSON } from './_ia.js';
 
 export const MARCADOR_NOMBRE = '{{nombre}}';
 const RANGOS_EDAD = new Set(['18-29', '30-39', '40-49', '50-59', '60+']);

@@ -3,7 +3,8 @@
 import { ponerNombre } from '../js/engine.js';
 import { CLAVES, NOMBRES_MES, TEMA_CICLO, describirCarta, mesesDesdeCarta, NUMEROS_VALIDOS } from './_numerologia.js';
 import { REGLAS_ESTILO } from './_lectura.js';
-import { generarJSON, limpiarProfundo } from './_gemini.js';
+import { limpiarProfundo } from './_gemini.js';
+import { generarJSON } from './_ia.js';
 
 const T = (description) => ({ type: 'STRING', description });
 const LISTA = (description, items = T('Elemento de la lista')) => ({ type: 'ARRAY', description, items });
